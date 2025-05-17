@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { Gender, Goal, TrainingPreference, ProfileFormData } from '../../../models/user-profile.model';
-import { ProfileService } from '../profile.service';
+import { ProfileService, UserProfile } from '../profile.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-create-profile',
@@ -20,25 +20,25 @@ export class CreateProfileComponent implements OnInit {
   loading = false;
   error = '';
 
-  genderOptions: { value: Gender; label: string }[] = [
+  genderOptions = [
     { value: 'male', label: 'Homme' },
     { value: 'female', label: 'Femme' },
     { value: 'other', label: 'Autre' }
   ];
 
-  goalOptions: { value: Goal; label: string }[] = [
-    { value: 'muscle gain', label: 'Prise de masse musculaire' },
-    { value: 'weight loss', label: 'Perte de poids' },
+  goalOptions = [
+    { value: 'muscle_gain', label: 'Prise de masse musculaire' },
+    { value: 'weight_loss', label: 'Perte de poids' },
     { value: 'toning', label: 'Tonification' }
   ];
 
-  trainingPreferenceOptions: { value: TrainingPreference; label: string }[] = [
+  trainingPreferenceOptions = [
     { value: 'strength', label: 'Force' },
     { value: 'hypertrophy', label: 'Hypertrophie' },
     { value: 'endurance', label: 'Endurance' }
   ];
 
-  equipmentOptions: { id: string; label: string }[] = [
+  equipmentOptions = [
     { id: 'dumbbells', label: 'Haltères' },
     { id: 'barbell', label: 'Barre de musculation' },
     { id: 'bench', label: 'Banc de musculation' },
@@ -51,7 +51,8 @@ export class CreateProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -60,37 +61,30 @@ export class CreateProfileComponent implements OnInit {
 
   private initForm(): void {
     this.profileForm = this.fb.group({
-      // Step 1: Basic Info
       basicInfo: this.fb.group({
         gender: ['', Validators.required],
-        weight: ['', [Validators.required, Validators.min(30), Validators.max(250)]],
+        weight: ['', [Validators.required, Validators.min(30), Validators.max(300)]],
         height: ['', [Validators.required, Validators.min(100), Validators.max(250)]],
-        body_fat: ['']
+        bodyFat: ['', [Validators.min(3), Validators.max(50)]]
       }),
-
-      // Step 2: Training Info
       trainingInfo: this.fb.group({
-        experience_years: ['', [Validators.required, Validators.min(0), Validators.max(50)]],
-        training_frequency: ['', [Validators.required, Validators.min(0), Validators.max(7)]],
-        session_duration: ['', [Validators.required, Validators.min(15), Validators.max(240)]]
+        experienceYears: ['', [Validators.required, Validators.min(0), Validators.max(50)]],
+        trainingFrequency: ['', [Validators.required, Validators.min(1), Validators.max(7)]],
+        sessionDuration: ['', [Validators.required, Validators.min(15), Validators.max(180)]]
       }),
-
-      // Step 3: Equipment
       equipment: this.fb.group({
-        equipment_available: [[]]
+        equipmentAvailable: [[], Validators.required]
       }),
-
-      // Step 4: Goals
       goals: this.fb.group({
         goal: ['', Validators.required],
-        training_preference: ['', Validators.required]
+        trainingPreference: ['', Validators.required]
       })
     });
   }
 
   onEquipmentChange(event: Event, equipmentId: string): void {
     const checkbox = event.target as HTMLInputElement;
-    const equipmentControl = this.profileForm.get('equipment.equipment_available');
+    const equipmentControl = this.profileForm.get('equipment.equipmentAvailable');
     const currentEquipment = equipmentControl?.value || [];
 
     if (checkbox.checked) {
@@ -132,19 +126,53 @@ export class CreateProfileComponent implements OnInit {
       this.loading = true;
       this.error = '';
 
-      const formData: ProfileFormData = {
-        ...this.profileForm.value
+      const formData = this.profileForm.value;
+      const currentUser = this.authService.getCurrentUser();
+      
+      if (!currentUser) {
+        this.error = 'Vous devez être connecté pour créer un profil';
+        this.loading = false;
+        this.router.navigate(['/auth/login']);
+        return;
+      }
+
+      const profileData: UserProfile = {
+        authUser: currentUser,
+        gender: formData.basicInfo.gender,
+        weight: Number(formData.basicInfo.weight),
+        height: Number(formData.basicInfo.height),
+        bodyFat: formData.basicInfo.bodyFat ? Number(formData.basicInfo.bodyFat) : null,
+        experienceYears: Number(formData.trainingInfo.experienceYears),
+        trainingFrequency: Number(formData.trainingInfo.trainingFrequency),
+        sessionDuration: Number(formData.trainingInfo.sessionDuration),
+        equipmentAvailable: formData.equipment.equipmentAvailable.length > 0 
+          ? formData.equipment.equipmentAvailable[0] 
+          : 'none',
+        goal: formData.goals.goal,
+        trainingPreference: formData.goals.trainingPreference
       };
 
-      this.profileService.createProfile(formData).subscribe({
+      console.log('Form data before submission:', formData);
+      console.log('Formatted profile data:', profileData);
+
+      this.profileService.createProfile(profileData).subscribe({
         next: (response) => {
+          console.log('Profile created successfully:', response);
           this.loading = false;
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/profile']);
         },
         error: (error) => {
+          console.error('Error creating profile:', error);
           this.loading = false;
           this.error = error.message || 'Une erreur est survenue lors de la création du profil';
-          console.error('Erreur lors de la création du profil:', error);
+        }
+      });
+    } else {
+      console.log('Form validation errors:', this.profileForm.errors);
+      Object.keys(this.profileForm.controls).forEach(key => {
+        const control = this.profileForm.get(key);
+        if (control?.errors) {
+          console.log(`Validation errors for ${key}:`, control.errors);
         }
       });
     }

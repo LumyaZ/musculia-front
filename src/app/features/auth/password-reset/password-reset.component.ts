@@ -70,15 +70,15 @@ export class PasswordResetComponent implements OnInit {
       this.error = '';
       this.success = '';
 
-      this.authService.requestPasswordReset(this.requestForm.value.email).subscribe({
+      this.authService.requestPasswordReset({ email: this.requestForm.value.email }).subscribe({
         next: () => {
-          this.loading = false;
           this.success = 'Un email de réinitialisation a été envoyé à votre adresse email.';
+          this.loading = false;
           this.requestForm.reset();
         },
-        error: (error) => {
+        error: (error: Error) => {
+          this.error = error.message || 'Une erreur est survenue lors de la demande de réinitialisation';
           this.loading = false;
-          this.error = error.message || 'Une erreur est survenue lors de l\'envoi de l\'email.';
         }
       });
     }
@@ -90,17 +90,20 @@ export class PasswordResetComponent implements OnInit {
       this.error = '';
       this.success = '';
 
-      this.authService.resetPassword(this.token, this.resetForm.value.password).subscribe({
+      this.authService.resetPassword({
+        token: this.token,
+        password: this.resetForm.value.password
+      }).subscribe({
         next: () => {
-          this.loading = false;
           this.success = 'Votre mot de passe a été réinitialisé avec succès.';
+          this.loading = false;
           setTimeout(() => {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/auth/login']);
           }, 2000);
         },
-        error: (error) => {
+        error: (error: Error) => {
+          this.error = error.message || 'Une erreur est survenue lors de la réinitialisation du mot de passe';
           this.loading = false;
-          this.error = error.message || 'Une erreur est survenue lors de la réinitialisation du mot de passe.';
         }
       });
     }

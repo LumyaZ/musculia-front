@@ -6,14 +6,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
-interface PasswordConditions {
-  minLength: boolean;
-  hasUpperCase: boolean;
-  hasLowerCase: boolean;
-  hasNumber: boolean;
-  hasSpecialChar: boolean;
-}
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -109,10 +101,12 @@ export class RegisterComponent implements OnInit {
     
     this.authService.register(registerData)
       .subscribe({
-        next: () => {
+        next: (response) => {
+          console.log('Registration successful:', response);
           this.router.navigate(['/profile/create']);
         },
         error: (error: { error?: { message: string } }) => {
+          console.error('Registration error:', error);
           this.error = error.error?.message || 'Une erreur est survenue';
           this.loading = false;
         }
