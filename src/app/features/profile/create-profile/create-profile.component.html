@@ -1,0 +1,145 @@
+<div class="auth-container">
+  <div class="form-card">
+    <h2>Créer votre profil</h2>
+
+    <!-- Profile Progress Bar -->
+    <div class="profile-progress-bar-container">
+      <div class="profile-progress-bar-base"></div>
+      <div class="profile-progress-bar-fill" [style.width.%]="getStepProgress()"></div>
+      <div class="profile-progress-steps">
+        <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">1</div>
+        <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">2</div>
+        <div class="step" [class.active]="currentStep >= 3" [class.completed]="currentStep > 3">3</div>
+        <div class="step" [class.active]="currentStep >= 4" [class.completed]="currentStep > 4">4</div>
+      </div>
+    </div>
+    
+    <!-- Error message -->
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <!-- Step 1: Basic Info -->
+      <div *ngIf="currentStep === 1" formGroupName="basicInfo" class="step-content">
+        <h2>Informations de base</h2>
+        <p class="step-description">Commençons par vos informations physiques de base</p>
+
+        <div class="form-group">
+          <label>Genre</label>
+          <div class="radio-group">
+            <div *ngFor="let option of genderOptions" class="radio-option">
+              <input type="radio" [id]="option.value" formControlName="gender" [value]="option.value">
+              <label [for]="option.value">{{option.label}}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="weight">Poids (kg)</label>
+          <input type="number" id="weight" formControlName="weight" class="form-control" placeholder="70">
+        </div>
+
+        <div class="form-group">
+          <label for="height">Taille (cm)</label>
+          <input type="number" id="height" formControlName="height" class="form-control" placeholder="175">
+        </div>
+
+        <div class="form-group">
+          <label for="body_fat">Pourcentage de graisse corporelle (optionnel)</label>
+          <input type="number" id="body_fat" formControlName="body_fat" class="form-control" placeholder="15">
+        </div>
+      </div>
+
+      <!-- Step 2: Training Info -->
+      <div *ngIf="currentStep === 2" formGroupName="trainingInfo" class="step-content">
+        <h2>Expérience d'entraînement</h2>
+        <p class="step-description">Parlez-nous de votre expérience en musculation</p>
+
+        <div class="form-group">
+          <label for="experience_years">Années d'expérience</label>
+          <input type="number" id="experience_years" formControlName="experience_years" class="form-control" placeholder="2">
+        </div>
+
+        <div class="form-group">
+          <label for="training_frequency">Fréquence d'entraînement (jours par semaine)</label>
+          <input type="number" id="training_frequency" min="0" max="7" formControlName="training_frequency" class="form-control" placeholder="3">
+        </div>
+
+        <div class="form-group">
+          <label for="session_duration">Durée moyenne des séances (minutes)</label>
+          <input type="number" id="session_duration" formControlName="session_duration" class="form-control" placeholder="60">
+        </div>
+      </div>
+
+      <!-- Step 3: Equipment -->
+      <div *ngIf="currentStep === 3" formGroupName="equipment" class="step-content">
+        <h2>Équipement disponible</h2>
+        <p class="step-description">Sélectionnez l'équipement auquel vous avez accès</p>
+
+        <div class="checkbox-group">
+          <div *ngFor="let option of equipmentOptions" class="checkbox-option">
+            <input 
+              type="checkbox" 
+              [id]="option.id" 
+              [value]="option.id"
+              (change)="onEquipmentChange($event, option.id)">
+            <label [for]="option.id">{{option.label}}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Goals -->
+      <div *ngIf="currentStep === 4" formGroupName="goals" class="step-content">
+        <h2>Objectifs et préférences</h2>
+        <p class="step-description">Définissez vos objectifs et votre style d'entraînement préféré</p>
+
+        <div class="form-group">
+          <label>Objectif principal</label>
+          <div class="radio-group">
+            <div *ngFor="let option of goalOptions" class="radio-option">
+              <input type="radio" [id]="option.value" formControlName="goal" [value]="option.value">
+              <label [for]="option.value">{{option.label}}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Style d'entraînement préféré</label>
+          <div class="radio-group">
+            <div *ngFor="let option of trainingPreferenceOptions" class="radio-option">
+              <input type="radio" [id]="option.value" formControlName="training_preference" [value]="option.value">
+              <label [for]="option.value">{{option.label}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation buttons -->
+      <div class="form-navigation">
+        <button 
+          type="button" 
+          class="btn btn-secondary" 
+          *ngIf="currentStep > 1"
+          (click)="previousStep()">
+          Précédent
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          *ngIf="currentStep < totalSteps"
+          (click)="nextStep()">
+          Suivant
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary" 
+          *ngIf="currentStep === totalSteps"
+          [disabled]="!profileForm.valid || loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {{ loading ? 'Création en cours...' : 'Créer mon profil' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div> 

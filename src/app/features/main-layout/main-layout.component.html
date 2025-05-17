@@ -1,0 +1,32 @@
+<div class="main-layout">
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <nav class="nav-bar">
+    <a routerLink="/dashboard" routerLinkActive="active">
+      <i class="fas fa-home"></i>
+      <span>Accueil</span>
+    </a>
+    <a routerLink="/activities" routerLinkActive="active">
+      <i class="fas fa-dumbbell"></i>
+      <span>Activités</span>
+    </a>
+    <a routerLink="/profile" routerLinkActive="active">
+      <i class="fas fa-user"></i>
+      <span>Vous</span>
+    </a>
+    <button class="logout-btn" (click)="showLogoutConfirmation()">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Déconnexion</span>
+    </button>
+  </nav>
+
+  <app-confirm-modal
+    [isOpen]="isLogoutModalOpen"
+    title="Déconnexion"
+    message="Êtes-vous sûr de vouloir vous déconnecter ?"
+    (confirm)="confirmLogout()"
+    (cancel)="cancelLogout()"
+  ></app-confirm-modal>
+</div> 

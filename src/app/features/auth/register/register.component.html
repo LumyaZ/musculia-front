@@ -1,0 +1,108 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Inscription</h2>
+
+    <div *ngIf="error" class="error-banner">
+      {{ error }}
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Pseudo</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          placeholder="Votre pseudo"
+          [class.is-invalid]="submitted && f['username'].errors"
+        >
+        <div *ngIf="submitted && f['username'].errors" class="error-message">
+          <div *ngIf="f['username'].errors['required']">Le pseudo est requis</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Votre email"
+          [class.is-invalid]="submitted && f['email'].errors"
+        >
+        <div *ngIf="submitted && f['email'].errors" class="error-message">
+          <div *ngIf="f['email'].errors['required']">L'email est requis</div>
+          <div *ngIf="f['email'].errors['email']">L'email n'est pas valide</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="password-input">
+          <input
+            [type]="showPasswordFields.password ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="Votre mot de passe"
+            [class.is-invalid]="submitted && f['password'].errors"
+          >
+          <button type="button" class="btn btn-link toggle-password" (click)="togglePasswordVisibility('password')">
+            <i class="bi" [class.bi-eye]="!showPasswordFields.password" [class.bi-eye-slash]="showPasswordFields.password"></i>
+          </button>
+        </div>
+
+        <div class="password-requirements">
+          <div class="requirement" [class.valid]="passwordConditions.minLength" [class.invalid]="!passwordConditions.minLength">
+            <i class="bi" [class.bi-check-circle-fill]="passwordConditions.minLength" [class.bi-x-circle-fill]="!passwordConditions.minLength"></i>
+            Au moins 8 caractères
+          </div>
+          <div class="requirement" [class.valid]="passwordConditions.hasUpperCase" [class.invalid]="!passwordConditions.hasUpperCase">
+            <i class="bi" [class.bi-check-circle-fill]="passwordConditions.hasUpperCase" [class.bi-x-circle-fill]="!passwordConditions.hasUpperCase"></i>
+            Au moins une majuscule
+          </div>
+          <div class="requirement" [class.valid]="passwordConditions.hasLowerCase" [class.invalid]="!passwordConditions.hasLowerCase">
+            <i class="bi" [class.bi-check-circle-fill]="passwordConditions.hasLowerCase" [class.bi-x-circle-fill]="!passwordConditions.hasLowerCase"></i>
+            Au moins une minuscule
+          </div>
+          <div class="requirement" [class.valid]="passwordConditions.hasNumber" [class.invalid]="!passwordConditions.hasNumber">
+            <i class="bi" [class.bi-check-circle-fill]="passwordConditions.hasNumber" [class.bi-x-circle-fill]="!passwordConditions.hasNumber"></i>
+            Au moins un chiffre
+          </div>
+          <div class="requirement" [class.valid]="passwordConditions.hasSpecialChar" [class.invalid]="!passwordConditions.hasSpecialChar">
+            <i class="bi" [class.bi-check-circle-fill]="passwordConditions.hasSpecialChar" [class.bi-x-circle-fill]="!passwordConditions.hasSpecialChar"></i>
+            Au moins un caractère spécial (!&#64;#$%^&*)
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <div class="password-input">
+          <input
+            [type]="showPasswordFields.confirm ? 'text' : 'password'"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            placeholder="Confirmez votre mot de passe"
+            [class.is-invalid]="submitted && f['confirmPassword'].errors || passwordMismatch"
+          >
+          <button type="button" class="btn btn-link toggle-password" (click)="togglePasswordVisibility('confirm')">
+            <i class="bi" [class.bi-eye]="!showPasswordFields.confirm" [class.bi-eye-slash]="showPasswordFields.confirm"></i>
+          </button>
+        </div>
+        <div *ngIf="(submitted && f['confirmPassword'].errors) || passwordMismatch" class="error-message">
+          <div *ngIf="f['confirmPassword'].errors?.['required']">La confirmation du mot de passe est requise</div>
+          <div *ngIf="passwordMismatch">Les mots de passe ne correspondent pas</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loading || !allPasswordConditionsMet()">
+        <span *ngIf="loading" class="spinner"></span>
+        {{ loading ? 'Inscription en cours...' : 'S\'inscrire' }}
+      </button>
+
+      <div class="auth-links">
+        <a routerLink="/auth/login">Déjà inscrit ? Se connecter</a>
+      </div>
+    </form>
+  </div>
+</div> 

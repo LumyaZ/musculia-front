@@ -1,0 +1,225 @@
+.profile-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  background-color: var(--black);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23333333' opacity='0.3'%3E%3Cpath d='M20 8h-3V6c0-1.1-.9-2-2-2h-2c-1.1 0-2 .9-2 2v2H9V6c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v2H0v2h3v2H0v2h3v2c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-2h2v2c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-2h3v-2h-3v-2h3V8zm-7 6h-2v-2h2v2zm0-4h-2V8h2v2z'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 48px 48px;
+  overflow-y: auto;
+
+  @media (min-width: 1024px) {
+    padding: 4rem 2rem;
+  }
+}
+
+.profile-card {
+  background-color: var(--gray);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  width: 100%;
+  max-width: 800px;
+  box-shadow: var(--box-shadow);
+  margin: 0 auto;
+
+  @media (min-width: 1024px) {
+    padding: 3rem;
+    margin-top: 2rem;
+  }
+}
+
+.profile-progress-bar-container {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-bottom: 2rem;
+}
+
+.profile-progress-bar-base {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.profile-progress-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--white);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.profile-progress-steps {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.step {
+  width: 24px;
+  height: 24px;
+  background-color: var(--gray);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+
+  &.active {
+    border-color: var(--white);
+    color: var(--white);
+  }
+
+  &.completed {
+    background-color: var(--white);
+    border-color: var(--white);
+    color: var(--black);
+  }
+}
+
+.step-content {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .step-description {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    min-height: 500px;
+  }
+}
+
+.radio-group, .checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.radio-option, .checkbox-option {
+  position: relative;
+
+  input[type="radio"], input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+
+    &:checked + label {
+      background-color: var(--white);
+      color: var(--black);
+    }
+
+    &:focus + label {
+      box-shadow: 0 0 0 2px var(--white);
+    }
+  }
+
+  label {
+    display: block;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 1rem;
+
+  button {
+    min-width: 120px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 1rem;
+  }
+
+  .profile-card {
+    padding: 1.5rem;
+  }
+
+  .radio-group, .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+
+  .form-navigation {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+} 
+
+.form-card {
+  background: var(--gray);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: var(--box-shadow);
+
+  h1, h2 {
+    margin: 0 0 2rem 0;
+    text-align: center;
+    color: var(--white);
+    font-size: 1.5rem;
+  }
+
+  input {
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
