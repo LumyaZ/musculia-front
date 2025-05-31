@@ -1,1 +1,105 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ==========================================================================
+   Variables
+   ========================================================================== */
+// Couleurs principales
+$primary-color: #4A90E2;    // Bleu principal
+$secondary-color: #2C3E50;  // Bleu foncé
+$accent-color: #E74C3C;     // Rouge pour les actions importantes
+$success-color: #2ECC71;    // Vert pour les succès
+$warning-color: #F1C40F;    // Jaune pour les avertissements
+$text-color: #333333;       // Texte principal
+$light-gray: #F5F6FA;       // Fond clair
+$dark-gray: #2C3E50;        // Texte foncé
+
+// Breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 1024px;
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: $text-color;
+  background-color: $light-gray;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+// Boutons
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &-primary {
+    background-color: $primary-color;
+    color: white;
+    
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+  
+  &-secondary {
+    background-color: $secondary-color;
+    color: white;
+    
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+    }
+  }
+}
+
+// Cards
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+// Marges
+.mt-1 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 1rem; }
+.ml-1 { margin-left: 1rem; }
+.mr-1 { margin-right: 1rem; }
+
+// Padding
+.p-1 { padding: 1rem; }
+.p-2 { padding: 2rem; }
+
+// Text
+.text-center { text-align: center; }
+.text-bold { font-weight: bold; }
+.text-primary { color: $primary-color; }
