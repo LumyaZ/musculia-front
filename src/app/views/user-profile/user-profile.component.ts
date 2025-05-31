@@ -2,19 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-interface UserProfile {
-  gender: string;
-  weight: number;
-  height: number;
-  bodyFat: number | null;
-  experienceYears: number;
-  trainingFrequency: number;
-  sessionDuration: number;
-  goal: string;
-  trainingPreference: string;
-  equipmentAvailable: string[];
-}
+import { UserProfileService } from '../../services/user-profile.service';
+import { UserProfile, Gender, Goal, TrainingPreference } from '../../_models/user-profile.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,22 +15,24 @@ interface UserProfile {
 export class UserProfileComponent {
   currentStep = 1;
   totalSteps = 4;
-  userProfile: UserProfile = {
-    gender: '',
+  userProfile: Partial<UserProfile> = {
+    gender: undefined,
     weight: 0,
     height: 0,
-    bodyFat: null,
+    bodyFat: undefined,
     experienceYears: 0,
     trainingFrequency: 0,
     sessionDuration: 0,
-    goal: '',
-    trainingPreference: '',
-    equipmentAvailable: ['none']
+    goal: undefined,
+    trainingPreference: undefined,
+    equipmentAvailable: 'none'
   };
 
-  genders = ['male', 'female', 'other'];
-  goals = ['muscle_gain', 'weight_loss', 'toning'];
-  trainingPreferences = ['strength', 'hypertrophy', 'endurance'];
+  selectedEquipment: string[] = ['none'];
+
+  genders = Object.values(Gender);
+  goals = Object.values(Goal);
+  trainingPreferences = Object.values(TrainingPreference);
   equipmentList = [
     'Accès à une salle de sport',
     'Haltères',
@@ -65,7 +56,10 @@ export class UserProfileComponent {
   readonly MIN_DURATION = 15;
   readonly MAX_DURATION = 240;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userProfileService: UserProfileService
+  ) {}
 
   getStepTitle(): string {
     switch (this.currentStep) {
@@ -85,19 +79,24 @@ export class UserProfileComponent {
   isStepValid(): boolean {
     switch (this.currentStep) {
       case 1:
-        return this.userProfile.gender !== '' && 
+        return this.userProfile.gender !== undefined && 
+               this.userProfile.weight !== undefined && 
                this.isValidWeight(this.userProfile.weight) && 
+               this.userProfile.height !== undefined && 
                this.isValidHeight(this.userProfile.height) && 
-               (this.userProfile.bodyFat === null || this.isValidBodyFat(this.userProfile.bodyFat));
+               (this.userProfile.bodyFat === undefined || (this.userProfile.bodyFat !== undefined && this.isValidBodyFat(this.userProfile.bodyFat)));
       case 2:
-        return this.isValidExperience(this.userProfile.experienceYears) && 
+        return this.userProfile.experienceYears !== undefined && 
+               this.isValidExperience(this.userProfile.experienceYears) && 
+               this.userProfile.trainingFrequency !== undefined && 
                this.isValidFrequency(this.userProfile.trainingFrequency) && 
+               this.userProfile.sessionDuration !== undefined && 
                this.isValidDuration(this.userProfile.sessionDuration);
       case 3:
-        return this.userProfile.goal !== '' && 
-               this.userProfile.trainingPreference !== '';
+        return this.userProfile.goal !== undefined && 
+               this.userProfile.trainingPreference !== undefined;
       case 4:
-        return this.userProfile.equipmentAvailable.includes('none') || (this.userProfile.equipmentAvailable.length > 0 && !this.userProfile.equipmentAvailable.includes('none'));
+        return this.selectedEquipment.length > 0;
       default:
         return false;
     }
@@ -149,52 +148,57 @@ export class UserProfileComponent {
   }
 
   toggleNoEquipment() {
-    console.log('toggleNoEquipment');
-    console.log(this.userProfile.equipmentAvailable);
-    if (this.userProfile.equipmentAvailable.includes('none')) {
-      this.userProfile.equipmentAvailable = [];
+    if (this.selectedEquipment.includes('none')) {
+      this.selectedEquipment = [];
     } else {
-      this.userProfile.equipmentAvailable = ['none'];
+      this.selectedEquipment = ['none'];
     }
-    console.log('toggleNoEquipment');
-    console.log(this.userProfile.equipmentAvailable);
   }
 
   toggleEquipment(equipment: string) {
-    console.log('toggleEquipment');
-    console.log(this.userProfile.equipmentAvailable);
-    if (this.userProfile.equipmentAvailable.includes('none')) {
-      this.userProfile.equipmentAvailable = [];
+    if (this.selectedEquipment.includes('none')) {
+      this.selectedEquipment = [];
     }
 
-    const index = this.userProfile.equipmentAvailable.indexOf(equipment);
+    const index = this.selectedEquipment.indexOf(equipment);
     if (index === -1) {
-      this.userProfile.equipmentAvailable.push(equipment);
+      this.selectedEquipment.push(equipment);
     } else {
-      this.userProfile.equipmentAvailable.splice(index, 1);
+      this.selectedEquipment.splice(index, 1);
     }
 
-    if (this.userProfile.equipmentAvailable.length === 0) {
-      this.userProfile.equipmentAvailable = ['none'];
+    if (this.selectedEquipment.length === 0) {
+      this.selectedEquipment = ['none'];
     }
-    console.log('toggleEquipment');
-    console.log(this.userProfile.equipmentAvailable);
   }
 
   isEquipmentSelected(equipment: string): boolean {
-    return this.userProfile.equipmentAvailable.includes(equipment);
+    return this.selectedEquipment.includes(equipment);
   }
 
   saveProfile() {
     if (this.isStepValid()) {
-      console.log('Profil utilisateur :', {
+      const profileToSave: UserProfile = {
         ...this.userProfile,
-        gender: this.userProfile.gender === 'male' ? 'Homme' : 
-                this.userProfile.gender === 'female' ? 'Femme' : 'Autre',
-        goal: this.userProfile.goal === 'muscle_gain' ? 'Prise de muscle' :
-              this.userProfile.goal === 'weight_loss' ? 'Perte de poids' : 'Tonification',
-        trainingPreference: this.userProfile.trainingPreference === 'strength' ? 'Force' :
-                          this.userProfile.trainingPreference === 'hypertrophy' ? 'Hypertrophie' : 'Endurance'
+        gender: this.userProfile.gender!,
+        goal: this.userProfile.goal!,
+        trainingPreference: this.userProfile.trainingPreference!,
+        weight: this.userProfile.weight!,
+        height: this.userProfile.height!,
+        experienceYears: this.userProfile.experienceYears!,
+        trainingFrequency: this.userProfile.trainingFrequency!,
+        sessionDuration: this.userProfile.sessionDuration!,
+        equipmentAvailable: this.selectedEquipment.join(',')
+      };
+
+      this.userProfileService.saveProfile(profileToSave).subscribe({
+        next: (response) => {
+          console.log('Profil sauvegardé avec succès:', response);
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la sauvegarde du profil:', error);
+        }
       });
     }
   }

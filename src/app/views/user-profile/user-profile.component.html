@@ -117,20 +117,20 @@
         <div class="form-group">
           <label>Équipement Disponible</label>
           <div class="checkbox-buttons">
-            <div class="checkbox-button no-equipment" [class.active]="userProfile.equipmentAvailable.includes('none')">
+            <div class="checkbox-button no-equipment" [class.active]="selectedEquipment.includes('none')">
               <input type="checkbox" id="no-equipment" 
-                     [checked]="userProfile.equipmentAvailable.includes('none')"
+                     [checked]="selectedEquipment.includes('none')"
                      (change)="toggleNoEquipment()">
               <label for="no-equipment">Aucun équipement</label>
             </div>
             
             <div class="checkbox-button" *ngFor="let equipment of equipmentList" 
                  [class.active]="isEquipmentSelected(equipment)"
-                 [class.disabled]="userProfile.equipmentAvailable.includes('none')">
+                 [class.disabled]="selectedEquipment.includes('none')">
               <input type="checkbox" [id]="'equipment-' + equipment" 
                      [checked]="isEquipmentSelected(equipment)"
                      (change)="toggleEquipment(equipment)"
-                     [disabled]="userProfile.equipmentAvailable.includes('none')">
+                     [disabled]="selectedEquipment.includes('none')">
               <label [for]="'equipment-' + equipment">{{equipment}}</label>
             </div>
           </div>
