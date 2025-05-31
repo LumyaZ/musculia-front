@@ -208,4 +208,46 @@
       }
     }
   }
+}
+
+.password-requirements {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(map.get($colors, 'primary'), 0.05);
+  border-radius: 8px;
+
+  p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: map.get($colors, 'secondary');
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      font-size: 0.75rem;
+      color: map.get($colors, 'secondary');
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: '•';
+        margin-right: 0.5rem;
+        color: map.get($colors, 'error');
+      }
+
+      &.valid {
+        color: map.get($colors, 'success');
+
+        &::before {
+          content: '✓';
+          color: map.get($colors, 'success');
+        }
+      }
+    }
+  }
 } 

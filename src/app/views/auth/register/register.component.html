@@ -13,42 +13,6 @@
 
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
       <div class="form-group">
-        <label for="firstName">Prénom</label>
-        <div class="input-container">
-          <input 
-            type="text" 
-            id="firstName" 
-            name="firstName" 
-            [(ngModel)]="firstName" 
-            required
-            #firstNameInput="ngModel"
-            placeholder="Votre prénom"
-          >
-        </div>
-        <div *ngIf="firstNameInput.invalid && (firstNameInput.dirty || firstNameInput.touched)" class="error-message">
-          <div *ngIf="firstNameInput.errors?.['required']">Le prénom est requis</div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="lastName">Nom</label>
-        <div class="input-container">
-          <input 
-            type="text" 
-            id="lastName" 
-            name="lastName" 
-            [(ngModel)]="lastName" 
-            required
-            #lastNameInput="ngModel"
-            placeholder="Votre nom"
-          >
-        </div>
-        <div *ngIf="lastNameInput.invalid && (lastNameInput.dirty || lastNameInput.touched)" class="error-message">
-          <div *ngIf="lastNameInput.errors?.['required']">Le nom est requis</div>
-        </div>
-      </div>
-
-      <div class="form-group">
         <label for="email">Email</label>
         <div class="input-container">
           <input 
@@ -94,6 +58,16 @@
         <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
           <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis</div>
           <div *ngIf="passwordInput.errors?.['minlength']">Le mot de passe doit contenir au moins 8 caractères</div>
+        </div>
+        <div class="password-requirements">
+          <p>Le mot de passe doit contenir :</p>
+          <ul>
+            <li [class.valid]="hasUpperCase()">Une majuscule</li>
+            <li [class.valid]="hasLowerCase()">Une minuscule</li>
+            <li [class.valid]="hasNumber()">Un chiffre</li>
+            <li [class.valid]="hasSpecialChar()">Un caractère spécial</li>
+            <li [class.valid]="hasMinLength()">8 caractères minimum</li>
+          </ul>
         </div>
       </div>
 
