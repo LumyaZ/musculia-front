@@ -1,109 +1,163 @@
 <div class="container">
-  <div class="profile-header">
-    <h1>Mon Profil</h1>
-    <p class="subtitle">Étape {{currentStep}} sur {{totalSteps}} : {{getStepTitle()}}</p>
-  </div>
-
   <div class="profile-content">
-    <div class="card">
-      <form class="profile-form">
-        <!-- Étape 1: Informations Complémentaires -->
-        <div class="form-section" *ngIf="currentStep === 1">
-          <div class="form-group">
-            <label for="gender">Genre</label>
-            <select id="gender" [(ngModel)]="userProfile.gender" name="gender" class="form-control">
-              <option *ngFor="let gender of genders" [value]="gender">
+    <div class="logo-container">
+      <h1>MUSCULIA</h1>
+    </div>
+    
+    <p class="subtitle">Étape {{currentStep}} sur {{totalSteps}} : {{getStepTitle()}}</p>
+
+    <form class="profile-form">
+      <!-- Étape 1: Informations Complémentaires -->
+      <div class="form-section" *ngIf="currentStep === 1">
+        <div class="form-group">
+          <label>Genre</label>
+          <div class="radio-buttons">
+            <div class="radio-button" *ngFor="let gender of genders" [class.active]="userProfile.gender === gender">
+              <input type="radio" [id]="'gender-' + gender" [(ngModel)]="userProfile.gender" [value]="gender" name="gender">
+              <label [for]="'gender-' + gender">
                 {{gender === 'male' ? 'Homme' : gender === 'female' ? 'Femme' : 'Autre'}}
-              </option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="weight">Poids (kg)</label>
-              <input type="number" id="weight" [(ngModel)]="userProfile.weight" name="weight" placeholder="Votre poids">
-            </div>
-
-            <div class="form-group">
-              <label for="height">Taille (cm)</label>
-              <input type="number" id="height" [(ngModel)]="userProfile.height" name="height" placeholder="Votre taille">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="bodyFat">Pourcentage de masse grasse (%)</label>
-            <input type="number" id="bodyFat" [(ngModel)]="userProfile.bodyFat" name="bodyFat" placeholder="Votre pourcentage de masse grasse">
-          </div>
-        </div>
-
-        <!-- Étape 2: Expérience d'Entraînement -->
-        <div class="form-section" *ngIf="currentStep === 2">
-          <div class="form-group">
-            <label for="experienceYears">Années d'Expérience</label>
-            <input type="number" id="experienceYears" [(ngModel)]="userProfile.experienceYears" name="experienceYears" placeholder="Vos années d'expérience">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="trainingFrequency">Sessions par Semaine</label>
-              <input type="number" id="trainingFrequency" [(ngModel)]="userProfile.trainingFrequency" name="trainingFrequency" placeholder="Nombre de sessions">
-            </div>
-
-            <div class="form-group">
-              <label for="sessionDuration">Durée des Sessions (minutes)</label>
-              <input type="number" id="sessionDuration" [(ngModel)]="userProfile.sessionDuration" name="sessionDuration" placeholder="Durée moyenne">
+              </label>
             </div>
           </div>
         </div>
 
-        <!-- Étape 3: Objectifs et Préférences -->
-        <div class="form-section" *ngIf="currentStep === 3">
+        <div class="form-row">
           <div class="form-group">
-            <label for="goal">Objectif Principal</label>
-            <select id="goal" [(ngModel)]="userProfile.goal" name="goal" class="form-control">
-              <option *ngFor="let goal of goals" [value]="goal">
+            <label for="weight">Poids (kg)</label>
+            <div class="input-container">
+              <input type="number" id="weight" [(ngModel)]="userProfile.weight" name="weight" 
+                     placeholder="Votre poids" min="30" max="250">
+              <small class="help-text">Entre 30 et 250 kg</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="height">Taille (cm)</label>
+            <div class="input-container">
+              <input type="number" id="height" [(ngModel)]="userProfile.height" name="height" 
+                     placeholder="Votre taille" min="100" max="250">
+              <small class="help-text">Entre 100 et 250 cm</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="bodyFat">Pourcentage de masse grasse (%) <span class="optional">(optionnel)</span></label>
+          <div class="input-container">
+            <input type="number" id="bodyFat" [(ngModel)]="userProfile.bodyFat" name="bodyFat" 
+                   placeholder="Votre pourcentage de masse grasse" min="3" max="50">
+            <small class="help-text">Entre 3 et 50% (optionnel)</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Étape 2: Expérience d'Entraînement -->
+      <div class="form-section" *ngIf="currentStep === 2">
+        <div class="form-group">
+          <label for="experienceYears">Années d'Expérience</label>
+          <div class="input-container">
+            <input type="number" id="experienceYears" [(ngModel)]="userProfile.experienceYears" name="experienceYears" 
+                   placeholder="Vos années d'expérience" min="0" max="50">
+            <small class="help-text">Entre 0 et 50 ans</small>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="trainingFrequency">Sessions par Semaine</label>
+            <div class="input-container">
+              <input type="number" id="trainingFrequency" [(ngModel)]="userProfile.trainingFrequency" name="trainingFrequency" 
+                     placeholder="Nombre de sessions" min="1" max="7">
+              <small class="help-text">Entre 1 et 7 sessions</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="sessionDuration">Durée des Sessions (minutes)</label>
+            <div class="input-container">
+              <input type="number" id="sessionDuration" [(ngModel)]="userProfile.sessionDuration" name="sessionDuration" 
+                     placeholder="Durée moyenne" min="15" max="240">
+              <small class="help-text">Entre 15 et 240 minutes</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Étape 3: Objectifs et Préférences -->
+      <div class="form-section" *ngIf="currentStep === 3">
+        <div class="form-group">
+          <label>Objectif Principal</label>
+          <div class="radio-buttons">
+            <div class="radio-button" *ngFor="let goal of goals" [class.active]="userProfile.goal === goal">
+              <input type="radio" [id]="'goal-' + goal" [(ngModel)]="userProfile.goal" [value]="goal" name="goal">
+              <label [for]="'goal-' + goal">
                 {{goal === 'muscle_gain' ? 'Prise de muscle' : 
                   goal === 'weight_loss' ? 'Perte de poids' : 'Tonification'}}
-              </option>
-            </select>
+              </label>
+            </div>
           </div>
+        </div>
 
-          <div class="form-group">
-            <label for="trainingPreference">Préférence d'Entraînement</label>
-            <select id="trainingPreference" [(ngModel)]="userProfile.trainingPreference" name="trainingPreference" class="form-control">
-              <option *ngFor="let pref of trainingPreferences" [value]="pref">
+        <div class="form-group">
+          <label>Préférence d'Entraînement</label>
+          <div class="radio-buttons">
+            <div class="radio-button" *ngFor="let pref of trainingPreferences" [class.active]="userProfile.trainingPreference === pref">
+              <input type="radio" [id]="'pref-' + pref" [(ngModel)]="userProfile.trainingPreference" [value]="pref" name="trainingPreference">
+              <label [for]="'pref-' + pref">
                 {{pref === 'strength' ? 'Force' : 
                   pref === 'hypertrophy' ? 'Hypertrophie' : 'Endurance'}}
-              </option>
-            </select>
+              </label>
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Étape 4: Équipement -->
-        <div class="form-section" *ngIf="currentStep === 4">
-          <div class="form-group">
-            <label for="equipmentAvailable">Liste d'Équipement</label>
-            <textarea id="equipmentAvailable" [(ngModel)]="userProfile.equipmentAvailable" name="equipmentAvailable" 
-                      placeholder="Listez votre équipement disponible (séparé par des virgules)" rows="3"></textarea>
+      <!-- Étape 4: Équipement -->
+      <div class="form-section" *ngIf="currentStep === 4">
+        <div class="form-group">
+          <label>Équipement Disponible</label>
+          <div class="checkbox-buttons">
+            <div class="checkbox-button no-equipment" [class.active]="userProfile.equipmentAvailable.includes('none')">
+              <input type="checkbox" id="no-equipment" 
+                     [checked]="userProfile.equipmentAvailable.includes('none')"
+                     (change)="toggleNoEquipment()">
+              <label for="no-equipment">Aucun équipement</label>
+            </div>
+            
+            <div class="checkbox-button" *ngFor="let equipment of equipmentList" 
+                 [class.active]="isEquipmentSelected(equipment)"
+                 [class.disabled]="userProfile.equipmentAvailable.includes('none')">
+              <input type="checkbox" [id]="'equipment-' + equipment" 
+                     [checked]="isEquipmentSelected(equipment)"
+                     (change)="toggleEquipment(equipment)"
+                     [disabled]="userProfile.equipmentAvailable.includes('none')">
+              <label [for]="'equipment-' + equipment">{{equipment}}</label>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="form-actions">
-          <div class="navigation-buttons">
-            <button type="button" class="btn btn-secondary" (click)="previousStep()" [disabled]="isFirstStep()">
-              Précédent
-            </button>
-            
-            <button *ngIf="!isLastStep()" type="button" class="btn btn-primary" (click)="nextStep()">
-              Suivant
-            </button>
-            
-            <button *ngIf="isLastStep()" type="submit" class="btn btn-primary">
-              Enregistrer
-            </button>
-          </div>
+      <div class="form-actions">
+        <div class="navigation-buttons">
+          <button *ngIf="!isFirstStep()" 
+                  class="btn-secondary" 
+                  (click)="previousStep()">
+            Précédent
+          </button>
+          <button *ngIf="!isLastStep()" 
+                  class="btn-primary" 
+                  [disabled]="!isStepValid()"
+                  (click)="nextStep()">
+            Suivant
+          </button>
+          <button *ngIf="isLastStep()" 
+                  class="btn-primary" 
+                  [disabled]="!isStepValid()"
+                  (click)="saveProfile()">
+            Enregistrer
+          </button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div> 

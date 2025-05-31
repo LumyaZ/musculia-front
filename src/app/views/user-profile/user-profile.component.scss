@@ -2,99 +2,359 @@
 @use "../../../styles/_variables.scss" as *;
 @use "../../../styles/_mixins.scss" as *;
 
-.profile-header {
-  text-align: center;
-  margin-bottom: 2rem;
-
-  h1 {
-    font-size: 1.75rem;
-    color: map.get($colors, 'primary');
-    margin-bottom: 0.5rem;
-  }
-
-  .subtitle {
-    color: map.get($colors, 'secondary');
-    font-size: 1rem;
-  }
+.container {
+  @include flex-center;
+  min-height: 100vh;
+  padding: map.get($spacing, 'md');
+  background-color: map.get($colors, 'background');
 }
 
 .profile-content {
-  .card {
-    padding: 1.5rem;
-  }
-}
+  width: 100%;
+  max-width: 400px;
+  padding: map.get($spacing, 'xl');
+  @include glass-effect;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
-.profile-form {
-  .form-section {
-    margin-bottom: 2rem;
+  .logo-container {
+    text-align: center;
+    margin-bottom: map.get($spacing, 'md');
 
-    h2 {
-      font-size: 1.25rem;
-      color: map.get($colors, 'primary');
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid rgba(map.get($colors, 'primary'), 0.1);
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      @include gradient-text;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0;
     }
   }
 
-  .form-group {
-    margin-bottom: 1.25rem;
+  .subtitle {
+    text-align: center;
+    color: map.get($colors, 'secondary');
+    margin-bottom: map.get($spacing, 'xl');
+    font-size: 1rem;
+    font-weight: 500;
   }
 
-  .form-row {
+  .profile-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: map.get($spacing, 'lg');
 
-    @include responsive('tablet') {
-      flex-direction: row;
-      
-      .form-group {
-        flex: 1;
+    .form-section {
+      margin-bottom: map.get($spacing, 'lg');
+
+      h2 {
+        font-size: 1.25rem;
+        color: map.get($colors, 'primary');
+        margin-bottom: map.get($spacing, 'md');
+        padding-bottom: map.get($spacing, 'sm');
+        border-bottom: 2px solid rgba(map.get($colors, 'primary'), 0.1);
       }
     }
-  }
 
-  .form-actions {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+    .form-group {
+      margin-bottom: map.get($spacing, 'md');
 
-    .navigation-buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
+      label {
+        display: block;
+        margin-bottom: map.get($spacing, 'xs');
+        color: map.get($colors, 'secondary');
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
 
-      button {
-        flex: 1;
+      .radio-buttons {
+        display: flex;
+        gap: map.get($spacing, 'sm');
+        flex-wrap: wrap;
+
+        .radio-button {
+          flex: 1;
+          min-width: 100px;
+          position: relative;
+
+          input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: map.get($spacing, 'md');
+            background-color: rgba(map.get($colors, 'primary'), 0.05);
+            border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+            border-radius: 12px;
+            color: map.get($colors, 'primary');
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0;
+            text-align: center;
+
+            &:hover {
+              background-color: rgba(map.get($colors, 'primary'), 0.1);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+          }
+
+          &.active label {
+            background: linear-gradient(45deg, 
+              map.get($colors, 'primary') 0%,
+              map.get($colors, 'secondary') 100%
+            );
+            color: map.get($colors, 'background');
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+
+      .checkbox-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: map.get($spacing, 'sm');
+        margin-bottom: map.get($spacing, 'md');
+
+        .checkbox-button {
+          position: relative;
+          min-height: 80px;
+
+          &.no-equipment {
+            grid-column: 1 / -1;
+            margin-bottom: map.get($spacing, 'md');
+            border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+            padding-bottom: map.get($spacing, 'md');
+          }
+
+          input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: map.get($spacing, 'md');
+            background-color: rgba(map.get($colors, 'primary'), 0.05);
+            border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+            border-radius: 12px;
+            color: map.get($colors, 'primary');
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0;
+            text-align: center;
+
+            &:hover {
+              background-color: rgba(map.get($colors, 'primary'), 0.1);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+          }
+
+          &.active label {
+            background: linear-gradient(45deg, 
+              map.get($colors, 'primary') 0%,
+              map.get($colors, 'secondary') 100%
+            );
+            color: map.get($colors, 'background');
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          }
+
+          &.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+          }
+        }
+      }
+
+      .input-container {
+        position: relative;
         
-        @include responsive('tablet') {
-          flex: 0 1 auto;
-          min-width: 120px;
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg, 
+            map.get($colors, 'primary') 0%,
+            map.get($colors, 'secondary') 100%
+          );
+          transform: scaleX(0);
+          transition: transform 0.3s ease;
+        }
+
+        &:focus-within::after {
+          transform: scaleX(1);
+        }
+
+        .help-text {
+          display: block;
+          font-size: 0.75rem;
+          color: map.get($colors, 'secondary');
+          margin-top: map.get($spacing, 'xs');
+          opacity: 0.8;
+        }
+      }
+
+      input, select, textarea {
+        width: 100%;
+        padding: map.get($spacing, 'md');
+        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+        border-radius: 12px;
+        color: map.get($colors, 'primary');
+        font-size: 1rem;
+        transition: all 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: transparent;
+          background-color: rgba(map.get($colors, 'primary'), 0.1);
+        }
+
+        &:hover {
+          background-color: rgba(map.get($colors, 'primary'), 0.1);
+        }
+
+        &::placeholder {
+          color: map.get($colors, 'accent');
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: map.get($spacing, 'md');
+
+      @include responsive('tablet') {
+        flex-direction: row;
+        
+        .form-group {
+          flex: 1;
+        }
+      }
+    }
+
+    .form-actions {
+      margin-top: map.get($spacing, 'xl');
+      padding-top: map.get($spacing, 'lg');
+      border-top: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+
+      .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: map.get($spacing, 'md');
+
+        button {
+          flex: 1;
+          padding: map.get($spacing, 'md');
+          border: none;
+          border-radius: 12px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          position: relative;
+          overflow: hidden;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+              rgba(255, 255, 255, 0.1) 0%,
+              rgba(255, 255, 255, 0) 100%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+          }
+
+          &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+            &::before {
+              transform: translateX(100%);
+            }
+          }
+
+          &:disabled {
+            background: map.get($colors, 'accent');
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+          }
+
+          &.btn-primary {
+            background: linear-gradient(45deg, 
+              map.get($colors, 'primary') 0%,
+              map.get($colors, 'secondary') 100%
+            );
+            color: map.get($colors, 'background');
+          }
+
+          &.btn-secondary {
+            background: rgba(map.get($colors, 'primary'), 0.1);
+            color: map.get($colors, 'primary');
+
+            &:hover:not(:disabled) {
+              background: rgba(map.get($colors, 'primary'), 0.2);
+            }
+          }
         }
       }
     }
   }
 }
 
-// Améliorations pour les écrans plus grands
 @include responsive('tablet') {
-  .profile-header {
-    h1 {
-      font-size: 2rem;
-    }
-  }
-
   .profile-content {
-    .card {
-      padding: 2rem;
-    }
+    padding: map.get($spacing, 'xl');
   }
 }
 
 @include responsive('desktop') {
   .profile-content {
     max-width: 800px;
-    margin: 0 auto;
+  }
+}
+
+label {
+  .optional {
+    font-size: 0.75rem;
+    color: map.get($colors, 'secondary');
+    font-weight: normal;
+    margin-left: map.get($spacing, 'xs');
   }
 } 
