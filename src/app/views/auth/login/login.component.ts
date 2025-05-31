@@ -18,12 +18,17 @@ export class LoginComponent {
   errorMessage = signal<string>('');
   isLoading = signal<boolean>(false);
   showError = signal<boolean>(false);
+  showPassword = signal<boolean>(false);
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
+
+  togglePasswordVisibility() {
+    this.showPassword.update(value => !value);
+  }
 
   onSubmit() {
     this.errorMessage.set('');

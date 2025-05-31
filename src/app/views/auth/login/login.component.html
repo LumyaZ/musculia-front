@@ -36,7 +36,7 @@
         <label for="password">Mot de passe</label>
         <div class="input-container">
           <input 
-            type="password" 
+            [type]="showPassword() ? 'text' : 'password'"
             id="password" 
             name="password" 
             [(ngModel)]="password" 
@@ -44,6 +44,15 @@
             #passwordInput="ngModel"
             placeholder="Votre mot de passe"
           >
+          <button 
+            type="button" 
+            class="toggle-password" 
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+          >
+            <span class="material-icons" *ngIf="!showPassword()">visibility</span>
+            <span class="material-icons" *ngIf="showPassword()">visibility_off</span>
+          </button>
         </div>
         <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
           <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis</div>
