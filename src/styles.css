@@ -1,0 +1,124 @@
+:root {
+  /* Couleurs principales */
+  --color-background: #121212;
+  --color-surface: #1E1E1E;
+  --color-primary: #FFFFFF;
+  --color-secondary: #B3B3B3;
+  --color-accent: #808080;
+  --color-error: #CF6679;
+  
+  /* Espacements */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  background-image: url('/assets/images/dumbbells-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+}
+
+/* Styles de base pour les conteneurs */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: var(--spacing-md);
+  margin: 0 auto;
+}
+
+/* Styles pour les formulaires */
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+}
+
+input {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  color: var(--color-primary);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Styles pour les boutons */
+button {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:disabled {
+  background-color: var(--color-accent);
+  cursor: not-allowed;
+}
+
+/* Styles pour les messages d'erreur */
+.error-message {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  background-color: rgba(207, 102, 121, 0.1);
+  border-radius: 4px;
+}
+
+/* Media queries pour le responsive design */
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+    padding: var(--spacing-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1140px;
+  }
+} 
