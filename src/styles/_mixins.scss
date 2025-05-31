@@ -1,0 +1,26 @@
+@use "sass:map";
+@use "./_variables.scss" as *;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin glass-effect {
+  background-color: rgba(map.get($colors, 'surface'), 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+}
+
+@mixin gradient-text {
+  background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'secondary'));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin responsive($breakpoint) {
+  @media (min-width: map.get($breakpoints, $breakpoint)) {
+    @content;
+  }
+} 

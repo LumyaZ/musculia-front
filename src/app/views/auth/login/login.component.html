@@ -1,45 +1,58 @@
 <div class="login-container">
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <h2>Connexion</h2>
+  <div class="login-card">
+    <div class="logo-container">
+      <h1>MUSCULIA</h1>
+    </div>
     
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input 
-        type="email" 
-        id="email" 
-        name="email" 
-        [(ngModel)]="email" 
-        required 
-        email
-        #emailInput="ngModel"
-        class="form-control"
-      >
-      <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-message">
-        <div *ngIf="emailInput.errors?.['required']">L'email est requis</div>
-        <div *ngIf="emailInput.errors?.['email']">Format d'email invalide</div>
+    <p class="subtitle">Votre partenaire fitness</p>
+    
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-container">
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="email" 
+            required 
+            email
+            #emailInput="ngModel"
+            placeholder="Votre email"
+          >
+        </div>
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-message">
+          <div *ngIf="emailInput.errors?.['required']">L'email est requis</div>
+          <div *ngIf="emailInput.errors?.['email']">Format d'email invalide</div>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="password">Mot de passe</label>
-      <input 
-        type="password" 
-        id="password" 
-        name="password" 
-        [(ngModel)]="password" 
-        required
-        #passwordInput="ngModel"
-        class="form-control"
-      >
-      <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
-        <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis</div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-container">
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="password" 
+            required
+            #passwordInput="ngModel"
+            placeholder="Votre mot de passe"
+          >
+        </div>
+        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
+          <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis</div>
+        </div>
       </div>
-    </div>
 
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
 
-    <button type="submit" [disabled]="!loginForm.form.valid">Se connecter</button>
-  </form>
+      <button type="submit" [disabled]="!loginForm.form.valid || isLoading">
+        <span *ngIf="!isLoading">Se connecter</span>
+        <span *ngIf="isLoading">Connexion en cours...</span>
+      </button>
+    </form>
+  </div>
 </div> 
