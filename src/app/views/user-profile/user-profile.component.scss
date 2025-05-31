@@ -1,0 +1,100 @@
+@use "sass:map";
+@use "../../../styles/_variables.scss" as *;
+@use "../../../styles/_mixins.scss" as *;
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 1.75rem;
+    color: map.get($colors, 'primary');
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: map.get($colors, 'secondary');
+    font-size: 1rem;
+  }
+}
+
+.profile-content {
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+.profile-form {
+  .form-section {
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.25rem;
+      color: map.get($colors, 'primary');
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid rgba(map.get($colors, 'primary'), 0.1);
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @include responsive('tablet') {
+      flex-direction: row;
+      
+      .form-group {
+        flex: 1;
+      }
+    }
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+
+      button {
+        flex: 1;
+        
+        @include responsive('tablet') {
+          flex: 0 1 auto;
+          min-width: 120px;
+        }
+      }
+    }
+  }
+}
+
+// Améliorations pour les écrans plus grands
+@include responsive('tablet') {
+  .profile-header {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .profile-content {
+    .card {
+      padding: 2rem;
+    }
+  }
+}
+
+@include responsive('desktop') {
+  .profile-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+} 

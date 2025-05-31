@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './views/auth/login/login.component';
 import { RegisterComponent } from './views/auth/register/register.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { UserProfileComponent } from './views/user-profile/user-profile.component';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
@@ -29,6 +30,11 @@ export const routes: Routes = [
   { 
     path: 'dashboard', 
     component: DashboardComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'profile',
+    component: UserProfileComponent,
     canActivate: [authGuard]
   },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' }

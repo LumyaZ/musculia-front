@@ -125,7 +125,7 @@ export class RegisterComponent {
 
 
       // Redirection vers le dashboard après inscription réussie
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/profile']);
     } catch (error: any) {
       console.error('Erreur lors de l\'inscription:', error);
       this._errorMessage.set(
