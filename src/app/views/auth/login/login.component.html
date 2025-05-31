@@ -12,6 +12,7 @@
         required 
         email
         #emailInput="ngModel"
+        class="form-control"
       >
       <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-message">
         <div *ngIf="emailInput.errors?.['required']">L'email est requis</div>
@@ -28,10 +29,15 @@
         [(ngModel)]="password" 
         required
         #passwordInput="ngModel"
+        class="form-control"
       >
       <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
         <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis</div>
       </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
     </div>
 
     <button type="submit" [disabled]="!loginForm.form.valid">Se connecter</button>
