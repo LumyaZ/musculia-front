@@ -1,0 +1,129 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo-container">
+      <h1>MUSCULIA</h1>
+    </div>
+    
+    <p class="subtitle">Créez votre compte</p>
+    
+    <!-- Alerte d'erreur simplifiée -->
+    <div *ngIf="showError()" style="background-color: #CF6679; color: white; padding: 1rem; margin-bottom: 1rem; border-radius: 12px;">
+      {{ errorMessage() }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="firstName">Prénom</label>
+        <div class="input-container">
+          <input 
+            type="text" 
+            id="firstName" 
+            name="firstName" 
+            [(ngModel)]="firstName" 
+            required
+            #firstNameInput="ngModel"
+            placeholder="Votre prénom"
+          >
+        </div>
+        <div *ngIf="firstNameInput.invalid && (firstNameInput.dirty || firstNameInput.touched)" class="error-message">
+          <div *ngIf="firstNameInput.errors?.['required']">Le prénom est requis</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Nom</label>
+        <div class="input-container">
+          <input 
+            type="text" 
+            id="lastName" 
+            name="lastName" 
+            [(ngModel)]="lastName" 
+            required
+            #lastNameInput="ngModel"
+            placeholder="Votre nom"
+          >
+        </div>
+        <div *ngIf="lastNameInput.invalid && (lastNameInput.dirty || lastNameInput.touched)" class="error-message">
+          <div *ngIf="lastNameInput.errors?.['required']">Le nom est requis</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-container">
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="email" 
+            required 
+            email
+            #emailInput="ngModel"
+            placeholder="Votre email"
+          >
+        </div>
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-message">
+          <div *ngIf="emailInput.errors?.['required']">L'email est requis</div>
+          <div *ngIf="emailInput.errors?.['email']">Format d'email invalide</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-container">
+          <input 
+            [type]="showPassword() ? 'text' : 'password'"
+            id="password" 
+            name="password" 
+            [(ngModel)]="password" 
+            required
+            minlength="8"
+            #passwordInput="ngModel"
+            placeholder="Votre mot de passe"
+          >
+          <button 
+            type="button" 
+            class="toggle-password" 
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+          >
+            <span class="material-icons" *ngIf="!showPassword()">visibility</span>
+            <span class="material-icons" *ngIf="showPassword()">visibility_off</span>
+          </button>
+        </div>
+        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
+          <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis</div>
+          <div *ngIf="passwordInput.errors?.['minlength']">Le mot de passe doit contenir au moins 8 caractères</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <div class="input-container">
+          <input 
+            [type]="showPassword() ? 'text' : 'password'"
+            id="confirmPassword" 
+            name="confirmPassword" 
+            [(ngModel)]="confirmPassword" 
+            required
+            #confirmPasswordInput="ngModel"
+            placeholder="Confirmez votre mot de passe"
+          >
+        </div>
+        <div *ngIf="confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)" class="error-message">
+          <div *ngIf="confirmPasswordInput.errors?.['required']">La confirmation du mot de passe est requise</div>
+          <div *ngIf="password !== confirmPassword && confirmPasswordInput.touched">Les mots de passe ne correspondent pas</div>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!registerForm.form.valid || isLoading()">
+        <span *ngIf="!isLoading()">S'inscrire</span>
+        <span *ngIf="isLoading()">Inscription en cours...</span>
+      </button>
+
+      <div class="auth-links">
+        <p>Déjà un compte ? <a routerLink="/auth/login">Se connecter</a></p>
+      </div>
+    </form>
+  </div>
+</div> 

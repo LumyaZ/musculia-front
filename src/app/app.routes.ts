@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './views/auth/login/login.component';
+import { RegisterComponent } from './views/auth/register/register.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth.service';
@@ -13,15 +14,22 @@ const authGuard = () => {
     return true;
   }
 
-  return router.parseUrl('/login');
+  return router.parseUrl('/auth/login');
 };
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'auth',
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: '', redirectTo: 'login', pathMatch: 'full' }
+    ]
+  },
   { 
     path: 'dashboard', 
     component: DashboardComponent,
     canActivate: [authGuard]
   },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' }
 ];

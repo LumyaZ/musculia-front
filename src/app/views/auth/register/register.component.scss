@@ -192,51 +192,6 @@
     border: 1px solid rgba(map.get($colors, 'error'), 0.2);
   }
 
-  .alert {
-    margin-bottom: map.get($spacing, 'lg');
-    padding: map.get($spacing, 'md');
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: map.get($spacing, 'md');
-    animation: slideIn 0.3s ease-out;
-
-    &.alert-error {
-      background-color: rgba(map.get($colors, 'error'), 0.1);
-      border: 1px solid rgba(map.get($colors, 'error'), 0.3);
-    }
-
-    .alert-icon {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background-color: map.get($colors, 'error');
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-
-    .alert-message {
-      color: map.get($colors, 'error');
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-  }
-
-  @keyframes slideIn {
-    from {
-      transform: translateY(-10px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
   .auth-links {
     text-align: center;
     margin-top: map.get($spacing, 'lg');
@@ -252,12 +207,5 @@
         text-decoration: underline;
       }
     }
-  }
-
-}
-
-@include responsive('tablet') {
-  .login-card {
-    padding: map.get($spacing, 'xl');
   }
 } 
