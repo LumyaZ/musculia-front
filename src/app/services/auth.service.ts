@@ -18,7 +18,10 @@ export class AuthService {
           localStorage.setItem('user', JSON.stringify(response));
         }
       }),
-      catchError(this.handleError)
+      catchError(error => {
+        console.log('AuthService - Erreur de connexion:', error);
+        return throwError(() => error);
+      })
     );
   }
 
@@ -39,7 +42,7 @@ export class AuthService {
       }
     }
     
-    return throwError(() => errorMessage);
+    return throwError(() => ({ message: errorMessage }));
   }
 
   logout() {
