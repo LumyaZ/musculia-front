@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export interface RegisterData {
   email: string;
@@ -22,25 +23,27 @@ export interface AuthResponse {
 export class AuthService {
   private apiUrl = 'http://localhost:8081/api/auth';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   register(data: RegisterData): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data).pipe(
       tap(response => {
         if (response) {
-          localStorage.setItem('user', JSON.stringify(response.user));
-          localStorage.setItem('token', response.token);
+          this.setSession(response);
         }
       }),
       catchError(this.handleError)
     );
   }
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(response => {
         if (response) {
-          localStorage.setItem('user', JSON.stringify(response));
+          this.setSession(response);
         }
       }),
       catchError(error => {
@@ -48,6 +51,33 @@ export class AuthService {
         return throwError(() => error);
       })
     );
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.router.navigate(['/auth/login']);
+  }
+
+  getCurrentUser() {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      return JSON.parse(userStr);
+    }
+    return null;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  private setSession(response: AuthResponse) {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -66,31 +96,13 @@ export class AuthService {
         }
       } else if (error.status === 401) {
         errorMessage = 'Non autorisé';
+      } else if (error.status === 403) {
+        errorMessage = 'Accès refusé';
       } else if (error.status === 404) {
-        errorMessage = 'Utilisateur non trouvé';
-      } else if (error.status === 409) {
-        errorMessage = 'Cet email est déjà utilisé';
+        errorMessage = 'Ressource non trouvée';
       }
     }
     
-    return throwError(() => ({ message: errorMessage }));
-  }
-
-  logout() {
-    // Suppression de toutes les données d'authentification
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-  }
-
-  getCurrentUser() {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      return JSON.parse(userStr);
-    }
-    return null;
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getCurrentUser();
+    return throwError(() => new Error(errorMessage));
   }
 } 
