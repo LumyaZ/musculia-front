@@ -11,7 +11,7 @@
 
 .login-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   padding: map.get($spacing, 'xl');
   @include glass-effect;
   border-radius: 24px;
@@ -256,5 +256,11 @@
 @include responsive('tablet') {
   .login-card {
     padding: map.get($spacing, 'xl');
+  }
+}
+
+@include responsive('desktop') {
+  .login-card {
+    max-width: 700px;
   }
 } 
