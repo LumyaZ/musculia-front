@@ -1,0 +1,16 @@
+<header class="header">
+  <div class="header-left">
+    <h1 class="page-title">{{ pageTitle }}</h1>
+  </div>
+
+  <div class="header-right">
+    <button class="profile-button" routerLink="/profile">
+      <i class="fas fa-user-circle"></i>
+      <span>Profil</span>
+    </button>
+    <button class="logout-button" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Déconnexion</span>
+    </button>
+  </div>
+</header> 
