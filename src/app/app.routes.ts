@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { HomeComponent } from './views/dashboard/home/home.component';
 import { ActivityComponent } from './views/dashboard/activity/activity.component';
 import { YouComponent } from './views/dashboard/you/you.component';
+import { ProfilePageComponent } from './views/profile-page/profile-page.component';
 
 const authGuard = () => {
   const authService = inject(AuthService);
@@ -43,7 +44,7 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    component: UserProfileComponent,
+    component: ProfilePageComponent,
     canActivate: [authGuard]
   },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' }
