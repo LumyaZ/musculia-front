@@ -6,6 +6,9 @@ import { UserProfileComponent } from './views/user-profile/user-profile.componen
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
+import { HomeComponent } from './views/dashboard/home/home.component';
+import { ActivityComponent } from './views/dashboard/activity/activity.component';
+import { YouComponent } from './views/dashboard/you/you.component';
 
 const authGuard = () => {
   const authService = inject(AuthService);
@@ -30,7 +33,13 @@ export const routes: Routes = [
   { 
     path: 'dashboard', 
     component: DashboardComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'activity', component: ActivityComponent },
+      { path: 'you', component: YouComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' }
+    ]
   },
   {
     path: 'profile',

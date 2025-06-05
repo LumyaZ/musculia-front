@@ -1,47 +1,5 @@
+<app-nav-bar></app-nav-bar>
+
 <div class="dashboard-container">
-  <header class="dashboard-header">
-    <h1>Tableau de bord</h1>
-    <div class="user-info">
-      <span>Bienvenue, {{ currentUser?.email }}</span>
-    </div>
-  </header>
-
-  <main class="dashboard-content">
-    <div class="dashboard-grid">
-      <!-- Section Statistiques -->
-      <section class="stats-section">
-        <h2>Statistiques</h2>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h3>Entraînements</h3>
-            <p class="stat-value">0</p>
-          </div>
-          <div class="stat-card">
-            <h3>Exercices</h3>
-            <p class="stat-value">0</p>
-          </div>
-          <div class="stat-card">
-            <h3>Progression</h3>
-            <p class="stat-value">0%</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section Activité Récente -->
-      <section class="recent-activity">
-        <h2>Activité Récente</h2>
-        <div class="activity-list">
-          <p class="no-activity">Aucune activité récente</p>
-        </div>
-      </section>
-
-      <!-- Section Prochains Entraînements -->
-      <section class="upcoming-workouts">
-        <h2>Prochains Entraînements</h2>
-        <div class="workout-list">
-          <p class="no-workouts">Aucun entraînement planifié</p>
-        </div>
-      </section>
-    </div>
-  </main>
+  <router-outlet></router-outlet>
 </div> 
