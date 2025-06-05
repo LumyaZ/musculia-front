@@ -1,7 +1,10 @@
 .dashboard-container {
-  padding-top: 80px;
+  padding-top: 4.5rem;
+  padding-bottom: 4rem;
   min-height: 100vh;
   background-color: #f5f7fa;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .dashboard-header {
@@ -112,5 +115,14 @@
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+// Desktop styles
+@media (min-width: 768px) {
+  .dashboard-container {
+    padding-top: 5.5rem;
+    padding-bottom: 5rem;
+    max-width: 1200px;
   }
 } 

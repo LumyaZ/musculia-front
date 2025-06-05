@@ -1,58 +1,93 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: white;
-  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
 
-  .header-left {
-    .page-title {
-      color: #2d3748;
-      font-size: 1.5rem;
-      margin: 0;
-      font-weight: 600;
+.page-title {
+  color: #2d3748;
+  font-size: 1.25rem;
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  right: 0;
+}
+
+.icon-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 1.25rem;
+  }
+
+  &.profile-button {
+    background-color: #ebf8ff;
+    color: #3182ce;
+
+    &:hover {
+      background-color: #bee3f8;
     }
   }
 
-  .header-right {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  &.logout-button {
+    background-color: #fff5f5;
+    color: #e53e3e;
 
-    button {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.9rem;
+    &:hover {
+      background-color: #fed7d7;
+    }
+  }
+}
 
-      i {
-        font-size: 1.2rem;
-      }
+// Desktop styles
+@media (min-width: 768px) {
+  .header {
+    padding: 1.5rem;
+  }
 
-      &.profile-button {
-        background-color: #ebf8ff;
-        color: #3182ce;
+  .header-content {
+    max-width: 1200px;
+  }
 
-        &:hover {
-          background-color: #bee3f8;
-        }
-      }
+  .page-title {
+    font-size: 1.5rem;
+  }
 
-      &.logout-button {
-        background-color: #fff5f5;
-        color: #e53e3e;
+  .icon-button {
+    width: 3rem;
+    height: 3rem;
 
-        &:hover {
-          background-color: #fed7d7;
-        }
-      }
+    i {
+      font-size: 1.5rem;
     }
   }
 }
