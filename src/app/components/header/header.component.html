@@ -1,13 +1,11 @@
 <header class="header">
   <div class="header-content">
+    <button class="icon-button profile-button" routerLink="/profile">
+      <i class="fas fa-user"></i>
+    </button>
     <h1 class="page-title">{{ pageTitle }}</h1>
-    <div class="header-actions">
-      <button class="icon-button profile-button" routerLink="/profile">
-        <i class="fas fa-user-circle"></i>
-      </button>
-      <button class="icon-button logout-button" (click)="logout()">
-        <i class="fas fa-sign-out-alt"></i>
-      </button>
-    </div>
+    <button class="icon-button logout-button" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+    </button>
   </div>
 </header> 
