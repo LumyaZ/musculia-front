@@ -1,8 +1,12 @@
+@use "sass:map";
+@use "../../../styles/_variables.scss" as *;
+
 .dashboard-container {
   padding-top: 4.5rem;
   padding-bottom: 4rem;
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background-color: map.get($colors, 'background');
+  color: map.get($colors, 'primary');
   max-width: 600px;
   margin: 0 auto;
 }

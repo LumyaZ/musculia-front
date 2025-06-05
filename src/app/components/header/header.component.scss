@@ -1,10 +1,14 @@
+@use "sass:map";
+@use "../../../styles/_variables.scss" as *;
+@use "../../../styles/_mixins.scss" as *;
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: map.get($colors, 'surface');
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   padding: 1rem;
   display: flex;
@@ -19,7 +23,7 @@
 }
 
 .page-title {
-  color: #2d3748;
+  color: map.get($colors, 'primary');
   font-size: 1.25rem;
   margin: 0 auto;
   font-weight: 600;
@@ -48,20 +52,20 @@
   }
 
   &.profile-button {
-    background-color: #ebf8ff;
-    color: #3182ce;
+    background-color: rgba(map.get($colors, 'primary'), 0.1);
+    color: map.get($colors, 'primary');
 
     &:hover {
-      background-color: #bee3f8;
+      background-color: rgba(map.get($colors, 'primary'), 0.2);
     }
   }
 
   &.logout-button {
-    background-color: #fff5f5;
-    color: #e53e3e;
+    background-color: rgba(map.get($colors, 'error'), 0.1);
+    color: map.get($colors, 'error');
 
     &:hover {
-      background-color: #fed7d7;
+      background-color: rgba(map.get($colors, 'error'), 0.2);
     }
   }
 }
