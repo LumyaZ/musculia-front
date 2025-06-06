@@ -71,7 +71,7 @@
     align-items: center;
     margin-bottom: 0;
     border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
-    padding-bottom: 0;
+    padding: map.get($spacing, 'md') 0;
     /* Ensure no top margin here */
     margin-top: 0;
 
@@ -82,17 +82,22 @@
     }
 
     .modify-button {
-      background-color: rgba(map.get($colors, 'primary'), 0.1); /* Fond léger */
-      color: map.get($colors, 'primary'); /* Couleur icône/texte */
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
       border: none;
-      border-radius: 8px;
-      padding: map.get($spacing, 'xs') map.get($spacing, 'sm');
-      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: all 0.3s ease;
+      background-color: rgba(map.get($colors, 'primary'), 0.1);
+      color: map.get($colors, 'primary');
+      padding: 0;
 
       i {
-        margin-right: map.get($spacing, 'xs');
+        font-size: 1rem;
+        margin: 0;
       }
 
       &:hover {
@@ -104,15 +109,10 @@
   .section-content {
     color: map.get($colors, 'secondary');
     font-size: 1rem;
-
-    /* Ensure no vertical margin on any direct child of section-content */
-    & > * {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
+    padding: map.get($spacing, 'md') 0;
 
     p {
-      margin: 0;
+      margin: map.get($spacing, 'xs') 0;
     }
   }
 }
@@ -141,8 +141,12 @@
       }
 
       .modify-button {
-        font-size: 1rem;
-        padding: map.get($spacing, 'sm') map.get($spacing, 'md');
+        width: 2.5rem;
+        height: 2.5rem;
+
+        i {
+          font-size: 1.25rem;
+        }
       }
     }
   }
