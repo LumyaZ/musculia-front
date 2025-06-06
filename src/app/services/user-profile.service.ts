@@ -14,4 +14,9 @@ export class UserProfileService {
   saveProfile(profile: UserProfile): Observable<UserProfile> {
     return this.http.post<UserProfile>(this.apiUrl, profile);
   }
+
+  getProfileByUserId(userId: number): Observable<UserProfile> {
+    const url = `${this.apiUrl}/user/${userId}`;
+    return this.http.get<UserProfile>(url);
+  }
 } 

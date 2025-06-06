@@ -10,6 +10,7 @@ import { HomeComponent } from './views/dashboard/home/home.component';
 import { ActivityComponent } from './views/dashboard/activity/activity.component';
 import { YouComponent } from './views/dashboard/you/you.component';
 import { ProfilePageComponent } from './views/profile-page/profile-page.component';
+import { provideHttpClient } from '@angular/common/http';
 
 const authGuard = () => {
   const authService = inject(AuthService);
@@ -45,7 +46,8 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfilePageComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    providers: [provideHttpClient()]
   },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' }
 ];
