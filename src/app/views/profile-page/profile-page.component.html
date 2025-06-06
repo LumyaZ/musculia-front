@@ -17,7 +17,7 @@
       </button>
     </div>
     <div class="section-content">
-      <p>Genre: {{ userProfile?.gender }}</p>
+      <p>Genre: {{ getTranslatedGender(userProfile?.gender) }}</p>
       <p>Poids: {{ userProfile?.weight }} kg</p>
       <p>Taille: {{ userProfile?.height }} cm</p>
       <p>Masse Grasse: {{ userProfile?.bodyFat }}%</p>
@@ -48,8 +48,8 @@
       </button>
     </div>
     <div class="section-content">
-      <p>Objectif Principal: {{ userProfile?.goal }}</p>
-      <p>Préférence d'Entraînement: {{ userProfile?.trainingPreference }}</p>
+      <p>Objectif Principal: {{ getTranslatedGoal(userProfile?.goal) }}</p>
+      <p>Préférence d'Entraînement: {{ getTranslatedTrainingPreference(userProfile?.trainingPreference) }}</p>
     </div>
   </div>
 
