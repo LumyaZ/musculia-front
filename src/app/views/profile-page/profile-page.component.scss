@@ -1,1 +1,149 @@
- 
+@use "sass:map";
+@use "../../../styles/_variables.scss" as *;
+@use "../../../styles/_mixins.scss" as *;
+
+.profile-container {
+  background-color: map.get($colors, 'background');
+  color: map.get($colors, 'primary');
+  min-height: calc(100vh - 4.5rem - 4rem); /* Ajuste pour le header et la nav-bar */
+
+  /* Remove max-width and auto margins for mobile full width */
+  display: flex;
+  flex-direction: column;
+  gap: map.get($spacing, 'lg'); /* Further increased space between blocks */
+}
+
+.personal-info-block,
+.profile-section-block {
+  background-color: map.get($colors, 'surface'); /* Couleur de surface sombre */
+  padding: 0 map.get($spacing, 'lg'); /* Removed vertical padding, kept horizontal padding */
+  border-radius: 0; /* Remove border-radius */
+  box-shadow: none; /* Remove box-shadow */
+  margin: 0; /* Ensure no vertical margin on the blocks themselves */
+
+  /* Remove top margin from the first child and bottom margin from the last child */
+  & > *:first-child {
+    margin-top: 0;
+  }
+
+  & > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.personal-info-block {
+  h2 {
+    color: map.get($colors, 'primary');
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+    padding-bottom: map.get($spacing, 'xs');
+  }
+
+  /* Ensure no vertical margin on any direct child of personal-info-block */
+  & > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  p {
+    color: map.get($colors, 'secondary');
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+
+  .follower-info {
+    display: flex;
+    gap: map.get($spacing, 'md');
+    font-size: 0.9rem;
+    color: map.get($colors, 'accent');
+    /* Ensure no vertical margin */
+    margin: 0;
+  }
+}
+
+.profile-section-block {
+  margin-top: 0; /* Ensure no top margin on section blocks */
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+    padding-bottom: 0;
+    /* Ensure no top margin here */
+    margin-top: 0;
+
+    h3 {
+      color: map.get($colors, 'primary');
+      font-size: 1.25rem;
+      margin: 0;
+    }
+
+    .modify-button {
+      background-color: rgba(map.get($colors, 'primary'), 0.1); /* Fond léger */
+      color: map.get($colors, 'primary'); /* Couleur icône/texte */
+      border: none;
+      border-radius: 8px;
+      padding: map.get($spacing, 'xs') map.get($spacing, 'sm');
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+
+      i {
+        margin-right: map.get($spacing, 'xs');
+      }
+
+      &:hover {
+        background-color: rgba(map.get($colors, 'primary'), 0.2);
+      }
+    }
+  }
+
+  .section-content {
+    color: map.get($colors, 'secondary');
+    font-size: 1rem;
+
+    /* Ensure no vertical margin on any direct child of section-content */
+    & > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+// Desktop styles
+@media (min-width: 768px) {
+  .profile-container {
+    min-height: calc(100vh - 5.5rem - 5rem); /* Ajuste pour le header et la nav-bar desktop */
+    margin-top: 5.5rem; /* Espacement pour le header desktop */
+    margin-bottom: 5rem; /* Espacement pour la nav-bar desktop */
+    max-width: 1200px; /* Largeur desktop */
+    margin-left: auto; /* Center on desktop */
+    margin-right: auto; /* Center on desktop */
+  }
+
+  .personal-info-block {
+    h2 {
+      font-size: 1.75rem;
+    }
+  }
+
+  .profile-section-block {
+    .section-header {
+      h3 {
+        font-size: 1.4rem;
+      }
+
+      .modify-button {
+        font-size: 1rem;
+        padding: map.get($spacing, 'sm') map.get($spacing, 'md');
+      }
+    }
+  }
+} 
