@@ -49,6 +49,13 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
+  getInitials(): string {
+    if (!this.userProfile?.authUser?.email) {
+      return 'U';
+    }
+    return this.userProfile.authUser.email.substring(0, 2).toUpperCase();
+  }
+
   getTranslatedGender(gender: string | undefined): string {
     return this.translationService.translateGender(gender as any);
   }

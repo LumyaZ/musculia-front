@@ -3,67 +3,167 @@
 @use "../../../styles/_mixins.scss" as *;
 
 .profile-container {
-  background-color: map.get($colors, 'background');
-  color: map.get($colors, 'primary');
-  min-height: calc(100vh - 4.5rem - 4rem); /* Ajuste pour le header et la nav-bar */
-
-  /* Remove max-width and auto margins for mobile full width */
+  padding: map.get($spacing, 'md');
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: calc(100vh - 5.5rem - 5rem);
+  margin-bottom: 5rem;
   display: flex;
   flex-direction: column;
-  gap: map.get($spacing, 'lg'); /* Further increased space between blocks */
-}
-
-.personal-info-block,
-.profile-section-block {
-  background-color: map.get($colors, 'surface'); /* Couleur de surface sombre */
-  padding: 0 map.get($spacing, 'lg'); /* Removed vertical padding, kept horizontal padding */
-  border-radius: 0; /* Remove border-radius */
-  box-shadow: none; /* Remove box-shadow */
-  margin: 0; /* Ensure no vertical margin on the blocks themselves */
-
-  /* Remove top margin from the first child and bottom margin from the last child */
-  & > *:first-child {
-    margin-top: 0;
-  }
-
-  & > *:last-child {
-    margin-bottom: 0;
-  }
+  gap: map.get($spacing, 'lg');
 }
 
 .personal-info-block {
-  h2 {
-    color: map.get($colors, 'primary');
-    font-size: 1.5rem;
-    margin-bottom: 0;
-    border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
-    padding-bottom: map.get($spacing, 'xs');
-  }
+  position: relative;
+  background-color: map.get($colors, 'surface'); /* Dark surface color */
+  padding: map.get($spacing, 'xl');
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align the main blocks to the left */
+  gap: map.get($spacing, 'lg');
+  margin-top: map.get($spacing, 'lg'); /* Increased top margin */
 
-  /* Ensure no vertical margin on any direct child of personal-info-block */
-  & > * {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  p {
-    color: map.get($colors, 'secondary');
-    margin-bottom: 0;
-    font-size: 1rem;
-  }
-
-  .follower-info {
+  .back-button {
+    position: absolute;
+    top: map.get($spacing, 'md');
+    left: map.get($spacing, 'md');
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
     display: flex;
-    gap: map.get($spacing, 'md');
-    font-size: 0.9rem;
-    color: map.get($colors, 'accent');
-    /* Ensure no vertical margin */
-    margin: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: white; /* White background */
+    color: map.get($colors, 'primary'); /* Primary color arrow */
+    padding: 0;
+    z-index: 10;
+
+    i {
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    &:hover {
+      background-color: map.get($colors, 'accent'); /* Light grey hover */
+    }
+  }
+
+  .profile-main {
+    display: flex;
+    flex-direction: column; /* Stack header and stats vertically */
+    align-items: flex-start; /* Align header and stats block to the left */
+    gap: map.get($spacing, 'lg');
+    width: 100%; /* Take full width */
+    margin-top: map.get($spacing, 'lg');
+
+    .profile-header {
+      display: flex;
+      flex-direction: row; /* Avatar and info in a row */
+      align-items: center; /* Vertically align avatar and info */
+      gap: map.get($spacing, 'md');
+      /* Remove width and justify here, parent handles alignment */
+
+      .profile-avatar {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .profile-info {
+        text-align: left;
+
+        h2 {
+          color: white;
+          font-size: 1.5rem;
+          margin: 0;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: map.get($spacing, 'xl');
+      margin-top: map.get($spacing, 'md');
+      justify-content: center; /* Center stats horizontally */
+      width: fit-content; /* Make width fit content */
+      margin-left: auto;
+      margin-right: auto; /* Center the block horizontally within profile-main */
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: map.get($spacing, 'xs');
+
+        .stat-value {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: map.get($colors, 'primary');
+        }
+
+        .stat-label {
+          font-size: 0.9rem;
+          color: map.get($colors, 'secondary');
+        }
+      }
+    }
+  }
+
+  .modify-button {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center button content */
+    gap: map.get($spacing, 'sm');
+    padding: map.get($spacing, 'md') map.get($spacing, 'lg');
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(45deg, #ffffff, #cccccc); /* White to grey gradient */
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: map.get($spacing, 'lg');
+    width: 100%;
+    max-width: 300px; /* Limit button width */
+    margin-left: auto;
+    margin-right: auto; /* Center button horizontally within personal-info-block */
+
+    i {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    span {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 }
 
 .profile-section-block {
-  margin-top: 0; /* Ensure no top margin on section blocks */
+  background-color: map.get($colors, 'surface');
+  padding: 0 map.get($spacing, 'lg');
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
 
   .section-header {
     display: flex;
@@ -72,7 +172,6 @@
     margin-bottom: 0;
     border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
     padding: map.get($spacing, 'md') 0;
-    /* Ensure no top margin here */
     margin-top: 0;
 
     h3 {
@@ -107,11 +206,12 @@
   }
 
   .section-content {
-    color: map.get($colors, 'secondary');
-    font-size: 1rem;
     padding: map.get($spacing, 'md') 0;
 
     p {
+      color: map.get($colors, 'secondary');
+      margin-bottom: 0;
+      font-size: 1rem;
       margin: map.get($spacing, 'xs') 0;
     }
   }
@@ -120,17 +220,66 @@
 // Desktop styles
 @media (min-width: 768px) {
   .profile-container {
-    min-height: calc(100vh - 5.5rem - 5rem); /* Ajuste pour le header et la nav-bar desktop */
-    margin-top: 5.5rem; /* Espacement pour le header desktop */
-    margin-bottom: 5rem; /* Espacement pour la nav-bar desktop */
-    max-width: 1200px; /* Largeur desktop */
-    margin-left: auto; /* Center on desktop */
-    margin-right: auto; /* Center on desktop */
+    min-height: calc(100vh - 5.5rem - 5rem);
+    margin-top: 5.5rem;
+    margin-bottom: 5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .personal-info-block {
-    h2 {
-      font-size: 1.75rem;
+    padding: map.get($spacing, 'xl');
+    align-items: flex-start; /* Align main items to the left on desktop */
+
+    .back-button {
+      top: map.get($spacing, 'xl');
+      left: map.get($spacing, 'xl');
+    }
+
+    .profile-main {
+      flex-direction: column; /* Stack header and stats vertically on desktop */
+      gap: map.get($spacing, 'xl');
+      margin-top: map.get($spacing, 'md');
+      align-items: flex-start; /* Align items within profile-main to the left on desktop */
+
+      .profile-header {
+        flex-direction: row;
+        gap: map.get($spacing, 'lg');
+        /* Remove width and justify here, parent handles alignment */
+
+        .profile-avatar {
+          width: 6rem;
+          height: 6rem;
+          font-size: 2.5rem;
+          margin-bottom: 0;
+          border: 3px solid white;
+        }
+
+        .profile-info {
+          text-align: left;
+
+          h2 {
+            font-size: 1.75rem;
+          }
+        }
+      }
+
+      .profile-stats {
+        flex-direction: row;
+        gap: map.get($spacing, 'xl');
+        margin-top: map.get($spacing, 'md'); /* Add top margin on desktop */
+        justify-content: center; /* Center stats horizontally */
+        width: auto; /* Allow stats to take natural width */
+        margin-left: auto;
+        margin-right: auto; /* Center the block horizontally */
+      }
+    }
+
+    .modify-button {
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto; /* Center button horizontally */
     }
   }
 

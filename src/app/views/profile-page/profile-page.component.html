@@ -1,26 +1,48 @@
 <div class="profile-container" *ngIf="userProfile">
   <div class="personal-info-block">
-    <h2>Informations Personnelles</h2>
-    <p>Email: {{ userProfile?.authUser?.email }}</p>
-    <div class="follower-info">
-      <span>0 Abonnés</span>
-      <span>0 Abonnements</span>
+    <button class="back-button" routerLink="/dashboard">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    
+    <div class="profile-main">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          {{ getInitials() }}
+        </div>
+        <div class="profile-info">
+          <h2>{{ userProfile.authUser?.email || 'Utilisateur' }}</h2>
+          <!-- Add logic here later for first/last name if available -->
+        </div>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <span class="stat-value">0</span>
+          <span class="stat-label">Abonnements</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">0</span>
+          <span class="stat-label">Abonnés</span>
+        </div>
+      </div>
     </div>
+
+    <button class="modify-button">
+      <i class="fas fa-pencil-alt"></i>
+      <span>MODIFIER</span>
+    </button>
   </div>
 
   <!-- Section basée sur "Informations Complémentaires" -->
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Informations Complémentaires</h3>
-      <button class="modify-button">
-        <i class="fas fa-pencil-alt"></i>
-      </button>
     </div>
     <div class="section-content">
-      <p>Genre: {{ getTranslatedGender(userProfile?.gender) }}</p>
-      <p>Poids: {{ userProfile?.weight }} kg</p>
-      <p>Taille: {{ userProfile?.height }} cm</p>
-      <p>Masse Grasse: {{ userProfile?.bodyFat }}%</p>
+      <p>Genre: {{ getTranslatedGender(userProfile.gender) }}</p>
+      <p>Poids: {{ userProfile.weight }} kg</p>
+      <p>Taille: {{ userProfile.height }} cm</p>
+      <p>Masse Grasse: {{ userProfile.bodyFat }}%</p>
     </div>
   </div>
 
@@ -28,14 +50,11 @@
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Expérience d'Entraînement</h3>
-      <button class="modify-button">
-        <i class="fas fa-pencil-alt"></i>
-      </button>
     </div>
     <div class="section-content">
-      <p>Années d'Expérience: {{ userProfile?.experienceYears }}</p>
-      <p>Sessions par Semaine: {{ userProfile?.trainingFrequency }}</p>
-      <p>Durée des Sessions: {{ userProfile?.sessionDuration }} minutes</p>
+      <p>Années d'Expérience: {{ userProfile.experienceYears }}</p>
+      <p>Sessions par Semaine: {{ userProfile.trainingFrequency }}</p>
+      <p>Durée des Sessions: {{ userProfile.sessionDuration }} minutes</p>
     </div>
   </div>
 
@@ -43,29 +62,22 @@
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Objectifs et Préférences</h3>
-      <button class="modify-button">
-        <i class="fas fa-pencil-alt"></i>
-      </button>
     </div>
     <div class="section-content">
-      <p>Objectif Principal: {{ getTranslatedGoal(userProfile?.goal) }}</p>
-      <p>Préférence d'Entraînement: {{ getTranslatedTrainingPreference(userProfile?.trainingPreference) }}</p>
+      <p>Objectif Principal: {{ getTranslatedGoal(userProfile.goal) }}</p>
+      <p>Préférence d'Entraînement: {{ getTranslatedTrainingPreference(userProfile.trainingPreference) }}</p>
     </div>
   </div>
 
-    <!-- Section basée sur "Équipement" -->
-    <div class="profile-section-block">
-      <div class="section-header">
-        <h3>Équipement Disponible</h3>
-        <button class="modify-button">
-          <i class="fas fa-pencil-alt"></i>
-        </button>
-      </div>
-      <div class="section-content">
-        <p>Équipement: {{ userProfile?.equipmentAvailable }}</p>
-      </div>
+  <!-- Section basée sur "Équipement" -->
+  <div class="profile-section-block">
+    <div class="section-header">
+      <h3>Équipement Disponible</h3>
     </div>
-
+    <div class="section-content">
+      <p>Équipement: {{ userProfile.equipmentAvailable }}</p>
+    </div>
+  </div>
 </div>
 
 <!-- Optional: Display a loading message if userProfile is null -->
