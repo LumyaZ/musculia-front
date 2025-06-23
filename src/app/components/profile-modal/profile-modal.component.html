@@ -1,0 +1,113 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ getModalTitle() }}</h2>
+      <button class="close-button" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="onSubmit()" #profileForm="ngForm">
+        <!-- Informations Complémentaires -->
+        <div class="form-section" *ngIf="modalType === 'basic'">
+          <h3>Informations Complémentaires</h3>
+          <div class="form-group">
+            <label>Genre</label>
+            <div class="radio-group">
+              <label *ngFor="let gender of genders">
+                <input type="radio" name="gender" [value]="gender" [(ngModel)]="editedProfile.gender">
+                <span>{{ translationService.translateGender(gender) }}</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="weight">Poids (kg)</label>
+            <div class="input-container">
+              <input type="number" id="weight" name="weight" [(ngModel)]="editedProfile.weight" [min]="MIN_WEIGHT" [max]="MAX_WEIGHT">
+            </div>
+            <small class="help-text">Entre {{MIN_WEIGHT}} et {{MAX_WEIGHT}} kg</small>
+          </div>
+          <div class="form-group">
+            <label for="height">Taille (cm)</label>
+            <div class="input-container">
+              <input type="number" id="height" name="height" [(ngModel)]="editedProfile.height" [min]="MIN_HEIGHT" [max]="MAX_HEIGHT">
+            </div>
+            <small class="help-text">Entre {{MIN_HEIGHT}} et {{MAX_HEIGHT}} cm</small>
+          </div>
+          <div class="form-group">
+            <label for="bodyFat">Masse grasse (%)</label>
+            <div class="input-container">
+              <input type="number" id="bodyFat" name="bodyFat" [(ngModel)]="editedProfile.bodyFat" [min]="MIN_BODY_FAT" [max]="MAX_BODY_FAT">
+            </div>
+            <small class="help-text">Entre {{MIN_BODY_FAT}} et {{MAX_BODY_FAT}} %</small>
+          </div>
+        </div>
+        <!-- Expérience d'Entraînement -->
+        <div class="form-section" *ngIf="modalType === 'experience'">
+          <h3>Expérience d'Entraînement</h3>
+          <div class="form-group">
+            <label for="experienceYears">Années d'expérience</label>
+            <div class="input-container">
+              <input type="number" id="experienceYears" name="experienceYears" [(ngModel)]="editedProfile.experienceYears" [min]="MIN_EXPERIENCE" [max]="MAX_EXPERIENCE">
+            </div>
+            <small class="help-text">Entre {{MIN_EXPERIENCE}} et {{MAX_EXPERIENCE}} ans</small>
+          </div>
+          <div class="form-group">
+            <label for="trainingFrequency">Sessions par semaine</label>
+            <div class="input-container">
+              <input type="number" id="trainingFrequency" name="trainingFrequency" [(ngModel)]="editedProfile.trainingFrequency" [min]="MIN_FREQUENCY" [max]="MAX_FREQUENCY">
+            </div>
+            <small class="help-text">Entre {{MIN_FREQUENCY}} et {{MAX_FREQUENCY}} sessions</small>
+          </div>
+          <div class="form-group">
+            <label for="sessionDuration">Durée des sessions (minutes)</label>
+            <div class="input-container">
+              <input type="number" id="sessionDuration" name="sessionDuration" [(ngModel)]="editedProfile.sessionDuration" [min]="MIN_DURATION" [max]="MAX_DURATION">
+            </div>
+            <small class="help-text">Entre {{MIN_DURATION}} et {{MAX_DURATION}} minutes</small>
+          </div>
+        </div>
+        <!-- Objectifs et Préférences -->
+        <div class="form-section" *ngIf="modalType === 'goals'">
+          <h3>Objectifs et Préférences</h3>
+          <div class="form-group">
+            <label>Objectif Principal</label>
+            <div class="radio-group radio-grid">
+              <label *ngFor="let goal of goals">
+                <input type="radio" name="goal" [value]="goal" [(ngModel)]="editedProfile.goal">
+                <span>{{ translationService.translateGoal(goal) }}</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Préférence d'Entraînement</label>
+            <div class="radio-group radio-grid">
+              <label *ngFor="let pref of trainingPreferences">
+                <input type="radio" name="trainingPreference" [value]="pref" [(ngModel)]="editedProfile.trainingPreference">
+                <span>{{ translationService.translateTrainingPreference(pref) }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- Équipement -->
+        <div class="form-section" *ngIf="modalType === 'equipment'">
+          <h3>Équipement Disponible</h3>
+          <div class="form-group">
+            <div class="checkbox-group">
+              <div class="checkbox-button no-equipment">
+                <input type="checkbox" id="no-equipment" [checked]="selectedEquipment.includes('none')" (change)="toggleNoEquipment()">
+                <label for="no-equipment">Aucun équipement</label>
+              </div>
+              <div class="checkbox-button" *ngFor="let equipment of equipmentList">
+                <input type="checkbox" [id]="'equipment-' + equipment" [checked]="selectedEquipment.includes(equipment)" (change)="toggleEquipment(equipment)" [disabled]="selectedEquipment.includes('none')">
+                <label [for]="'equipment-' + equipment">{{equipment}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" (click)="close()">Annuler</button>
+          <button type="submit" class="btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

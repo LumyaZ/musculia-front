@@ -217,6 +217,32 @@
   }
 }
 
+.edit-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgba(map.get($colors, 'primary'), 0.1);
+  color: map.get($colors, 'primary');
+  padding: 0;
+  margin-left: 0.5rem;
+
+  i {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  &:hover {
+    background-color: map.get($colors, 'primary');
+    color: white;
+  }
+}
+
 // Desktop styles
 @media (min-width: 768px) {
   .profile-container {
@@ -229,7 +255,7 @@
 
   .personal-info-block {
     padding: map.get($spacing, 'xl');
-    align-items: flex-start; /* Align main items to the left on desktop */
+    align-items: flex-start; 
 
     .back-button {
       top: map.get($spacing, 'xl');

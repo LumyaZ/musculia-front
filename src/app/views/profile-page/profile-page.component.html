@@ -24,17 +24,15 @@
         </div>
       </div>
     </div>
-
-    <button class="modify-button">
-      <i class="fas fa-pencil-alt"></i>
-      <span>MODIFIER</span>
-    </button>
   </div>
 
   <!-- Section basée sur "Informations Complémentaires" -->
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Informations Complémentaires</h3>
+      <button class="edit-button" (click)="openModal('basic')">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
     <div class="section-content">
       <p>Genre: {{ getTranslatedGender(userProfile.gender) }}</p>
@@ -48,6 +46,9 @@
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Expérience d'Entraînement</h3>
+      <button class="edit-button" (click)="openModal('experience')">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
     <div class="section-content">
       <p>Années d'Expérience: {{ userProfile.experienceYears }}</p>
@@ -60,6 +61,9 @@
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Objectifs et Préférences</h3>
+      <button class="edit-button" (click)="openModal('goals')">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
     <div class="section-content">
       <p>Objectif Principal: {{ getTranslatedGoal(userProfile.goal) }}</p>
@@ -71,6 +75,9 @@
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Équipement Disponible</h3>
+      <button class="edit-button" (click)="openModal('equipment')">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
     <div class="section-content">
       <p>Équipement: {{ userProfile.equipmentAvailable }}</p>
@@ -81,4 +88,6 @@
 <!-- Optional: Display a loading message if userProfile is null -->
 <div *ngIf="!userProfile" class="loading-message">
   Chargement du profil...
-</div> 
+</div>
+
+<app-profile-modal></app-profile-modal> 

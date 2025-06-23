@@ -1,0 +1,312 @@
+@use "sass:map";
+@use "../../../styles/_variables.scss" as *;
+@use "../../../styles/_mixins.scss" as *;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  min-width: 320px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: map.get($colors, 'surface');
+  @include glass-effect;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: map.get($spacing, 'xl');
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(map.get($colors, 'primary'), 0.05);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(map.get($colors, 'primary'), 0.2);
+    border-radius: 4px;
+    
+    &:hover {
+      background: rgba(map.get($colors, 'primary'), 0.3);
+    }
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: map.get($spacing, 'lg');
+  padding-bottom: map.get($spacing, 'md');
+  border-bottom: 2px solid rgba(map.get($colors, 'primary'), 0.1);
+
+  h2 {
+    color: map.get($colors, 'primary');
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    color: map.get($colors, 'secondary');
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: map.get($spacing, 'xs');
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(map.get($colors, 'primary'), 0.1);
+      color: map.get($colors, 'primary');
+    }
+  }
+}
+
+.form-section {
+  margin-bottom: map.get($spacing, 'xl');
+  h3 {
+    color: map.get($colors, 'primary');
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: map.get($spacing, 'md');
+    margin-top: 0;
+  }
+}
+
+.form-group {
+  margin-bottom: map.get($spacing, 'lg');
+
+  label {
+    display: block;
+    color: map.get($colors, 'secondary');
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: map.get($spacing, 'xs');
+  }
+
+  .input-container {
+    position: relative;
+    
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: map.get($spacing, 'md');
+      background-color: rgba(map.get($colors, 'primary'), 0.05);
+      border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+      border-radius: 12px;
+      color: map.get($colors, 'primary');
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: map.get($colors, 'primary');
+        background-color: rgba(map.get($colors, 'primary'), 0.1);
+      }
+
+      &:hover {
+        background-color: rgba(map.get($colors, 'primary'), 0.08);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: auto;
+        margin: 0 8px;
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .help-text {
+    display: block;
+    color: map.get($colors, 'secondary');
+    font-size: 0.75rem;
+    margin-top: map.get($spacing, 'xs');
+    opacity: 0.8;
+  }
+}
+
+.radio-group.radio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: map.get($spacing, 'sm');
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.radio-group label {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.radio-group label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.radio-group label span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: map.get($spacing, 'md');
+  background-color: rgba(map.get($colors, 'primary'), 0.05);
+  border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+  border-radius: 12px;
+  color: map.get($colors, 'primary');
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.radio-group label input[type="radio"]:checked + span {
+  background: linear-gradient(45deg, map.get($colors, 'primary') 0%, map.get($colors, 'secondary') 100%);
+  color: map.get($colors, 'background');
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.form-group + .form-group {
+  margin-top: map.get($spacing, 'md');
+}
+
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: map.get($spacing, 'sm');
+
+  .checkbox-button {
+    position: relative;
+
+    &.no-equipment {
+      grid-column: 1 / -1;
+      margin-bottom: map.get($spacing, 'md');
+      border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+      padding-bottom: map.get($spacing, 'md');
+    }
+
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: map.get($spacing, 'md');
+      background-color: rgba(map.get($colors, 'primary'), 0.05);
+      border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+      border-radius: 12px;
+      color: map.get($colors, 'primary');
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+
+      &:hover {
+        background-color: rgba(map.get($colors, 'primary'), 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    input[type="checkbox"]:checked + label {
+      background: linear-gradient(45deg, map.get($colors, 'primary') 0%, map.get($colors, 'secondary') 100%);
+      color: map.get($colors, 'background');
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &.disabled label {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: map.get($spacing, 'md');
+  margin-top: map.get($spacing, 'xl');
+  padding-top: map.get($spacing, 'lg');
+  border-top: 2px solid rgba(map.get($colors, 'primary'), 0.1);
+
+  button {
+    padding: map.get($spacing, 'md') map.get($spacing, 'xl');
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.btn-secondary {
+      background-color: rgba(map.get($colors, 'primary'), 0.1);
+      color: map.get($colors, 'primary');
+      border: 1px solid rgba(map.get($colors, 'primary'), 0.2);
+
+      &:hover {
+        background-color: rgba(map.get($colors, 'primary'), 0.15);
+        transform: translateY(-2px);
+      }
+    }
+
+    &.btn-primary {
+      background: linear-gradient(45deg, 
+        map.get($colors, 'blue') 0%,
+        map.get($colors, 'dark-blue') 100%
+      );
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+} 

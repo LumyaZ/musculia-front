@@ -1,19 +1,24 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { UserProfileService } from '../../services/user-profile.service';
 import { UserProfile } from '../../_models/user-profile.model';
 import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../services/translation.service';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
+import { ProfileModalComponent, ModalType } from '../../components/profile-modal/profile-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule, NavBarComponent],
+  imports: [CommonModule, NavBarComponent, ProfileModalComponent],
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss']
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy {
 
   userProfile: UserProfile | null = null;
+  modalType: ModalType = 'basic';
+  @ViewChild(ProfileModalComponent) profileModal!: ProfileModalComponent;
+  private refreshSubscription?: Subscription;
 
   constructor(
     private userProfileService: UserProfileService,
@@ -22,6 +27,21 @@ export class ProfilePageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadUserProfile();
+    
+    // S'abonner aux mises à jour du profil
+    this.refreshSubscription = this.userProfileService.refreshNeeded$.subscribe(() => {
+      this.loadUserProfile();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
+  }
+
+  private loadUserProfile(): void {
     const userDataString = localStorage.getItem('user');
     if (userDataString) {
       try {
@@ -69,4 +89,10 @@ export class ProfilePageComponent implements OnInit {
     return this.translationService.translateTrainingPreference(preference as any);
   }
 
+  openModal(type: ModalType) {
+    if (this.userProfile && this.profileModal) {
+      this.profileModal.modalType = type;
+      this.profileModal.show(this.userProfile);
+    }
+  }
 }
