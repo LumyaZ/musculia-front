@@ -89,6 +89,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     return this.translationService.translateTrainingPreference(preference as any);
   }
 
+  getEquipmentList(): string[] {
+    if (!this.userProfile?.equipmentAvailable) {
+      return [];
+    }
+    return this.userProfile.equipmentAvailable.split(',').filter(item => item !== 'none');
+  }
+
   openModal(type: ModalType) {
     if (this.userProfile && this.profileModal) {
       this.profileModal.modalType = type;

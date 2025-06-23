@@ -15,15 +15,16 @@
 
 .personal-info-block {
   position: relative;
-  background-color: map.get($colors, 'surface'); /* Dark surface color */
+  background-color: map.get($colors, 'surface');
   padding: map.get($spacing, 'xl');
-  border-radius: 12px;
+  border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  @include glass-effect;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align the main blocks to the left */
+  align-items: flex-start;
   gap: map.get($spacing, 'lg');
-  margin-top: map.get($spacing, 'lg'); /* Increased top margin */
+  margin-top: map.get($spacing, 'lg');
 
   .back-button {
     position: absolute;
@@ -55,25 +56,22 @@
 
   .profile-main {
     display: flex;
-    flex-direction: column; /* Stack header and stats vertically */
-    align-items: flex-start; /* Align header and stats block to the left */
+    flex-direction: column;
+    align-items: flex-start;
     gap: map.get($spacing, 'lg');
-    width: 100%; /* Take full width */
-    margin-top: map.get($spacing, 'lg');
+    width: 100%;
 
     .profile-header {
       display: flex;
-      flex-direction: row; /* Avatar and info in a row */
-      align-items: center; /* Vertically align avatar and info */
+      flex-direction: row;
+      align-items: center;
       gap: map.get($spacing, 'md');
-      /* Remove width and justify here, parent handles alignment */
 
       .profile-avatar {
         width: 5rem;
         height: 5rem;
         border-radius: 50%;
-        background-color: transparent;
-        border: 2px solid white;
+        background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'secondary'));
         color: white;
         display: flex;
         align-items: center;
@@ -81,13 +79,14 @@
         font-size: 2rem;
         font-weight: 600;
         margin-bottom: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
 
       .profile-info {
         text-align: left;
 
         h2 {
-          color: white;
+          color: map.get($colors, 'primary');
           font-size: 1.5rem;
           margin: 0;
           font-weight: 600;
@@ -99,16 +98,18 @@
       display: flex;
       gap: map.get($spacing, 'xl');
       margin-top: map.get($spacing, 'md');
-      justify-content: center; /* Center stats horizontally */
-      width: fit-content; /* Make width fit content */
-      margin-left: auto;
-      margin-right: auto; /* Center the block horizontally within profile-main */
+      width: 100%;
+      justify-content: center;
 
       .stat-item {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: map.get($spacing, 'xs');
+        padding: map.get($spacing, 'md');
+        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        border-radius: 12px;
+        min-width: 120px;
 
         .stat-value {
           font-size: 1.5rem;
@@ -160,29 +161,29 @@
 
 .profile-section-block {
   background-color: map.get($colors, 'surface');
-  padding: 0 map.get($spacing, 'lg');
-  border-radius: 0;
-  box-shadow: none;
-  margin: 0;
+  padding: map.get($spacing, 'lg');
+  border-radius: 24px;
+  @include glass-effect;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
   .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0;
-    border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
-    padding: map.get($spacing, 'md') 0;
-    margin-top: 0;
+    margin-bottom: map.get($spacing, 'md');
+    padding-bottom: map.get($spacing, 'sm');
+    border-bottom: 2px solid rgba(map.get($colors, 'primary'), 0.1);
 
     h3 {
       color: map.get($colors, 'primary');
       font-size: 1.25rem;
       margin: 0;
+      font-weight: 600;
     }
 
-    .modify-button {
-      width: 2rem;
-      height: 2rem;
+    .edit-button {
+      width: 2.5rem;
+      height: 2.5rem;
       border-radius: 50%;
       border: none;
       display: flex;
@@ -192,15 +193,14 @@
       transition: all 0.3s ease;
       background-color: rgba(map.get($colors, 'primary'), 0.1);
       color: map.get($colors, 'primary');
-      padding: 0;
-
-      i {
-        font-size: 1rem;
-        margin: 0;
-      }
 
       &:hover {
         background-color: rgba(map.get($colors, 'primary'), 0.2);
+        transform: translateY(-2px);
+      }
+
+      i {
+        font-size: 1rem;
       }
     }
   }
@@ -208,39 +208,110 @@
   .section-content {
     padding: map.get($spacing, 'md') 0;
 
-    p {
-      color: map.get($colors, 'secondary');
-      margin-bottom: 0;
-      font-size: 1rem;
-      margin: map.get($spacing, 'xs') 0;
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: map.get($spacing, 'md');
+
+      .info-item {
+        padding: map.get($spacing, 'md');
+        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: map.get($spacing, 'xs');
+
+        &.highlight {
+          background: linear-gradient(45deg, 
+            rgba(map.get($colors, 'primary'), 0.1),
+            rgba(map.get($colors, 'secondary'), 0.1)
+          );
+          border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+        }
+
+        .info-label {
+          font-size: 0.875rem;
+          color: map.get($colors, 'secondary');
+        }
+
+        .info-value {
+          font-size: 1.25rem;
+          color: map.get($colors, 'primary');
+          font-weight: 600;
+
+          small {
+            font-size: 0.875rem;
+            color: map.get($colors, 'secondary');
+            margin-left: 4px;
+          }
+        }
+      }
+    }
+
+    .goals-grid {
+      display: grid;
+      gap: map.get($spacing, 'md');
+
+      .goal-item {
+        padding: map.get($spacing, 'md');
+        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: map.get($spacing, 'xs');
+
+        .goal-label {
+          font-size: 0.875rem;
+          color: map.get($colors, 'secondary');
+        }
+
+        .goal-value {
+          font-size: 1.25rem;
+          color: map.get($colors, 'primary');
+          font-weight: 600;
+
+          &.highlight {
+            background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'secondary'));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+        }
+      }
+    }
+
+    .equipment-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: map.get($spacing, 'md');
+
+      .equipment-item {
+        display: flex;
+        align-items: center;
+        gap: map.get($spacing, 'sm');
+        padding: map.get($spacing, 'sm') map.get($spacing, 'md');
+        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        border-radius: 8px;
+
+        i {
+          color: map.get($colors, 'primary');
+          font-size: 1rem;
+        }
+
+        span {
+          color: map.get($colors, 'primary');
+          font-size: 0.875rem;
+        }
+      }
     }
   }
 }
 
-.edit-button {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: rgba(map.get($colors, 'primary'), 0.1);
-  color: map.get($colors, 'primary');
-  padding: 0;
-  margin-left: 0.5rem;
-
-  i {
-    font-size: 1rem;
-    margin: 0;
-  }
-
-  &:hover {
-    background-color: map.get($colors, 'primary');
-    color: white;
-  }
+.loading-message {
+  text-align: center;
+  color: map.get($colors, 'secondary');
+  padding: map.get($spacing, 'xl');
+  font-size: 1.1rem;
 }
 
 // Desktop styles
@@ -314,12 +385,96 @@
         font-size: 1.4rem;
       }
 
-      .modify-button {
+      .edit-button {
         width: 2.5rem;
         height: 2.5rem;
 
         i {
           font-size: 1.25rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    padding: map.get($spacing, 'xs');
+    gap: map.get($spacing, 'md');
+  }
+  .personal-info-block {
+    padding: map.get($spacing, 'md');
+    border-radius: 16px;
+    .profile-main {
+      gap: map.get($spacing, 'md');
+      .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: map.get($spacing, 'sm');
+        .profile-avatar {
+          width: 3.5rem;
+          height: 3.5rem;
+          font-size: 1.2rem;
+        }
+        .profile-info h2 {
+          font-size: 1.1rem;
+        }
+      }
+      .profile-stats {
+        flex-direction: column;
+        gap: map.get($spacing, 'sm');
+        .stat-item {
+          min-width: unset;
+          width: 100%;
+        }
+      }
+    }
+  }
+  .profile-section-block {
+    padding: map.get($spacing, 'sm');
+    border-radius: 12px;
+    .section-header {
+      h3 {
+        font-size: 1rem;
+      }
+      .edit-button {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+    .section-content {
+      .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: map.get($spacing, 'sm');
+        .info-item {
+          padding: map.get($spacing, 'sm');
+          font-size: 0.95rem;
+          .info-label {
+            font-size: 0.8rem;
+          }
+          .info-value {
+            font-size: 1.05rem;
+          }
+        }
+      }
+      .goals-grid {
+        gap: map.get($spacing, 'sm');
+        .goal-item {
+          padding: map.get($spacing, 'sm');
+          .goal-label {
+            font-size: 0.8rem;
+          }
+          .goal-value {
+            font-size: 1.05rem;
+          }
+        }
+      }
+      .equipment-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: map.get($spacing, 'sm');
+        .equipment-item {
+          padding: map.get($spacing, 'xs') map.get($spacing, 'sm');
+          font-size: 0.9rem;
         }
       }
     }

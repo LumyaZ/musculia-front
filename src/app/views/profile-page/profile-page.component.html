@@ -2,7 +2,6 @@
 
 <div class="profile-container" *ngIf="userProfile">
   <div class="personal-info-block">
-    
     <div class="profile-main">
       <div class="profile-header">
         <div class="profile-avatar">
@@ -26,7 +25,7 @@
     </div>
   </div>
 
-  <!-- Section basée sur "Informations Complémentaires" -->
+  <!-- Section Informations Complémentaires -->
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Informations Complémentaires</h3>
@@ -35,14 +34,28 @@
       </button>
     </div>
     <div class="section-content">
-      <p>Genre: {{ getTranslatedGender(userProfile.gender) }}</p>
-      <p>Poids: {{ userProfile.weight }} kg</p>
-      <p>Taille: {{ userProfile.height }} cm</p>
-      <p>Masse Grasse: {{ userProfile.bodyFat }}%</p>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Genre</span>
+          <span class="info-value">{{ getTranslatedGender(userProfile.gender) }}</span>
+        </div>
+        <div class="info-item highlight">
+          <span class="info-label">Poids</span>
+          <span class="info-value">{{ userProfile.weight }}<small>kg</small></span>
+        </div>
+        <div class="info-item highlight">
+          <span class="info-label">Taille</span>
+          <span class="info-value">{{ userProfile.height }}<small>cm</small></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Masse Grasse</span>
+          <span class="info-value">{{ userProfile.bodyFat }}<small>%</small></span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Section basée sur "Expérience d'Entraînement" -->
+  <!-- Section Expérience d'Entraînement -->
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Expérience d'Entraînement</h3>
@@ -51,13 +64,24 @@
       </button>
     </div>
     <div class="section-content">
-      <p>Années d'Expérience: {{ userProfile.experienceYears }}</p>
-      <p>Sessions par Semaine: {{ userProfile.trainingFrequency }}</p>
-      <p>Durée des Sessions: {{ userProfile.sessionDuration }} minutes</p>
+      <div class="info-grid">
+        <div class="info-item highlight">
+          <span class="info-label">Expérience</span>
+          <span class="info-value">{{ userProfile.experienceYears }}<small>ans</small></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Sessions/Semaine</span>
+          <span class="info-value">{{ userProfile.trainingFrequency }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Durée Session</span>
+          <span class="info-value">{{ userProfile.sessionDuration }}<small>min</small></span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Section basée sur "Objectifs et Préférences" -->
+  <!-- Section Objectifs et Préférences -->
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Objectifs et Préférences</h3>
@@ -66,12 +90,20 @@
       </button>
     </div>
     <div class="section-content">
-      <p>Objectif Principal: {{ getTranslatedGoal(userProfile.goal) }}</p>
-      <p>Préférence d'Entraînement: {{ getTranslatedTrainingPreference(userProfile.trainingPreference) }}</p>
+      <div class="goals-grid">
+        <div class="goal-item">
+          <span class="goal-label">Objectif Principal</span>
+          <span class="goal-value highlight">{{ getTranslatedGoal(userProfile.goal) }}</span>
+        </div>
+        <div class="goal-item">
+          <span class="goal-label">Préférence d'Entraînement</span>
+          <span class="goal-value highlight">{{ getTranslatedTrainingPreference(userProfile.trainingPreference) }}</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Section basée sur "Équipement" -->
+  <!-- Section Équipement -->
   <div class="profile-section-block">
     <div class="section-header">
       <h3>Équipement Disponible</h3>
@@ -80,12 +112,18 @@
       </button>
     </div>
     <div class="section-content">
-      <p>Équipement: {{ userProfile.equipmentAvailable }}</p>
+      <div class="equipment-list">
+        <ng-container *ngFor="let equipment of getEquipmentList()">
+          <div class="equipment-item">
+            <i class="fas fa-check-circle"></i>
+            <span>{{ equipment }}</span>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Optional: Display a loading message if userProfile is null -->
 <div *ngIf="!userProfile" class="loading-message">
   Chargement du profil...
 </div>
