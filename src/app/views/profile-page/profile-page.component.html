@@ -1,8 +1,7 @@
+<app-nav-bar></app-nav-bar>
+
 <div class="profile-container" *ngIf="userProfile">
   <div class="personal-info-block">
-    <button class="back-button" routerLink="/dashboard">
-      <i class="fas fa-arrow-left"></i>
-    </button>
     
     <div class="profile-main">
       <div class="profile-header">
@@ -11,7 +10,6 @@
         </div>
         <div class="profile-info">
           <h2>{{ userProfile.authUser?.email || 'Utilisateur' }}</h2>
-          <!-- Add logic here later for first/last name if available -->
         </div>
       </div>
 

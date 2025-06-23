@@ -3,10 +3,11 @@ import { UserProfileService } from '../../services/user-profile.service';
 import { UserProfile } from '../../_models/user-profile.model';
 import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../services/translation.service';
+import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule],
+  imports: [CommonModule, NavBarComponent],
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss']
 })

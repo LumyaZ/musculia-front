@@ -120,12 +120,9 @@ export class RegisterComponent {
         password: this.password
       }));
 
-      // Stocker les informations de l'utilisateur et le token
       localStorage.setItem('user', JSON.stringify(response));
 
-
-      // Redirection vers le dashboard après inscription réussie
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/user-profile']);
     } catch (error: any) {
       console.error('Erreur lors de l\'inscription:', error);
       this._errorMessage.set(
