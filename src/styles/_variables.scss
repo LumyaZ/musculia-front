@@ -8,6 +8,19 @@ $text-color: #333333;       // Texte principal
 $light-gray: #F5F6FA;       // Fond clair
 $dark-gray: #2C3E50;        // Texte foncé
 
+$coral: (
+  50: #FFF5F2,
+  100: #FFE6E0,
+  200: #FFD1C6,
+  300: #FFB4A1,
+  400: #FF8E71,
+  500: #FF6B42, // Couleur principale corail
+  600: #F04D21,
+  700: #D93815,
+  800: #B32812,
+  900: #8A1F11
+);
+
 // Breakpoints
 $mobile: 576px;
 $tablet: 768px;
@@ -17,12 +30,19 @@ $desktop: 1024px;
 $colors: (
   'background': #121212,
   'surface': #1E1E1E,
-  'primary': #FFFFFF,
+  'primary': #DC2626,    // Rouge foncé principal
+  'primary-light': #EF4444,
+  'primary-dark': #B91C1C,
+  'primary-contrast': #FFFFFF,
   'secondary': #B3B3B3,
-  'accent': #808080,
+  'accent': #F87171,     // Version plus claire du rouge
   'error': #CF6679,
-  'blue': #4A90E2,
-  'dark-blue': #2C3E50
+  'surface-light': #2A2A2A,
+  'surface-dark': #161616,
+  'text-primary': #FFFFFF,
+  'text-secondary': #B3B3B3,
+  'border': rgba(220, 38, 38, 0.2), // Version transparente du rouge
+  'hover': rgba(220, 38, 38, 0.1)
 );
 
 $spacing: (

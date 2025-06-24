@@ -11,6 +11,8 @@
   display: flex;
   flex-direction: column;
   gap: map.get($spacing, 'lg');
+  background-color: map.get($colors, 'background');
+  padding-top: 4.5rem;
 }
 
 .personal-info-block {
@@ -25,6 +27,7 @@
   align-items: flex-start;
   gap: map.get($spacing, 'lg');
   margin-top: map.get($spacing, 'lg');
+  border: 1px solid map.get($colors, 'border');
 
   .back-button {
     position: absolute;
@@ -39,18 +42,18 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    background-color: white; /* White background */
-    color: map.get($colors, 'primary'); /* Primary color arrow */
+    background-color: map.get($colors, 'primary');
     padding: 0;
     z-index: 10;
 
     i {
       font-size: 1rem;
       margin: 0;
+      color: map.get($colors, 'primary-contrast');
     }
 
     &:hover {
-      background-color: map.get($colors, 'accent'); /* Light grey hover */
+      background-color: map.get($colors, 'primary-light');
     }
   }
 
@@ -71,15 +74,15 @@
         width: 5rem;
         height: 5rem;
         border-radius: 50%;
-        background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'secondary'));
-        color: white;
+        background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'primary-light'));
+        color: map.get($colors, 'primary-contrast');
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 2rem;
         font-weight: 600;
         margin-bottom: 0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
       }
 
       .profile-info {
@@ -107,9 +110,10 @@
         align-items: center;
         gap: map.get($spacing, 'xs');
         padding: map.get($spacing, 'md');
-        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        background-color: map.get($colors, 'surface-light');
         border-radius: 12px;
         min-width: 120px;
+        border: 1px solid map.get($colors, 'border');
 
         .stat-value {
           font-size: 1.5rem;
@@ -119,7 +123,7 @@
 
         .stat-label {
           font-size: 0.9rem;
-          color: map.get($colors, 'secondary');
+          color: map.get($colors, 'text-secondary');
         }
       }
     }
@@ -128,24 +132,24 @@
   .modify-button {
     display: flex;
     align-items: center;
-    justify-content: center; /* Center button content */
+    justify-content: center;
     gap: map.get($spacing, 'sm');
     padding: map.get($spacing, 'md') map.get($spacing, 'lg');
     border-radius: 8px;
     border: none;
-    background: linear-gradient(45deg, #ffffff, #cccccc); /* White to grey gradient */
-    color: #333;
+    background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'primary-light'));
+    color: map.get($colors, 'primary-contrast');
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: map.get($spacing, 'lg');
     width: 100%;
-    max-width: 300px; /* Limit button width */
+    max-width: 300px;
     margin-left: auto;
-    margin-right: auto; /* Center button horizontally within personal-info-block */
+    margin-right: auto;
 
     i {
       font-size: 1rem;
-      color: #333;
+      color: map.get($colors, 'primary-contrast');
     }
 
     span {
@@ -154,7 +158,8 @@
     }
 
     &:hover {
-      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
     }
   }
 }
@@ -165,6 +170,7 @@
   border-radius: 24px;
   @include glass-effect;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid map.get($colors, 'border');
 
   .section-header {
     display: flex;
@@ -172,7 +178,7 @@
     align-items: center;
     margin-bottom: map.get($spacing, 'md');
     padding-bottom: map.get($spacing, 'sm');
-    border-bottom: 2px solid rgba(map.get($colors, 'primary'), 0.1);
+    border-bottom: 2px solid map.get($colors, 'border');
 
     h3 {
       color: map.get($colors, 'primary');
@@ -191,16 +197,16 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.3s ease;
-      background-color: rgba(map.get($colors, 'primary'), 0.1);
-      color: map.get($colors, 'primary');
-
-      &:hover {
-        background-color: rgba(map.get($colors, 'primary'), 0.2);
-        transform: translateY(-2px);
-      }
+      background-color: map.get($colors, 'primary');
+      border: none;
 
       i {
-        font-size: 1rem;
+        font-size: 1.125rem;
+        color: map.get($colors, 'primary-contrast');
+      }
+
+      &:hover {
+        background-color: map.get($colors, 'primary-light');
       }
     }
   }
@@ -215,23 +221,24 @@
 
       .info-item {
         padding: map.get($spacing, 'md');
-        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        background-color: map.get($colors, 'surface-light');
         border-radius: 12px;
         display: flex;
         flex-direction: column;
         gap: map.get($spacing, 'xs');
+        border: 1px solid map.get($colors, 'border');
 
         &.highlight {
           background: linear-gradient(45deg, 
-            rgba(map.get($colors, 'primary'), 0.1),
-            rgba(map.get($colors, 'secondary'), 0.1)
+            map.get($colors, 'hover'),
+            rgba(map.get($colors, 'primary'), 0.1)
           );
-          border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+          border: 1px solid map.get($colors, 'primary');
         }
 
         .info-label {
           font-size: 0.875rem;
-          color: map.get($colors, 'secondary');
+          color: map.get($colors, 'text-secondary');
         }
 
         .info-value {
@@ -241,7 +248,7 @@
 
           small {
             font-size: 0.875rem;
-            color: map.get($colors, 'secondary');
+            color: map.get($colors, 'text-secondary');
             margin-left: 4px;
           }
         }
@@ -254,15 +261,16 @@
 
       .goal-item {
         padding: map.get($spacing, 'md');
-        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        background-color: map.get($colors, 'surface-light');
         border-radius: 12px;
         display: flex;
         flex-direction: column;
         gap: map.get($spacing, 'xs');
+        border: 1px solid map.get($colors, 'border');
 
         .goal-label {
           font-size: 0.875rem;
-          color: map.get($colors, 'secondary');
+          color: map.get($colors, 'text-secondary');
         }
 
         .goal-value {
@@ -271,7 +279,7 @@
           font-weight: 600;
 
           &.highlight {
-            background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'secondary'));
+            background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'primary-light'));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -290,8 +298,9 @@
         align-items: center;
         gap: map.get($spacing, 'sm');
         padding: map.get($spacing, 'sm') map.get($spacing, 'md');
-        background-color: rgba(map.get($colors, 'primary'), 0.05);
+        background-color: map.get($colors, 'surface-light');
         border-radius: 8px;
+        border: 1px solid map.get($colors, 'border');
 
         i {
           color: map.get($colors, 'primary');
@@ -309,7 +318,7 @@
 
 .loading-message {
   text-align: center;
-  color: map.get($colors, 'secondary');
+  color: map.get($colors, 'text-secondary');
   padding: map.get($spacing, 'xl');
   font-size: 1.1rem;
 }
@@ -334,22 +343,21 @@
     }
 
     .profile-main {
-      flex-direction: column; /* Stack header and stats vertically on desktop */
+      flex-direction: column;
       gap: map.get($spacing, 'xl');
       margin-top: map.get($spacing, 'md');
-      align-items: flex-start; /* Align items within profile-main to the left on desktop */
+      align-items: flex-start;
 
       .profile-header {
         flex-direction: row;
         gap: map.get($spacing, 'lg');
-        /* Remove width and justify here, parent handles alignment */
 
         .profile-avatar {
           width: 6rem;
           height: 6rem;
           font-size: 2.5rem;
           margin-bottom: 0;
-          border: 3px solid white;
+          border: 3px solid map.get($colors, 'surface');
         }
 
         .profile-info {
@@ -364,18 +372,18 @@
       .profile-stats {
         flex-direction: row;
         gap: map.get($spacing, 'xl');
-        margin-top: map.get($spacing, 'md'); /* Add top margin on desktop */
-        justify-content: center; /* Center stats horizontally */
-        width: auto; /* Allow stats to take natural width */
+        margin-top: map.get($spacing, 'md');
+        justify-content: center;
+        width: auto;
         margin-left: auto;
-        margin-right: auto; /* Center the block horizontally */
+        margin-right: auto;
       }
     }
 
     .modify-button {
       max-width: 300px;
       margin-left: auto;
-      margin-right: auto; /* Center button horizontally */
+      margin-right: auto;
     }
   }
 
@@ -448,33 +456,6 @@
         gap: map.get($spacing, 'sm');
         .info-item {
           padding: map.get($spacing, 'sm');
-          font-size: 0.95rem;
-          .info-label {
-            font-size: 0.8rem;
-          }
-          .info-value {
-            font-size: 1.05rem;
-          }
-        }
-      }
-      .goals-grid {
-        gap: map.get($spacing, 'sm');
-        .goal-item {
-          padding: map.get($spacing, 'sm');
-          .goal-label {
-            font-size: 0.8rem;
-          }
-          .goal-value {
-            font-size: 1.05rem;
-          }
-        }
-      }
-      .equipment-list {
-        grid-template-columns: repeat(2, 1fr);
-        gap: map.get($spacing, 'sm');
-        .equipment-item {
-          padding: map.get($spacing, 'xs') map.get($spacing, 'sm');
-          font-size: 0.9rem;
         }
       }
     }

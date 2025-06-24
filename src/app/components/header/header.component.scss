@@ -14,6 +14,7 @@
   display: flex;
   justify-content: center;
   height: 48px;
+  border-bottom: 1px solid map.get($colors, 'border');
 }
 
 .header-content {
@@ -48,26 +49,30 @@
   cursor: pointer;
   transition: all 0.3s ease;
   flex-shrink: 0;
+  background-color: map.get($colors, 'hover');
 
   i {
     font-size: 1.125rem;
+    color: map.get($colors, 'primary-contrast');
+  }
+
+  &:hover {
+    background-color: rgba(map.get($colors, 'primary'), 0.2);
   }
 
   &.profile-button {
-    background-color: rgba(map.get($colors, 'primary'), 0.1);
-    color: map.get($colors, 'primary');
+    background-color: map.get($colors, 'primary');
 
     &:hover {
-      background-color: rgba(map.get($colors, 'primary'), 0.2);
+      background-color: map.get($colors, 'primary-light');
     }
   }
 
   &.logout-button {
-    background-color: rgba(map.get($colors, 'error'), 0.1);
-    color: map.get($colors, 'error');
+    background-color: map.get($colors, 'error');
 
     &:hover {
-      background-color: rgba(map.get($colors, 'error'), 0.2);
+      background-color: map.get($colors, 'error-light');
     }
   }
 }
@@ -91,9 +96,5 @@
   .icon-button {
     width: 2.25rem;
     height: 2.25rem;
-
-    i {
-      font-size: 1.25rem;
-    }
   }
 } 

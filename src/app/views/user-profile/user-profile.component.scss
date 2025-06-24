@@ -16,6 +16,7 @@
   @include glass-effect;
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid map.get($colors, 'border');
 
   .logo-container {
     text-align: center;
@@ -33,7 +34,7 @@
 
   .subtitle {
     text-align: center;
-    color: map.get($colors, 'secondary');
+    color: map.get($colors, 'text-secondary');
     margin-bottom: map.get($spacing, 'xl');
     font-size: 1rem;
     font-weight: 500;
@@ -52,7 +53,7 @@
         color: map.get($colors, 'primary');
         margin-bottom: map.get($spacing, 'md');
         padding-bottom: map.get($spacing, 'sm');
-        border-bottom: 2px solid rgba(map.get($colors, 'primary'), 0.1);
+        border-bottom: 2px solid map.get($colors, 'border');
       }
     }
 
@@ -62,7 +63,7 @@
       label {
         display: block;
         margin-bottom: map.get($spacing, 'xs');
-        color: map.get($colors, 'secondary');
+        color: map.get($colors, 'text-secondary');
         font-size: 0.875rem;
         font-weight: 500;
       }
@@ -90,10 +91,10 @@
             justify-content: center;
             width: 100%;
             padding: map.get($spacing, 'md');
-            background-color: rgba(map.get($colors, 'primary'), 0.05);
-            border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+            background-color: map.get($colors, 'surface-light');
+            border: 1px solid map.get($colors, 'border');
             border-radius: 12px;
-            color: map.get($colors, 'primary');
+            color: map.get($colors, 'text-primary');
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
@@ -102,20 +103,21 @@
             text-align: center;
 
             &:hover {
-              background-color: rgba(map.get($colors, 'primary'), 0.1);
+              background-color: map.get($colors, 'hover');
+              border-color: map.get($colors, 'primary');
               transform: translateY(-2px);
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
             }
           }
 
           &.active label {
             background: linear-gradient(45deg, 
               map.get($colors, 'primary') 0%,
-              map.get($colors, 'secondary') 100%
+              map.get($colors, 'primary-light') 100%
             );
-            color: map.get($colors, 'background');
+            color: map.get($colors, 'primary-contrast');
             border-color: transparent;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
           }
         }
       }
@@ -133,7 +135,7 @@
           &.no-equipment {
             grid-column: 1 / -1;
             margin-bottom: map.get($spacing, 'md');
-            border-bottom: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+            border-bottom: 1px solid map.get($colors, 'border');
             padding-bottom: map.get($spacing, 'md');
           }
 
@@ -150,10 +152,10 @@
             justify-content: center;
             width: 100%;
             padding: map.get($spacing, 'md');
-            background-color: rgba(map.get($colors, 'primary'), 0.05);
-            border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+            background-color: map.get($colors, 'surface-light');
+            border: 1px solid map.get($colors, 'border');
             border-radius: 12px;
-            color: map.get($colors, 'primary');
+            color: map.get($colors, 'text-primary');
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
@@ -162,20 +164,21 @@
             text-align: center;
 
             &:hover {
-              background-color: rgba(map.get($colors, 'primary'), 0.1);
+              background-color: map.get($colors, 'hover');
+              border-color: map.get($colors, 'primary');
               transform: translateY(-2px);
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
             }
           }
 
           &.active label {
             background: linear-gradient(45deg, 
               map.get($colors, 'primary') 0%,
-              map.get($colors, 'secondary') 100%
+              map.get($colors, 'primary-light') 100%
             );
-            color: map.get($colors, 'background');
+            color: map.get($colors, 'primary-contrast');
             border-color: transparent;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
           }
 
           &.disabled {
@@ -195,6 +198,7 @@
           left: 0;
           width: 100%;
           height: 2px;
+          background: linear-gradient(90deg, map.get($colors, 'primary'), map.get($colors, 'primary-light'));
           transform: scaleX(0);
           transition: transform 0.3s ease;
         }
@@ -215,25 +219,26 @@
       input, select, textarea {
         width: 100%;
         padding: map.get($spacing, 'md');
-        background-color: rgba(map.get($colors, 'primary'), 0.05);
-        border: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+        background-color: map.get($colors, 'surface-light');
+        border: 1px solid map.get($colors, 'border');
         border-radius: 12px;
-        color: map.get($colors, 'primary');
+        color: map.get($colors, 'text-primary');
         font-size: 1rem;
         transition: all 0.3s ease;
 
         &:focus {
           outline: none;
-          border-color: transparent;
-          background-color: rgba(map.get($colors, 'primary'), 0.1);
+          border-color: map.get($colors, 'primary');
+          background-color: map.get($colors, 'surface');
+          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         &:hover {
-          background-color: rgba(map.get($colors, 'primary'), 0.1);
+          background-color: map.get($colors, 'surface');
         }
 
         &::placeholder {
-          color: map.get($colors, 'accent');
+          color: map.get($colors, 'text-secondary');
         }
       }
 
@@ -260,7 +265,7 @@
     .form-actions {
       margin-top: map.get($spacing, 'xl');
       padding-top: map.get($spacing, 'lg');
-      border-top: 1px solid rgba(map.get($colors, 'primary'), 0.1);
+      border-top: 1px solid map.get($colors, 'border');
 
       .navigation-buttons {
         display: flex;
@@ -270,6 +275,11 @@
         button {
           flex: 1;
           padding: map.get($spacing, 'md');
+          background: linear-gradient(45deg, 
+            map.get($colors, 'primary') 0%,
+            map.get($colors, 'primary-light') 100%
+          );
+          color: map.get($colors, 'primary-contrast');
           border: none;
           border-radius: 12px;
           font-size: 1rem;
@@ -298,7 +308,7 @@
 
           &:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 
             &::before {
               transform: translateX(100%);
@@ -306,27 +316,10 @@
           }
 
           &:disabled {
-            background: map.get($colors, 'accent');
+            background: map.get($colors, 'text-secondary');
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
-          }
-
-          &.btn-primary {
-            background: linear-gradient(45deg, 
-              map.get($colors, 'primary') 0%,
-              map.get($colors, 'secondary') 100%
-            );
-            color: map.get($colors, 'background');
-          }
-
-          &.btn-secondary {
-            background: rgba(map.get($colors, 'primary'), 0.1);
-            color: map.get($colors, 'primary');
-
-            &:hover:not(:disabled) {
-              background: rgba(map.get($colors, 'primary'), 0.2);
-            }
           }
         }
       }
@@ -342,7 +335,7 @@
 
 @include responsive('desktop') {
   .profile-content {
-    max-width: 800px;
+    max-width: 700px;
   }
 }
 

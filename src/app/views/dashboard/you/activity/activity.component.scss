@@ -1,9 +1,13 @@
+@use "sass:map";
+@use "../../../../../styles/_variables.scss" as *;
+
 .activity-placeholder {
   text-align: center;
   margin: 3rem 0;
-  color: #888;
+  color: map.get($colors, 'text-secondary');
+  
   h2 {
-    color: #3a86ff;
+    color: map.get($colors, 'primary');
     margin-bottom: 1rem;
   }
 } 

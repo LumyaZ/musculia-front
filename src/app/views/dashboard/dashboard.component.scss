@@ -6,7 +6,7 @@
   padding-bottom: 4rem;
   min-height: 100vh;
   background-color: map.get($colors, 'background');
-  color: map.get($colors, 'primary');
+  color: map.get($colors, 'text-primary');
   max-width: 600px;
   margin: 0 auto;
 }
@@ -17,17 +17,17 @@
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e1e4e8;
+  border-bottom: 1px solid map.get($colors, 'border');
 
   h1 {
     font-size: 2rem;
-    color: #2d3748;
+    color: map.get($colors, 'primary');
     margin: 0;
   }
 
   .user-info {
     font-size: 1rem;
-    color: #4a5568;
+    color: map.get($colors, 'text-secondary');
   }
 }
 
@@ -40,13 +40,14 @@
 }
 
 .stats-section {
-  background: white;
+  background: map.get($colors, 'surface');
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid map.get($colors, 'border');
 
   h2 {
-    color: #2d3748;
+    color: map.get($colors, 'primary');
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
   }
@@ -58,19 +59,26 @@
   }
 
   .stat-card {
-    background: #f8fafc;
+    background: map.get($colors, 'surface-light');
     padding: 1rem;
     border-radius: 6px;
     text-align: center;
+    border: 1px solid map.get($colors, 'border');
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: map.get($colors, 'surface');
+      border-color: map.get($colors, 'primary');
+    }
 
     h3 {
-      color: #4a5568;
+      color: map.get($colors, 'text-secondary');
       font-size: 1rem;
       margin-bottom: 0.5rem;
     }
 
     .stat-value {
-      color: #2d3748;
+      color: map.get($colors, 'primary');
       font-size: 1.5rem;
       font-weight: bold;
       margin: 0;
@@ -80,24 +88,26 @@
 
 .recent-activity,
 .upcoming-workouts {
-  background: white;
+  background: map.get($colors, 'surface');
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid map.get($colors, 'border');
 
   h2 {
-    color: #2d3748;
+    color: map.get($colors, 'primary');
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
   }
 
   .no-activity,
   .no-workouts {
-    color: #718096;
+    color: map.get($colors, 'text-secondary');
     text-align: center;
     padding: 2rem;
-    background: #f8fafc;
+    background: map.get($colors, 'surface-light');
     border-radius: 6px;
+    border: 1px solid map.get($colors, 'border');
   }
 }
 

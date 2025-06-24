@@ -66,12 +66,12 @@ export class ProgressComponent implements OnInit {
         datasets: [{
           label: "Nombre d'entraînements",
           data: this.workoutData,
-          borderColor: '#fff',
-          backgroundColor: 'rgba(255,255,255,0.1)',
+          borderColor: '#DC2626',
+          backgroundColor: 'rgba(220, 38, 38, 0.1)',
           tension: 0.4,
           fill: false,
-          pointBackgroundColor: '#fff',
-          pointBorderColor: '#fff',
+          pointBackgroundColor: '#DC2626',
+          pointBorderColor: '#DC2626',
           pointRadius: 4,
           pointHoverRadius: 6,
         }]
@@ -144,7 +144,7 @@ export class ProgressComponent implements OnInit {
             const value = dataset.data[index];
             ctx.save();
             ctx.font = '11px Arial';
-            ctx.fillStyle = '#fff';
+            ctx.fillStyle = '#DC2626';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
             ctx.fillText(value, point.x + 8, point.y);

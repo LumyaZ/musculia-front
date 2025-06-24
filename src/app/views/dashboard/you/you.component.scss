@@ -1,19 +1,27 @@
+@use "sass:map";
+@use "../../../../styles/_variables.scss" as *;
+
 .you-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: map.get($colors, 'background');
+  min-height: 100vh;
+  padding-top: 4.5rem;
+  padding-bottom: 4rem;
 
   h1 {
-    color: #2d3748;
+    color: map.get($colors, 'primary');
     margin-bottom: 2rem;
   }
 }
 
 .profile-section {
-  background: white;
+  background: map.get($colors, 'surface');
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  border: 1px solid map.get($colors, 'border');
 }
 
 .profile-header {
@@ -21,8 +29,8 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  background: linear-gradient(45deg, #4299e1, #667eea);
-  color: white;
+  background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'primary-light'));
+  color: map.get($colors, 'primary-contrast');
 
   .profile-avatar {
     font-size: 4rem;
@@ -46,20 +54,20 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   padding: 2rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid map.get($colors, 'border');
 }
 
 .stat-card {
   text-align: center;
 
   h3 {
-    color: #4a5568;
+    color: map.get($colors, 'text-secondary');
     font-size: 1rem;
     margin-bottom: 0.5rem;
   }
 
   .stat-value {
-    color: #2d3748;
+    color: map.get($colors, 'primary');
     font-size: 1.5rem;
     font-weight: bold;
     margin: 0;
@@ -79,18 +87,20 @@
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px;
-    background-color: #f7fafc;
-    color: #4a5568;
+    background-color: map.get($colors, 'surface-light');
+    color: map.get($colors, 'text-secondary');
     cursor: pointer;
     transition: all 0.3s ease;
+    border: 1px solid map.get($colors, 'border');
 
     i {
       font-size: 1.2rem;
     }
 
     &:hover {
-      background-color: #edf2f7;
-      color: #2d3748;
+      background-color: map.get($colors, 'hover');
+      color: map.get($colors, 'primary');
+      border-color: map.get($colors, 'primary');
     }
   }
 }
@@ -122,25 +132,26 @@
   margin-bottom: 2rem;
 
   button {
-    background: none;
-    border: none;
+    background: map.get($colors, 'surface');
+    border: 1px solid map.get($colors, 'border');
     padding: 0.75rem 2rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #888;
+    color: map.get($colors, 'text-secondary');
     border-radius: 24px 24px 0 0;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: all 0.3s ease;
     border-bottom: 2px solid transparent;
   }
+  
   button.active {
-    color: #fff;
-    background: linear-gradient(45deg, #3a86ff, #8338ec);
-    border-bottom: 2px solid #3a86ff;
+    color: map.get($colors, 'primary-contrast');
+    background: linear-gradient(45deg, map.get($colors, 'primary'), map.get($colors, 'primary-light'));
+    border-bottom: 2px solid map.get($colors, 'primary');
   }
 }
 
-you-content {
+.you-content {
   width: 100%;
   min-height: 200px;
 } 
