@@ -113,4 +113,34 @@
   .profile-actions {
     flex-direction: column;
   }
+}
+
+.you-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  button {
+    background: none;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #888;
+    border-radius: 24px 24px 0 0;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  button.active {
+    color: #fff;
+    background: linear-gradient(45deg, #3a86ff, #8338ec);
+    border-bottom: 2px solid #3a86ff;
+  }
+}
+
+you-content {
+  width: 100%;
+  min-height: 200px;
 } 

@@ -1,0 +1,16 @@
+<div class="progress-indicator">
+  <svg viewBox="0 0 100 100">
+    <circle class="bg" cx="50" cy="50" [attr.r]="radius" />
+    <circle class="fg" cx="50" cy="50" [attr.r]="radius"
+      [attr.stroke-dasharray]="circumference"
+      [attr.stroke-dashoffset]="dashoffset" />
+    <text x="50" y="54" text-anchor="middle" class="progress-text">{{ current }}/{{ goal }}</text>
+  </svg>
+  <div class="progress-label">Entraînements cette semaine</div>
+</div>
+
+<!-- Graphique d'évolution des entraînements -->
+<div class="workout-chart-container">
+  <h3>Évolution de vos entraînements</h3>
+  <canvas #workoutChart></canvas>
+</div> 
