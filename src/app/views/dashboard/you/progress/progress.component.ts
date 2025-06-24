@@ -13,27 +13,22 @@ export class ProgressComponent implements OnInit {
   @ViewChild('workoutChart') chartCanvas!: ElementRef;
   private chart: Chart | undefined;
 
-  // Générer dynamiquement les 8 dernières semaines
-  getLast8WeeksLabels(): string[] {
-    const labels: string[] = [];
+  // Générer dynamiquement les 8 dernières semaines avec labels de type "13-19"
+  getLast8WeeksLabels(): { label: string, start: Date, end: Date }[] {
+    const labels: { label: string, start: Date, end: Date }[] = [];
     const now = new Date();
+    // Trouver le dernier dimanche (fin de la semaine)
+    const lastSunday = new Date(now);
+    lastSunday.setDate(now.getDate() - now.getDay());
     for (let i = 7; i >= 0; i--) {
-      const d = new Date(now);
-      d.setDate(now.getDate() - i * 7);
-      const week = this.getWeekNumber(d);
-      labels.push(`S${week}`);
+      const end = new Date(lastSunday);
+      end.setDate(lastSunday.getDate() - i * 7);
+      const start = new Date(end);
+      start.setDate(end.getDate() - 6);
+      const label = `${start.getDate()}-${end.getDate()}`;
+      labels.push({ label, start, end });
     }
     return labels;
-  }
-
-  // Helper pour obtenir le numéro de semaine
-  getWeekNumber(d: Date): number {
-    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    const dayNum = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-    const weekNum = Math.ceil((((d as any) - (yearStart as any)) / 86400000 + 1)/7);
-    return weekNum;
   }
 
   // Données simulées pour 8 semaines
@@ -57,7 +52,8 @@ export class ProgressComponent implements OnInit {
 
   private createChart() {
     const ctx = this.chartCanvas.nativeElement.getContext('2d');
-    const labels = this.getLast8WeeksLabels();
+    const weekLabels = this.getLast8WeeksLabels();
+    const labels = weekLabels.map(w => w.label);
     if (this.chart) this.chart.destroy();
     this.chart = new Chart(ctx, {
       type: 'line',
@@ -105,6 +101,7 @@ export class ProgressComponent implements OnInit {
             }
           },
           y: {
+            position: 'right',
             beginAtZero: true,
             ticks: {
               color: '#fff',
@@ -124,11 +121,11 @@ export class ProgressComponent implements OnInit {
             left: 5,
             right: 15,
             top: 10,
-            bottom: 5
+            bottom: 20 // plus de place pour le mois
           }
         }
       },
-      plugins: [this.dataLabelPlugin()]
+      plugins: [this.dataLabelPlugin(), this.monthLabelPlugin(weekLabels)]
     });
   }
 
@@ -143,7 +140,7 @@ export class ProgressComponent implements OnInit {
           meta.data.forEach((point: any, index: number) => {
             const value = dataset.data[index];
             ctx.save();
-            ctx.font = '11px Arial';
+            ctx.font = 'bold 13px Arial';
             ctx.fillStyle = '#DC2626';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
@@ -151,6 +148,34 @@ export class ProgressComponent implements OnInit {
             ctx.restore();
           });
         });
+      }
+    };
+  }
+
+  // Plugin pour afficher le mois sous la première semaine du mois
+  private monthLabelPlugin(weekLabels: { label: string, start: Date, end: Date }[]) {
+    return {
+      id: 'monthLabel',
+      afterDraw: (chart: any) => {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = 'bold 12px Arial';
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        const xAxis = chart.scales.x;
+        let lastMonth: string | null = null;
+        weekLabels.forEach((week, i) => {
+          const month = week.start.toLocaleString('fr-FR', { month: 'long' });
+          if (lastMonth !== month) {
+            // Position du label sous le tick
+            const x = xAxis.getPixelForTick(i);
+            const y = xAxis.bottom + 8;
+            ctx.fillText(month, x, y);
+            lastMonth = month;
+          }
+        });
+        ctx.restore();
       }
     };
   }
