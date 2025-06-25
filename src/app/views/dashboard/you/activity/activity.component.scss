@@ -50,10 +50,6 @@
   gap: 0.7rem;
   border: 1.5px solid map.get($colors, 'border');
   transition: box-shadow 0.2s, border 0.2s;
-  &:hover {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    border-color: map.get($colors, 'primary');
-  }
 }
 
 .activity-header {
@@ -108,10 +104,6 @@
     transition: color 0.2s, font-size 0.2s;
     padding: 0.05em 0.2em;
     border-radius: 50%;
-    &:hover {
-      color: map.get($colors, 'primary-light');
-      background: map.get($colors, 'surface-light');
-    }
   }
   .carousel-content {
     flex: 1 1 80%;

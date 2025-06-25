@@ -1,0 +1,54 @@
+@use "sass:map";
+@use "../../../../../styles/_variables.scss" as *;
+
+.program-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 3rem 1rem;
+  background: map.get($colors, 'surface');
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.back-arrow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 0.7rem;
+  margin-left: 0.1rem;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: color 0.2s;
+}
+
+h1 {
+  color: map.get($colors, 'primary');
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.slug {
+  color: map.get($colors, 'text-secondary');
+  font-size: 1.1rem;
+}
+
+@media (max-width: 700px) {
+  .program-container {
+    padding: 1.2rem 0.7rem 1.5rem 0.7rem;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+  .back-arrow {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+} 

@@ -1,0 +1,156 @@
+@use "sass:map";
+@use "../../../../../styles/_variables.scss" as *;
+
+.back-arrow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 0.7rem;
+  margin-left: 0.1rem;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: color 0.2s;
+}
+
+.search-input {
+  display: block;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 0 1.2rem 0.1rem;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: map.get($colors, 'surface-light');
+  color: map.get($colors, 'text-primary');
+  font-size: 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  outline: none;
+  transition: border 0.2s;
+}
+
+.category-programs-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+h1 {
+  color: map.get($colors, 'primary');
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.category-programs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem !important;
+  justify-content: flex-start;
+}
+
+.program-card {
+  background: map.get($colors, 'surface');
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border: 1.5px solid map.get($colors, 'border');
+  padding: 1.2rem 1rem 1rem 1rem;
+  gap: 0.6rem;
+  min-width: 220px;
+  max-width: 260px;
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, border 0.2s;
+  padding-bottom: 0.7rem !important;
+}
+
+.program-card .program-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.program-card .program-header h2 {
+  margin: 0 0 0.1rem 0;
+  color: map.get($colors, 'primary');
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.program-card .program-level {
+  background: map.get($colors, 'primary-light');
+  color: map.get($colors, 'primary-contrast');
+  border-radius: 6px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.program-card .program-description {
+  color: map.get($colors, 'text-secondary');
+  margin-bottom: 0 !important;
+  font-size: 0.97rem;
+}
+
+.program-card .program-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.1rem;
+  margin-bottom: 0 !important;
+}
+
+.program-card .program-duration {
+  color: map.get($colors, 'text-secondary');
+  font-size: 0.97rem;
+  font-style: italic;
+}
+
+.program-card .see-btn {
+  background: map.get($colors, 'primary');
+  color: map.get($colors, 'primary-contrast');
+  border: none;
+  border-radius: 6px;
+  padding: 0.32rem 0.8rem;
+  font-size: 0.93rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.see-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: map.get($colors, 'primary');
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .category-programs-list {
+    gap: 0.7rem !important;
+  }
+  .program-card {
+    min-width: 0;
+    max-width: 100%;
+    padding: 1.2rem 0.7rem 0.5rem 0.7rem !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    display: block !important;
+    gap: 0 !important;
+  }
+  .program-footer {
+    margin-bottom: 0.3rem !important;
+    padding-bottom: 0 !important;
+    margin-top: 0.2rem;
+  }
+} 

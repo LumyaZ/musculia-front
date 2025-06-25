@@ -1,0 +1,48 @@
+<div class="program-container">
+  <h1>Programmes</h1>
+
+  <div class="program-actions">
+    <button class="create-btn" (click)="showCreateForm()" *ngIf="!createMode">Créer un programme</button>
+    <button class="cancel-btn" (click)="hideCreateForm()" *ngIf="createMode">Annuler</button>
+  </div>
+
+  <div *ngIf="createMode" class="program-create-form">
+    <h2>Créer un nouveau programme</h2>
+    <form>
+      <label>Nom du programme</label>
+      <input type="text" placeholder="Nom..." />
+      <label>Description</label>
+      <textarea placeholder="Description..."></textarea>
+      <label>Niveau</label>
+      <select>
+        <option>Débutant</option>
+        <option>Intermédiaire</option>
+        <option>Avancé</option>
+      </select>
+      <label>Durée</label>
+      <input type="text" placeholder="ex: 4 semaines" />
+      <button type="submit" class="submit-btn">Enregistrer</button>
+    </form>
+  </div>
+
+  <ng-container *ngIf="!createMode">
+    <div *ngFor="let cat of categories" class="program-category-block">
+      <div class="category-header">
+        <h2>{{ cat.name }}</h2>
+        <span class="see-all-text" (click)="goToCategory(cat.slug)">Voir tout</span>
+      </div>
+      <div class="program-scroll-list">
+        <div class="program-card" *ngFor="let prog of cat.programs" (click)="goToProgram(prog)">
+          <div class="program-header">
+            <h2>{{ prog.name }}</h2>
+            <span class="program-level">{{ prog.level }}</span>
+          </div>
+          <div class="program-description">{{ prog.description }}</div>
+          <div class="program-footer">
+            <span class="program-duration">{{ prog.duration }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div> 

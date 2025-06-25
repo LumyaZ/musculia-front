@@ -1,0 +1,19 @@
+<div class="category-programs-container">
+  <span class="back-arrow" (click)="goBack()" aria-label="Retour" tabindex="0">
+    <span>&larr;</span>
+  </span>
+  <input class="search-input" type="text" [(ngModel)]="searchTerm" placeholder="Rechercher un programme..." />
+  <h1>{{ category?.name }}</h1>
+  <div class="category-programs-list">
+    <div class="program-card" *ngFor="let prog of filteredPrograms()" (click)="goToProgram(prog)">
+      <div class="program-header">
+        <h2>{{ prog.name }}</h2>
+        <span class="program-level">{{ prog.level }}</span>
+      </div>
+      <div class="program-description">{{ prog.description }}</div>
+      <div class="program-footer">
+        <span class="program-duration">{{ prog.duration }}</span>
+      </div>
+    </div>
+  </div>
+</div> 
