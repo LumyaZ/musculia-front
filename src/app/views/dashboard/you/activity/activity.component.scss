@@ -10,4 +10,243 @@
     color: map.get($colors, 'primary');
     margin-bottom: 1rem;
   }
+}
+
+.activity-search {
+  margin-bottom: 1.1rem;
+  display: flex;
+  justify-content: flex-start;
+  input {
+    width: 100%;
+    max-width: 340px;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid map.get($colors, 'border');
+    border-radius: 8px;
+    font-size: 1rem;
+    background: map.get($colors, 'surface-light');
+    color: map.get($colors, 'text-primary');
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    transition: border 0.2s;
+    &:focus {
+      outline: none;
+      border-color: map.get($colors, 'primary');
+    }
+  }
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.activity-card {
+  background: map.get($colors, 'surface');
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  padding: 1.2rem 1.2rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  border: 1.5px solid map.get($colors, 'border');
+  transition: box-shadow 0.2s, border 0.2s;
+  &:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    border-color: map.get($colors, 'primary');
+  }
+}
+
+.activity-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  h2 {
+    margin: 0 0 0.1rem 0;
+    color: map.get($colors, 'primary');
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .activity-meta {
+    display: flex;
+    gap: 0.7rem;
+    color: map.get($colors, 'text-secondary');
+    font-size: 0.98rem;
+    .activity-date {
+      font-weight: 500;
+    }
+    .activity-location {
+      font-style: italic;
+    }
+  }
+}
+
+.activity-exo-count {
+  color: map.get($colors, 'text-secondary');
+  font-size: 0.95rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.2rem;
+  font-style: italic;
+}
+
+.activity-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  .carousel-arrow {
+    flex: 0 0 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    color: map.get($colors, 'primary');
+    cursor: pointer;
+    transition: color 0.2s, font-size 0.2s;
+    padding: 0.05em 0.2em;
+    border-radius: 50%;
+    &:hover {
+      color: map.get($colors, 'primary-light');
+      background: map.get($colors, 'surface-light');
+    }
+  }
+  .carousel-content {
+    flex: 1 1 80%;
+    min-width: 0;
+    max-width: 100%;
+    background: map.get($colors, 'surface-light');
+    border-radius: 10px;
+    padding: 1.2rem 2.2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .exercise-details {
+      h4 {
+        margin: 0 0 0.5rem 0;
+        color: map.get($colors, 'primary');
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+      .exercise-meta {
+        color: map.get($colors, 'text-secondary');
+        font-size: 0.98rem;
+        span {
+          margin-right: 0.7rem;
+        }
+      }
+    }
+  }
+}
+
+.activity-exo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin: 1.2rem 0 0 0;
+  .exo-card {
+    background: map.get($colors, 'surface-light');
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    padding: 1.1rem 1.5rem;
+    min-width: 180px;
+    flex: 1 1 220px;
+    max-width: 260px;
+    h4 {
+      margin: 0 0 0.5rem 0;
+      color: map.get($colors, 'primary');
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+    .exercise-meta {
+      color: map.get($colors, 'text-secondary');
+      font-size: 0.97rem;
+      span {
+        margin-right: 0.7rem;
+      }
+    }
+  }
+}
+
+.activity-exo-scroll {
+  display: flex;
+  flex-direction: row;
+  gap: 0.7rem;
+  margin: 0.7rem 0 0 0;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  -webkit-overflow-scrolling: touch;
+  .exo-card {
+    background: map.get($colors, 'surface-light');
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    padding: 0.7rem 1rem;
+    min-width: 150px;
+    flex: 0 0 170px;
+    max-width: 200px;
+    h4 {
+      margin: 0 0 0.2rem 0;
+      color: map.get($colors, 'primary');
+      font-size: 1.01rem;
+      font-weight: 600;
+    }
+    .exercise-meta {
+      color: map.get($colors, 'text-secondary');
+      font-size: 0.93rem;
+      span {
+        margin-right: 0.4rem;
+      }
+    }
+  }
+  /* Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.activity-partner {
+  color: map.get($colors, 'primary');
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.activity-comment {
+  label {
+    font-weight: 600;
+    color: map.get($colors, 'text-primary');
+    margin-bottom: 0.2rem;
+    display: block;
+  }
+  .comment-content {
+    background: map.get($colors, 'surface-light');
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    color: map.get($colors, 'text-secondary');
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .activity-card {
+    padding: 1rem;
+  }
+  .activity-carousel .carousel-content {
+    min-width: 140px;
+    max-width: 100%;
+    padding: 0.7rem 0.5rem;
+  }
+}
+
+.activity-container {
+  padding-bottom: 80px; // Espace pour la navbar
+}
+
+.activity-container h1 {
+  margin-bottom: 1.1rem;
 } 

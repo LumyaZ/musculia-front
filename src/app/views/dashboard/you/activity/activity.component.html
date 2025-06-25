@@ -1,4 +1,39 @@
-<div class="activity-placeholder">
-  <h2>Activité</h2>
-  <p>À venir : historique et détails de vos activités.</p>
+<div class="activity-container">
+  <h1>Votre Activité</h1>
+
+  <div class="activity-search">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Rechercher une activité, un lieu..." />
+  </div>
+
+  <div class="activity-list">
+    <div *ngFor="let workout of filteredWorkouts()" class="activity-card">
+      <div class="activity-header">
+        <h2>{{ workout.title || 'Séance' }}</h2>
+        <div class="activity-meta">
+          <span class="activity-date">{{ workout.sessionDate | date:'dd/MM/yyyy' }}</span>
+          <span *ngIf="workout.location" class="activity-location">{{ workout.location }}</span>
+        </div>
+        <div class="activity-exo-count">
+          {{ workout.workoutDetails?.length || 0 }} exercice{{ (workout.workoutDetails?.length || 0) > 1 ? 's' : '' }} dans la séance
+        </div>
+      </div>
+      <div class="activity-exo-scroll">
+        <div *ngFor="let exo of workout.workoutDetails" class="exo-card">
+          <h4>{{ exo.exercise?.name }}</h4>
+          <div class="exercise-meta">
+            <span *ngIf="exo.repetitions">{{ exo.repetitions }} reps</span>
+            <span *ngIf="exo.sets">/{{ exo.sets }} séries</span>
+            <span *ngIf="exo.weight">- {{ exo.weight }} kg</span>
+          </div>
+        </div>
+      </div>
+      <div class="activity-partner" *ngIf="workout.partner">
+        <span>Avec <b>{{ workout.partner }}</b></span>
+      </div>
+      <div class="activity-comment">
+        <label>Commentaire :</label>
+        <div class="comment-content">{{ workout.notes || 'Aucun commentaire.' }}</div>
+      </div>
+    </div>
+  </div>
 </div> 
