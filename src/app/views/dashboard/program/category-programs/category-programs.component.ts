@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProgramCardComponent } from '../../../../components/program-card/program-card.component';
 
 @Component({
   selector: 'app-category-programs',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ProgramCardComponent],
   templateUrl: './category-programs.component.html',
   styleUrls: ['./category-programs.component.scss']
 })

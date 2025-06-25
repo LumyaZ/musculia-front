@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProgramCardComponent } from '../../../components/program-card/program-card.component';
 
 @Component({
   selector: 'app-program',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProgramCardComponent],
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.scss']
 })

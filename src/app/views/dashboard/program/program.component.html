@@ -32,16 +32,7 @@
         <span class="see-all-text" (click)="goToCategory(cat.slug)">Voir tout</span>
       </div>
       <div class="program-scroll-list">
-        <div class="program-card" *ngFor="let prog of cat.programs" (click)="goToProgram(prog)">
-          <div class="program-header">
-            <h2>{{ prog.name }}</h2>
-            <span class="program-level">{{ prog.level }}</span>
-          </div>
-          <div class="program-description">{{ prog.description }}</div>
-          <div class="program-footer">
-            <span class="program-duration">{{ prog.duration }}</span>
-          </div>
-        </div>
+        <app-program-card *ngFor="let prog of cat.programs" [program]="prog" (cardClick)="goToProgram(prog)"></app-program-card>
       </div>
     </div>
   </ng-container>

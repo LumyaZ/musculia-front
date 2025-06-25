@@ -1,0 +1,12 @@
+<div class="program-card" (click)="cardClick.emit()">
+  <div class="program-header">
+    <h2>{{ program.name }}</h2>
+    <span class="program-level">
+      <i class="fas" [ngClass]="getLevelIcon(program.level)"></i>
+    </span>
+  </div>
+  <div class="program-description">{{ program.description }}</div>
+  <div class="program-footer">
+    <span class="program-duration">{{ program.duration }}</span>
+  </div>
+</div> 
