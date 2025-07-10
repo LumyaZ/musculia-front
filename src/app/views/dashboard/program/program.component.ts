@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProgramCardComponent } from '../../../components/program-card/program-card.component';
+import { WorkoutService } from '../../../services/workout.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-program',
@@ -10,7 +12,7 @@ import { ProgramCardComponent } from '../../../components/program-card/program-c
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.scss']
 })
-export class ProgramComponent {
+export class ProgramComponent implements OnInit {
   categories = [
     {
       name: 'Populaires',
@@ -83,7 +85,46 @@ export class ProgramComponent {
 
   createMode = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router, 
+    private workoutService: WorkoutService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    // Vérifier si l'utilisateur est connecté
+    if (!this.authService.isLoggedIn()) {
+      console.log('Utilisateur non connecté, redirection vers login');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    // Afficher le token pour debug
+    const token = this.authService.getToken();
+    console.log('Token JWT:', token);
+
+    // Appeler l'API avec authentification
+    this.workoutService.getAllWorkouts().subscribe({
+      next: (workouts) => {
+        console.log('All workouts:', workouts);
+        console.log('Nombre de workouts récupérés:', workouts.length);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des workouts', err);
+        console.error('Status:', err.status);
+        console.error('StatusText:', err.statusText);
+        console.error('URL:', err.url);
+        console.error('Headers:', err.headers);
+        console.error('Error body:', err.error);
+        console.error('Message:', err.message);
+        
+        if (err.status === 401 || err.status === 403) {
+          console.log('Token expiré ou invalide, redirection vers login');
+          this.authService.logout();
+        }
+      }
+    });
+  }
 
   showCreateForm() {
     this.createMode = true;
