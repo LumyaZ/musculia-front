@@ -3,8 +3,23 @@
     <span>&larr;</span>
   </span>
   <input class="search-input" type="text" [(ngModel)]="searchTerm" placeholder="Rechercher un programme..." />
-  <h1>{{ category?.name }}</h1>
-  <div class="category-programs-list">
-    <app-program-card *ngFor="let prog of filteredPrograms()" [program]="prog" (cardClick)="goToProgram(prog)"></app-program-card>
+  <h1>{{ categoryName }}</h1>
+  
+  <div *ngIf="loading" class="loading">
+    <p>Chargement des programmes...</p>
+  </div>
+  
+  <div *ngIf="!loading">
+    <div *ngIf="workouts.length === 0" class="no-workouts">
+      <p>Aucun programme trouvé dans cette catégorie.</p>
+    </div>
+    
+    <div class="category-programs-list" *ngIf="workouts.length > 0">
+      <app-program-card 
+        *ngFor="let workout of filteredPrograms()" 
+        [program]="workout" 
+        (cardClick)="goToProgram(workout)">
+      </app-program-card>
+    </div>
   </div>
 </div> 

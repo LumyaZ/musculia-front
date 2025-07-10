@@ -149,15 +149,25 @@ h1 {
     font-weight: 700;
     margin: 0;
   }
-  .see-all-btn {
-    background: map.get($colors, 'primary-light');
-    color: map.get($colors, 'primary');
-    border: none;
-    border-radius: 8px;
-    padding: 0.32rem 0.8rem;
+  .see-all-link {
+    color: #fff;
     font-size: 0.93rem;
     font-weight: 600;
     cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 2px solid #fff;
+    transition: none;
+    line-height: 1.2;
+    display: inline-block;
+    text-decoration: none;
+    
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 
@@ -210,20 +220,4 @@ h1 {
 .program-description {
   margin-bottom: 0 !important;
   font-size: 0.97rem;
-}
-
-.see-all-text {
-  color: #fff;
-  font-size: 0.93rem;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
-  border-bottom: 2px solid #fff;
-  transition: none;
-  line-height: 1.2;
-  display: inline-block;
 } 

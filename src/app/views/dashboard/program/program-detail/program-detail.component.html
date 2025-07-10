@@ -2,6 +2,50 @@
   <span class="back-arrow" (click)="goBack()" aria-label="Retour" tabindex="0">
     <span>&larr;</span>
   </span>
-  <h1>Détail du programme</h1>
-  <p class="slug">Slug : {{ slug }}</p>
+  
+  <div *ngIf="loading" class="loading">
+    <p>Chargement...</p>
+  </div>
+
+  <div *ngIf="!loading && workout">
+    <h1>Détail du programme</h1>
+    
+    <!-- Informations du workout -->
+    <div class="workout-info">
+      <h2>{{ workout.notes || 'Workout ' + workout.id }}</h2>
+      <div class="workout-details">
+        <p><strong>Catégorie:</strong> {{ workout.categorie }}</p>
+        <p><strong>Durée:</strong> {{ workout.duration }} minutes</p>
+        <p><strong>Date:</strong> {{ workout.sessionDate | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p *ngIf="workout.notes"><strong>Notes:</strong> {{ workout.notes }}</p>
+      </div>
+    </div>
+
+    <!-- Liste des exercices -->
+    <div class="exercises-section" *ngIf="workoutDetails.length > 0">
+      <h3>Exercices ({{ workoutDetails.length }})</h3>
+      <div class="exercise-list">
+        <div *ngFor="let detail of workoutDetails; let i = index" class="exercise-item">
+          <div class="exercise-header">
+            <h4>{{ i + 1 }}. {{ detail.exercise?.name || 'Exercice ' + detail.id }}</h4>
+            <span class="difficulty" [class]="detail.difficulty">{{ detail.difficulty }}</span>
+          </div>
+          <div class="exercise-details">
+            <p *ngIf="detail.sets"><strong>Séries:</strong> {{ detail.sets }}</p>
+            <p *ngIf="detail.repetitions"><strong>Répétitions:</strong> {{ detail.repetitions }}</p>
+            <p *ngIf="detail.weight"><strong>Poids:</strong> {{ detail.weight }} kg</p>
+            <p *ngIf="detail.exercise?.description"><strong>Description:</strong> {{ detail.exercise.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="workoutDetails.length === 0" class="no-exercises">
+      <p>Aucun exercice trouvé pour ce workout.</p>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !workout" class="error">
+    <p>Workout non trouvé.</p>
+  </div>
 </div> 

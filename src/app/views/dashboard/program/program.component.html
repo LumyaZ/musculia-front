@@ -26,13 +26,24 @@
   </div>
 
   <ng-container *ngIf="!createMode">
-    <div *ngFor="let cat of categories" class="program-category-block">
+    <div *ngIf="categoryGroups.length === 0">
+      <p>Aucun programme trouvé.</p>
+    </div>
+    
+    <div *ngFor="let categoryGroup of categoryGroups" class="program-category-block">
       <div class="category-header">
-        <h2>{{ cat.name }}</h2>
-        <span class="see-all-text" (click)="goToCategory(cat.slug)">Voir tout</span>
+        <h2>{{ categoryGroup.name }}</h2>
+        <a class="see-all-link" [routerLink]="['/dashboard/program/category', categoryGroup.slug]">
+          Voir tout
+        </a>
       </div>
+      
       <div class="program-scroll-list">
-        <app-program-card *ngFor="let prog of cat.programs" [program]="prog" (cardClick)="goToProgram(prog)"></app-program-card>
+        <app-program-card 
+          *ngFor="let workout of categoryGroup.workouts" 
+          [program]="workout" 
+          (cardClick)="goToProgram(workout)">
+        </app-program-card>
       </div>
     </div>
   </ng-container>

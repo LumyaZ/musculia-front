@@ -41,16 +41,44 @@
   max-width: 150px;
 }
 
+.program-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.category-badge {
+  border-radius: 6px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  
+  i {
+    font-size: 0.75rem;
+  }
+}
+
 .program-level {
   background: map.get($colors, 'primary-light');
   color: map.get($colors, 'primary-contrast');
   border-radius: 6px;
   padding: 0.2rem 0.7rem;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
   white-space: nowrap;
-  flex-shrink: 0;
-  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  
+  i {
+    font-size: 0.75rem;
+  }
 }
 
 .program-description {

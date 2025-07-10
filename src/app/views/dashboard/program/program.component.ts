@@ -1,128 +1,101 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { ProgramCardComponent } from '../../../components/program-card/program-card.component';
 import { WorkoutService } from '../../../services/workout.service';
 import { AuthService } from '../../../services/auth.service';
+import { CategoryStyleService } from '../../../services/category-style.service';
+import { filter } from 'rxjs/operators';
+
+interface CategoryGroup {
+  name: string;
+  slug: string;
+  workouts: any[];
+  categoryStyle: any;
+}
 
 @Component({
   selector: 'app-program',
   standalone: true,
-  imports: [CommonModule, ProgramCardComponent],
+  imports: [CommonModule, RouterModule, ProgramCardComponent],
+  providers: [WorkoutService, AuthService, CategoryStyleService],
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit {
-  categories = [
-    {
-      name: 'Populaires',
-      slug: 'populaires',
-      programs: [
-        {
-          name: 'Full Body Débutant',
-          description: 'Un programme complet pour débuter en musculation.',
-          level: 'Débutant',
-          duration: '4 semaines',
-          slug: 'full-body-debutant'
-        },
-        {
-          name: 'Push Pull Legs',
-          description: 'Programme classique pour progresser sur tout le corps.',
-          level: 'Intermédiaire',
-          duration: '6 semaines',
-          slug: 'push-pull-legs'
-        },
-        {
-          name: 'Cardio & HIIT',
-          description: 'Pour améliorer l\'endurance et brûler des calories.',
-          level: 'Tous niveaux',
-          duration: '4 semaines',
-          slug: 'cardio-hiit'
-        }
-      ]
-    },
-    {
-      name: 'Prise de masse',
-      slug: 'prise-de-masse',
-      programs: [
-        {
-          name: 'Mass Gainer',
-          description: 'Programme intensif pour la prise de masse.',
-          level: 'Intermédiaire',
-          duration: '8 semaines',
-          slug: 'mass-gainer'
-        },
-        {
-          name: 'Hypertrophie',
-          description: 'Axé sur le volume musculaire.',
-          level: 'Avancé',
-          duration: '6 semaines',
-          slug: 'hypertrophie'
-        }
-      ]
-    },
-    {
-      name: 'Perte de poids',
-      slug: 'perte-de-poids',
-      programs: [
-        {
-          name: 'HIIT Brûle-Graisse',
-          description: 'Entraînements courts et intenses.',
-          level: 'Tous niveaux',
-          duration: '4 semaines',
-          slug: 'hiit-brule-graisse'
-        },
-        {
-          name: 'Cardio Express',
-          description: 'Cardio quotidien pour sécher.',
-          level: 'Débutant',
-          duration: '3 semaines',
-          slug: 'cardio-express'
-        }
-      ]
-    }
-  ];
-
+  workouts: any[] = [];
+  categoryGroups: CategoryGroup[] = [];
   createMode = false;
 
   constructor(
     private router: Router, 
     private workoutService: WorkoutService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private categoryStyleService: CategoryStyleService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    // Vérifier si l'utilisateur est connecté
-    if (!this.authService.isLoggedIn()) {
-      console.log('Utilisateur non connecté, redirection vers login');
-      this.router.navigate(['/auth/login']);
-      return;
-    }
+    this.loadWorkouts();
+  }
 
-    // Afficher le token pour debug
-    const token = this.authService.getToken();
-    console.log('Token JWT:', token);
-
-    // Appeler l'API avec authentification
+  loadWorkouts(): void {
     this.workoutService.getAllWorkouts().subscribe({
-      next: (workouts) => {
-        console.log('All workouts:', workouts);
-        console.log('Nombre de workouts récupérés:', workouts.length);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des workouts', err);
-        console.error('Status:', err.status);
-        console.error('StatusText:', err.statusText);
-        console.error('URL:', err.url);
-        console.error('Headers:', err.headers);
-        console.error('Error body:', err.error);
-        console.error('Message:', err.message);
+      next: (workouts: any[]) => {
+        this.workouts = workouts.map((workout: any) => ({
+          id: workout.id,
+          name: workout.notes || `Workout ${workout.id}`,
+          description: `Séance de ${workout.categorie || 'musculation'} - ${workout.duration} minutes`,
+          level: this.categoryStyleService.getCategoryLevel(workout.categorie),
+          duration: `${workout.duration} min`,
+          slug: `workout-${workout.id}`,
+          sessionDate: workout.sessionDate,
+          categorie: workout.categorie,
+          categoryStyle: this.categoryStyleService.getCategoryStyle(workout.categorie)
+        }));
         
+        // Grouper les workouts par catégorie
+        this.groupWorkoutsByCategory();
+        
+        console.log('Workouts récupérés:', this.workouts);
+        console.log('Workouts récupérés:', this.workouts.length);
+        console.log('Workouts transformés:', this.workouts);
+        console.log('Catégories groupées:', this.categoryGroups);
+        
+        // Forcer la détection de changements
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {        
         if (err.status === 401 || err.status === 403) {
           console.log('Token expiré ou invalide, redirection vers login');
           this.authService.logout();
         }
       }
+    });
+  }
+
+  groupWorkoutsByCategory(): void {
+    const grouped: { [key: string]: any[] } = {};
+    
+    // Grouper les workouts par catégorie
+    this.workouts.forEach(workout => {
+      const category = workout.categorie?.toUpperCase() || 'AUTRE';
+      if (!grouped[category]) {
+        grouped[category] = [];
+      }
+      grouped[category].push(workout);
+    });
+
+    // Créer les groupes de catégories
+    this.categoryGroups = Object.keys(grouped).map(category => {
+      const categoryStyle = this.categoryStyleService.getCategoryStyle(category);
+      return {
+        name: categoryStyle.name,
+        slug: category.toLowerCase(),
+        workouts: grouped[category].slice(0, 3), // Limiter à 3 workouts par catégorie
+        categoryStyle: categoryStyle
+      };
     });
   }
 

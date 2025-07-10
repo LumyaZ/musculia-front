@@ -47,6 +47,26 @@ h1 {
   margin-bottom: 2rem;
 }
 
+.loading {
+  text-align: center;
+  padding: 3rem 0;
+  color: map.get($colors, 'text-secondary');
+  
+  p {
+    font-size: 1.1rem;
+  }
+}
+
+.no-workouts {
+  text-align: center;
+  padding: 3rem 0;
+  color: map.get($colors, 'text-secondary');
+  
+  p {
+    font-size: 1.1rem;
+  }
+}
+
 .category-programs-list {
   display: flex;
   flex-wrap: wrap;

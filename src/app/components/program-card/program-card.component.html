@@ -1,9 +1,21 @@
 <div class="program-card" (click)="cardClick.emit()">
   <div class="program-header">
     <h2>{{ program.name }}</h2>
-    <span class="program-level">
-      <i class="fas" [ngClass]="getLevelIcon(program.level)"></i>
-    </span>
+    <div class="program-badges">
+      <!-- Badge de catégorie -->
+      <span class="category-badge" 
+            *ngIf="program.categoryStyle"
+            [style.background-color]="program.categoryStyle.backgroundColor"
+            [style.color]="program.categoryStyle.color">
+        <i class="fas" [ngClass]="program.categoryStyle.icon"></i>
+        {{ program.categoryStyle.name }}
+      </span>
+      <!-- Badge de niveau -->
+      <span class="program-level">
+        <i class="fas" [ngClass]="getLevelIcon(program.level)"></i>
+        {{ program.level }}
+      </span>
+    </div>
   </div>
   <div class="program-description">{{ program.description }}</div>
   <div class="program-footer">
