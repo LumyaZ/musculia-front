@@ -42,7 +42,9 @@
         <app-program-card 
           *ngFor="let workout of categoryGroup.workouts" 
           [program]="workout" 
-          (cardClick)="goToProgram(workout)">
+          (cardClick)="goToProgram(workout)"
+          (assignWorkout)="handleAssignWorkout($event)"
+          [isAssigned]="getAssignedWorkoutIds().includes(workout.id)">
         </app-program-card>
       </div>
     </div>

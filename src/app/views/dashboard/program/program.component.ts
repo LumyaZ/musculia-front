@@ -6,6 +6,7 @@ import { WorkoutService } from '../../../services/workout.service';
 import { AuthService } from '../../../services/auth.service';
 import { CategoryStyleService } from '../../../services/category-style.service';
 import { filter } from 'rxjs/operators';
+import { UserProfileService } from '../../../services/user-profile.service';
 
 interface CategoryGroup {
   name: string;
@@ -18,7 +19,7 @@ interface CategoryGroup {
   selector: 'app-program',
   standalone: true,
   imports: [CommonModule, RouterModule, ProgramCardComponent],
-  providers: [WorkoutService, AuthService, CategoryStyleService],
+  providers: [WorkoutService, AuthService, CategoryStyleService, UserProfileService],
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.scss']
 })
@@ -32,11 +33,28 @@ export class ProgramComponent implements OnInit {
     private workoutService: WorkoutService,
     private authService: AuthService,
     private categoryStyleService: CategoryStyleService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userProfileService: UserProfileService
   ) { }
 
   ngOnInit(): void {
+    this.loadUserProfile();
     this.loadWorkouts();
+  }
+
+  loadUserProfile(): void {
+    const userDataString = localStorage.getItem('user');
+    if (userDataString) {
+      try {
+        const userData = JSON.parse(userDataString);
+        const userId = userData.id;
+        if (userId) {
+          this.userProfileService.getProfileByUserId(userId).subscribe();
+        }
+      } catch (e) {
+        console.error('Erreur lors du parsing du user dans localStorage', e);
+      }
+    }
   }
 
   loadWorkouts(): void {
@@ -114,5 +132,26 @@ export class ProgramComponent implements OnInit {
   goToProgram(prog: any) {
     // Redirection fictive, à adapter selon la future page de détail
     this.router.navigate(['/dashboard/program', prog.slug]);
+  }
+
+  handleAssignWorkout(workoutId: number) {
+    const currentProfile = this.userProfileService.currentProfileSubject.value;
+    if (!currentProfile || !currentProfile.id) {
+      alert('Profil utilisateur non chargé.');
+      return;
+    }
+    this.userProfileService.addWorkoutToUserProfile(currentProfile.id, workoutId).subscribe({
+      next: () => {
+        alert('Workout ajouté à votre profil !');
+      },
+      error: () => {
+        alert('Erreur lors de l\'ajout du workout');
+      }
+    });
+  }
+
+  getAssignedWorkoutIds(): number[] {
+    const currentProfile = this.userProfileService.currentProfileSubject.value;
+    return currentProfile && currentProfile.workouts ? currentProfile.workouts.map(w => w.id).filter((id): id is number => id !== undefined) : [];
   }
 } 

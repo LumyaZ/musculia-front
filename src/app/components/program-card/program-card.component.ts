@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 export class ProgramCardComponent {
   @Input() program: any;
   @Output() cardClick = new EventEmitter<void>();
+  @Output() assignWorkout = new EventEmitter<number>();
+  @Input() isAssigned: boolean = false;
 
   getLevelIcon(level: string): string {
     switch ((level || '').toLowerCase()) {

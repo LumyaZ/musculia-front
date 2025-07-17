@@ -4,7 +4,6 @@ import { WorkoutDetails } from './workout-details.model';
 
 export interface Workout {
     id?: number;
-    userProfileId?: number;
     programId?: number;
     sessionDate?: Date;
     duration?: number; // en minutes

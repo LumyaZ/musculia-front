@@ -9,7 +9,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class UserProfileService {
   private apiUrl = 'http://localhost:8081/api/profiles';
-  private currentProfileSubject = new BehaviorSubject<UserProfile | null>(null);
+  public currentProfileSubject = new BehaviorSubject<UserProfile | null>(null);
   currentProfile$ = this.currentProfileSubject.asObservable();
   private refreshNeeded = new Subject<void>();
   refreshNeeded$ = this.refreshNeeded.asObservable();
@@ -54,5 +54,9 @@ export class UserProfileService {
         this.refreshNeeded.next();
       })
     );
+  }
+
+  addWorkoutToUserProfile(profileId: number, workoutId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${profileId}/workouts/${workoutId}`, {});
   }
 } 
