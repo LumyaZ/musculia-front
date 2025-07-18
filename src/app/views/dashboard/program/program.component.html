@@ -1,52 +1,58 @@
 <div class="program-container">
   <h1>Programmes</h1>
 
-  <div class="program-actions">
-    <button class="create-btn" (click)="showCreateForm()" *ngIf="!createMode">Créer un programme</button>
-    <button class="cancel-btn" (click)="hideCreateForm()" *ngIf="createMode">Annuler</button>
+  <div *ngIf="loading" class="loading">
+    <p>Chargement des programmes...</p>
   </div>
 
-  <div *ngIf="createMode" class="program-create-form">
-    <h2>Créer un nouveau programme</h2>
-    <form>
-      <label>Nom du programme</label>
-      <input type="text" placeholder="Nom..." />
-      <label>Description</label>
-      <textarea placeholder="Description..."></textarea>
-      <label>Niveau</label>
-      <select>
-        <option>Débutant</option>
-        <option>Intermédiaire</option>
-        <option>Avancé</option>
-      </select>
-      <label>Durée</label>
-      <input type="text" placeholder="ex: 4 semaines" />
-      <button type="submit" class="submit-btn">Enregistrer</button>
-    </form>
-  </div>
-
-  <ng-container *ngIf="!createMode">
-    <div *ngIf="categoryGroups.length === 0">
-      <p>Aucun programme trouvé.</p>
+  <ng-container *ngIf="!loading">
+    <div class="program-actions">
+      <button class="create-btn" (click)="showCreateForm()" *ngIf="!createMode">Créer un programme</button>
+      <button class="cancel-btn" (click)="hideCreateForm()" *ngIf="createMode">Annuler</button>
     </div>
-    
-    <div *ngFor="let categoryGroup of categoryGroups" class="program-category-block">
-      <div class="category-header">
-        <h2>{{ categoryGroup.name }}</h2>
-        <a class="see-all-link" [routerLink]="['/dashboard/program/category', categoryGroup.slug]">
-          Voir tout
-        </a>
+
+    <div *ngIf="createMode" class="program-create-form">
+      <h2>Créer un nouveau programme</h2>
+      <form>
+        <label>Nom du programme</label>
+        <input type="text" placeholder="Nom..." />
+        <label>Description</label>
+        <textarea placeholder="Description..."></textarea>
+        <label>Niveau</label>
+        <select>
+          <option>Débutant</option>
+          <option>Intermédiaire</option>
+          <option>Avancé</option>
+        </select>
+        <label>Durée</label>
+        <input type="text" placeholder="ex: 4 semaines" />
+        <button type="submit" class="submit-btn">Enregistrer</button>
+      </form>
+    </div>
+
+    <ng-container *ngIf="!createMode">
+      <div *ngIf="categoryGroups.length === 0">
+        <p>Aucun programme trouvé.</p>
       </div>
       
-      <div class="program-scroll-list">
-        <app-program-card 
-          *ngFor="let workout of categoryGroup.workouts" 
-          [program]="workout" 
-          (cardClick)="goToProgram(workout)"
-          (assignWorkout)="handleAssignWorkout($event)"
-          [isAssigned]="getAssignedWorkoutIds().includes(workout.id)">
-        </app-program-card>
+      <div *ngFor="let categoryGroup of categoryGroups" class="program-category-block">
+        <div class="category-header">
+          <h2>{{ categoryGroup.name }}</h2>
+          <a class="see-all-link" [routerLink]="['/dashboard/program/category', categoryGroup.slug]">
+            Voir tout
+          </a>
+        </div>
+        
+        <div class="program-scroll-list">
+          <app-program-card 
+            *ngFor="let workout of categoryGroup.workouts" 
+            [program]="workout" 
+            (cardClick)="goToProgram(workout)"
+            (assignWorkout)="handleAssignWorkout($event)"
+            [isAssigned]="getAssignedWorkoutIds().includes(workout.id)">
+          </app-program-card>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </ng-container>
 </div> 

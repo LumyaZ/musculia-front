@@ -7,6 +7,9 @@ import { AuthService } from '../../../services/auth.service';
 import { CategoryStyleService } from '../../../services/category-style.service';
 import { filter } from 'rxjs/operators';
 import { UserProfileService } from '../../../services/user-profile.service';
+import { forkJoin, of, Observable } from 'rxjs';
+import { startWith } from 'rxjs/operators';
+import { UserProfile } from '../../../_models/user-profile.model';
 
 interface CategoryGroup {
   name: string;
@@ -27,6 +30,7 @@ export class ProgramComponent implements OnInit {
   workouts: any[] = [];
   categoryGroups: CategoryGroup[] = [];
   createMode = false;
+  loading = true;
 
   constructor(
     private router: Router, 
@@ -38,28 +42,26 @@ export class ProgramComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadUserProfile();
-    this.loadWorkouts();
-  }
-
-  loadUserProfile(): void {
+    this.loading = true;
     const userDataString = localStorage.getItem('user');
+    let userProfile$: Observable<UserProfile | null> = of(null);
     if (userDataString) {
       try {
         const userData = JSON.parse(userDataString);
         const userId = userData.id;
         if (userId) {
-          this.userProfileService.getProfileByUserId(userId).subscribe();
+          userProfile$ = this.userProfileService.getProfileByUserId(userId).pipe(startWith(null));
         }
       } catch (e) {
         console.error('Erreur lors du parsing du user dans localStorage', e);
       }
     }
-  }
-
-  loadWorkouts(): void {
-    this.workoutService.getAllWorkouts().subscribe({
-      next: (workouts: any[]) => {
+    forkJoin([
+      userProfile$,
+      this.workoutService.getAllWorkouts()
+    ]).subscribe({
+      next: ([profile, workouts]: any[]) => {
+        // Les deux sont chargés
         this.workouts = workouts.map((workout: any) => ({
           id: workout.id,
           name: workout.notes || `Workout ${workout.id}`,
@@ -71,20 +73,13 @@ export class ProgramComponent implements OnInit {
           categorie: workout.categorie,
           categoryStyle: this.categoryStyleService.getCategoryStyle(workout.categorie)
         }));
-        
-        // Grouper les workouts par catégorie
         this.groupWorkoutsByCategory();
-        
-        console.log('Workouts récupérés:', this.workouts);
-        console.log('Workouts récupérés:', this.workouts.length);
-        console.log('Workouts transformés:', this.workouts);
-        console.log('Catégories groupées:', this.categoryGroups);
-        
-        // Forcer la détection de changements
+        this.loading = false;
         this.cdr.markForCheck();
         this.cdr.detectChanges();
       },
-      error: (err: any) => {        
+      error: (err: any) => {
+        this.loading = false;
         if (err.status === 401 || err.status === 403) {
           console.log('Token expiré ou invalide, redirection vers login');
           this.authService.logout();
