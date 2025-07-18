@@ -29,7 +29,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadUserProfile();
     
-    // S'abonner aux mises à jour du profil
     this.refreshSubscription = this.userProfileService.refreshNeeded$.subscribe(() => {
       this.loadUserProfile();
     });

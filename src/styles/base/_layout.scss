@@ -1,0 +1,10 @@
+:root {
+  --header-height: 56px;
+  --navbar-height: 64px;
+}
+
+.with-header-navbar-offset {
+  min-height: calc(100vh - var(--header-height) - var(--navbar-height));
+  padding-top: var(--header-height);
+  padding-bottom: var(--navbar-height);
+} 
