@@ -29,7 +29,8 @@
         <app-program-card 
           *ngFor="let program of categoryGroup.workouts" 
           [program]="program"
-          [isAssigned]="true">
+          [isAssigned]="true"
+          (cardClick)="goToProgram(program)">
         </app-program-card>
       </div>
     </div>

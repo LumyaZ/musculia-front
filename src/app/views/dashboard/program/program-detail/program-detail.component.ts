@@ -18,6 +18,7 @@ export class ProgramDetailComponent implements OnInit {
   workout: any = null;
   workoutDetails: any[] = [];
   loading = true;
+  fromYouProgress = false;
 
   constructor(
     private route: ActivatedRoute, 
@@ -34,7 +35,13 @@ export class ProgramDetailComponent implements OnInit {
       this.router.navigate(['/auth/login']);
       return;
     }
-
+    // Détecter si on vient de you/progress
+    const nav = this.router.getCurrentNavigation();
+    if (nav && nav.previousNavigation && nav.previousNavigation.finalUrl && nav.previousNavigation.finalUrl.toString().includes('/dashboard/you/progress')) {
+      this.fromYouProgress = true;
+    } else if (window.history.state && window.history.state.fromYouProgress) {
+      this.fromYouProgress = true;
+    }
     // Écouter les paramètres de route
     this.route.params.subscribe(params => {
       this.slug = params['slug'];
@@ -95,6 +102,10 @@ export class ProgramDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/dashboard/program']);
+    if (this.fromYouProgress) {
+      this.router.navigate(['/dashboard/you']);
+    } else {
+      this.router.navigate(['/dashboard/program']);
+    }
   }
 } 

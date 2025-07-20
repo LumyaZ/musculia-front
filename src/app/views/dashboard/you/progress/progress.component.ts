@@ -185,6 +185,10 @@ export class ProgressComponent implements OnInit {
     this.router.navigate(['/dashboard/program/creation']);
   }
 
+  goToProgram(program: any) {
+    this.router.navigate(['/dashboard/program', program.slug], { state: { fromYouProgress: true } });
+  }
+
   ngAfterViewInit() {
     console.log('ngAfterViewInit, chartCanvas:', this.chartCanvas);
   }

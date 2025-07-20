@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class YouComponent {
   user: any;
-  joinDate: Date = new Date(); // À remplacer par la vraie date d'inscription
+  joinDate: Date = new Date();
   selectedTab: 'progress' | 'activity' = 'progress';
 
   constructor(private authService: AuthService) {}

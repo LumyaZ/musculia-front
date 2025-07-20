@@ -2,6 +2,9 @@
   <span class="back-arrow" (click)="goBack()" aria-label="Retour" tabindex="0">
     <span>&larr;</span>
   </span>
+  <button *ngIf="!loading && workout && workout.published === false" class="add-exercise-btn" aria-label="Ajouter un exercice">
+    <span>+</span>
+  </button>
   
   <div *ngIf="loading" class="loading">
     <p>Chargement...</p>
