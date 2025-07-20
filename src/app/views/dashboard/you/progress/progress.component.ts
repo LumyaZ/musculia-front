@@ -8,6 +8,7 @@ import { CategoryStyleService } from '../../../../services/category-style.servic
 import { catchError } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 import { UserProfile } from '../../../../_models/user-profile.model';
+import { WorkoutService } from '../../../../services/workout.service';
 
 @Component({
   selector: 'app-progress',
@@ -59,6 +60,7 @@ export class ProgressComponent implements OnInit {
   private router = inject(Router);
   private categoryStyleService = inject(CategoryStyleService);
   private cdr = inject(ChangeDetectorRef);
+  private workoutService = inject(WorkoutService);
 
   constructor() {}
 
@@ -70,57 +72,92 @@ export class ProgressComponent implements OnInit {
     this.loading = true;
     const userDataString = localStorage.getItem('user');
     let userProfile$: import('rxjs').Observable<UserProfile|null> = of(null);
+    let authUserId = null;
     if (userDataString) {
       try {
         const userData = JSON.parse(userDataString);
-        const userId = userData.id;
-        if (userId) {
-          userProfile$ = this.userProfileService.getProfileByUserId(userId);
+        authUserId = userData.id;
+        if (authUserId) {
+          userProfile$ = this.userProfileService.getProfileByUserId(authUserId);
         }
       } catch (e) {}
     }
-    // Simuler un chargement de workoutData (remplace par un vrai appel si besoin)
     const workoutData$ = of(this.workoutData);
-    forkJoin([userProfile$, workoutData$]).subscribe({
-      next: ([profile, workoutData]: any[]) => {
-        // Programmes utilisateur
-        const workouts = (profile && profile.workouts) ? profile.workouts : [];
-        this.userPrograms = Array.isArray(workouts) ? workouts.map((workout: any) => ({
-          id: workout.id,
-          name: workout.notes || `Workout ${workout.id}`,
-          description: `Séance de ${workout.categorie || 'musculation'} - ${workout.duration} minutes`,
-          level: this.categoryStyleService.getCategoryLevel(workout.categorie),
-          duration: `${workout.duration} min`,
-          slug: `workout-${workout.id}`,
-          sessionDate: workout.sessionDate,
-          categorie: workout.categorie,
-          categoryStyle: this.categoryStyleService.getCategoryStyle(workout.categorie)
-        })) : [];
-        // Grouper par catégorie (tous les non-reconnus dans 'AUTRE')
-        const grouped: { [key: string]: any[] } = {};
-        this.userPrograms.forEach(workout => {
-          let category = (workout.categorie || '').toUpperCase();
-          if (!category || category === 'AUTRE' || category === 'OTHER' || category === 'NONE') {
-            category = 'AUTRE';
+    userProfile$.subscribe({
+      next: (profile: any) => {
+        console.log('profile:', profile);
+        if (!profile || !profile.id) {
+          this.userPrograms = [];
+          this.categoryGroups = [];
+          this.loading = false;
+          this.createChart();
+          return;
+        }
+        // Charger les workouts avec l'id du profil utilisateur
+        this.workoutService.getWorkoutsByUserProfileId(profile.id).subscribe({
+          next: (workouts: any[]) => {
+            console.log('workouts (depuis service):', workouts);
+            let userId = null;
+            if (profile && profile.authUser && profile.authUser.id) {
+              userId = profile.authUser.id;
+            }
+            console.log('User connecté (userId):', userId);
+            this.userPrograms = Array.isArray(workouts)
+              ? workouts.filter((workout: any) => {
+                  if (!userId) return true;
+                  if (workout.publishedBy && typeof workout.publishedBy === 'object') {
+                    return workout.publishedBy.id === userId;
+                  }
+                  return workout.publishedBy === userId;
+                }).map((workout: any) => ({
+                  ...workout,
+                  name: workout.notes || `Workout ${workout.id}`,
+                  description: `Séance de ${workout.categorie || 'musculation'} - ${workout.duration} minutes`,
+                  level: this.categoryStyleService.getCategoryLevel(workout.categorie),
+                  duration: `${workout.duration} min`,
+                  slug: `workout-${workout.id}`,
+                  sessionDate: workout.sessionDate,
+                  categorie: workout.categorie,
+                  categoryStyle: this.categoryStyleService.getCategoryStyle(workout.categorie)
+                }))
+              : [];
+            console.log('userPrograms filtrés:', this.userPrograms);
+            // Grouper par catégorie (tous les non-reconnus dans 'AUTRE')
+            const grouped: { [key: string]: any[] } = {};
+            this.userPrograms.forEach(workout => {
+              let category = (workout.categorie || '').toUpperCase();
+              if (!category || category === 'AUTRE' || category === 'OTHER' || category === 'NONE') {
+                category = 'AUTRE';
+              }
+              if (!grouped[category]) {
+                grouped[category] = [];
+              }
+              grouped[category].push(workout);
+            });
+            this.categoryGroups = Object.keys(grouped).map(category => {
+              const categoryStyle = this.categoryStyleService.getCategoryStyle(category);
+              return {
+                name: categoryStyle.name,
+                slug: category.toLowerCase(),
+                workouts: grouped[category],
+                categoryStyle: categoryStyle
+              };
+            });
+            console.log('categoryGroups générés:', this.categoryGroups);
+            // Données du chart
+            workoutData$.subscribe((workoutData) => {
+              this.workoutData = workoutData;
+              this.loading = false;
+              this.createChart();
+            });
+          },
+          error: () => {
+            this.userPrograms = [];
+            this.categoryGroups = [];
+            this.loading = false;
+            this.createChart();
           }
-          if (!grouped[category]) {
-            grouped[category] = [];
-          }
-          grouped[category].push(workout);
         });
-        this.categoryGroups = Object.keys(grouped).map(category => {
-          const categoryStyle = this.categoryStyleService.getCategoryStyle(category);
-          return {
-            name: categoryStyle.name,
-            slug: category.toLowerCase(),
-            workouts: grouped[category],
-            categoryStyle: categoryStyle
-          };
-        });
-        // Données du chart
-        this.workoutData = workoutData;
-        this.loading = false;
-        this.createChart();
       },
       error: () => {
         this.userPrograms = [];

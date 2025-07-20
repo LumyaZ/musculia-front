@@ -64,17 +64,20 @@ export class ProgramComponent implements OnInit {
         if (profile) {
           this.userProfileService.currentProfileSubject.next(profile);
         }
-        this.workouts = workouts.map((workout: any) => ({
-          id: workout.id,
-          name: workout.notes || `Workout ${workout.id}`,
-          description: `Séance de ${workout.categorie || 'musculation'} - ${workout.duration} minutes`,
-          level: this.categoryStyleService.getCategoryLevel(workout.categorie),
-          duration: `${workout.duration} min`,
-          slug: `workout-${workout.id}`,
-          sessionDate: workout.sessionDate,
-          categorie: workout.categorie,
-          categoryStyle: this.categoryStyleService.getCategoryStyle(workout.categorie)
-        }));
+        this.workouts = workouts
+          .filter((workout: any) => workout.published)
+          .map((workout: any) => ({
+            ...workout,
+            name: workout.notes || `Workout ${workout.id}`,
+            description: `Séance de ${workout.categorie || 'musculation'} - ${workout.duration} minutes`,
+            level: this.categoryStyleService.getCategoryLevel(workout.categorie),
+            duration: `${workout.duration} min`,
+            slug: `workout-${workout.id}`,
+            sessionDate: workout.sessionDate,
+            categorie: workout.categorie,
+            categoryStyle: this.categoryStyleService.getCategoryStyle(workout.categorie)
+          }));
+        console.log('workouts:', this.workouts);
         this.groupWorkoutsByCategory();
         this.loading = false;
         this.cdr.markForCheck();

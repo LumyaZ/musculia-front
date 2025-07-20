@@ -25,7 +25,7 @@ export class WorkoutService {
   }
 
   getWorkoutsByUserProfileId(userProfileId: number): Observable<Workout[]> {
-    return this.http.get<Workout[]>(`${this.apiUrl}/user/${userProfileId}`);
+    return this.http.get<Workout[]>(`${this.apiUrl}/profiles/${userProfileId}/workouts`);
   }
 
   updateWorkout(id: number, workout: Workout): Observable<Workout> {

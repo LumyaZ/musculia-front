@@ -11,4 +11,6 @@ export interface Workout {
     createdAt?: Date;
     lastUpdated?: Date;
     workoutDetails?: any[];
-} 
+    published?: boolean;
+    publishedBy?: UserProfile | number;
+}
