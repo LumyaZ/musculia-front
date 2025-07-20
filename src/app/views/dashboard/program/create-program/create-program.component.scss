@@ -1,0 +1,100 @@
+@use "sass:map";
+@use "../../../../../styles/_variables.scss" as *;
+
+.create-program-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  background: map.get($colors, 'surface');
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2rem;
+  position: relative;
+
+  .back-arrow {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    color: map.get($colors, 'primary');
+    font-size: 1.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 1.2rem;
+    margin-left: 0.1rem;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    transition: color 0.2s;
+    &:hover {
+      color: map.get($colors, 'primary-light');
+    }
+  }
+
+  h1 {
+    text-align: center;
+    color: map.get($colors, 'primary');
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      label {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: map.get($colors, 'text-primary');
+      }
+      input, textarea {
+        border: 1px solid map.get($colors, 'border');
+        border-radius: 6px;
+        padding: 0.7rem 1rem;
+        font-size: 1rem;
+        background: map.get($colors, 'surface-light');
+        color: map.get($colors, 'text-primary');
+        transition: border 0.2s;
+        &:focus {
+          border-color: map.get($colors, 'primary');
+          outline: none;
+        }
+      }
+      textarea {
+        min-height: 70px;
+        resize: vertical;
+      }
+    }
+    button[type="submit"] {
+      background: map.get($colors, 'primary');
+      color: map.get($colors, 'primary-contrast');
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 1rem;
+      &:hover:not(:disabled) {
+        background: map.get($colors, 'primary-light');
+      }
+      &:disabled {
+        background: #eee;
+        color: #aaa;
+        cursor: not-allowed;
+      }
+    }
+    .error-message {
+      color: map.get($colors, 'primary');
+      background: #fee2e2;
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+  }
+} 

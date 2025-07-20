@@ -124,7 +124,12 @@ export class ProgressComponent implements OnInit {
             console.log('userPrograms filtrés:', this.userPrograms);
             // Grouper par catégorie (tous les non-reconnus dans 'AUTRE')
             const grouped: { [key: string]: any[] } = {};
+            const drafts: any[] = [];
             this.userPrograms.forEach(workout => {
+              if (workout.published === false) {
+                drafts.push(workout);
+                return;
+              }
               let category = (workout.categorie || '').toUpperCase();
               if (!category || category === 'AUTRE' || category === 'OTHER' || category === 'NONE') {
                 category = 'AUTRE';
@@ -143,6 +148,14 @@ export class ProgressComponent implements OnInit {
                 categoryStyle: categoryStyle
               };
             });
+            if (drafts.length > 0) {
+              this.categoryGroups.unshift({
+                name: 'Brouillons',
+                slug: 'drafts',
+                workouts: drafts,
+                categoryStyle: { name: 'Brouillons', color: '#aaa', backgroundColor: '#f3f3f3', icon: 'fa-pen' }
+              });
+            }
             console.log('categoryGroups générés:', this.categoryGroups);
             // Données du chart
             workoutData$.subscribe((workoutData) => {
@@ -169,7 +182,7 @@ export class ProgressComponent implements OnInit {
   }
 
   goToCreateProgram() {
-    this.router.navigate(['/dashboard/program/create']);
+    this.router.navigate(['/dashboard/program/creation']);
   }
 
   ngAfterViewInit() {

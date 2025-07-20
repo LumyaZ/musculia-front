@@ -5,6 +5,7 @@ import { ActivityComponent } from './activity/activity.component';
 import { YouComponent } from './you/you.component';
 import { ProgramComponent } from './program/program.component';
 import { CategoryProgramsComponent } from './program/category-programs/category-programs.component';
+import { CreateProgramComponent } from './program/create-program/create-program.component';
 
 const routes: Routes = [
   {
@@ -21,10 +22,15 @@ const routes: Routes = [
   },
   {
     path: 'program',
-    component: ProgramComponent  },
+    component: ProgramComponent  
+  },
   {
     path: 'program/category/:slug',
     component: CategoryProgramsComponent
+  },
+  {
+    path: 'program/creation',
+    component: CreateProgramComponent
   },
   {
     path: 'program/:slug',

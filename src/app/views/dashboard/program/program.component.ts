@@ -130,7 +130,6 @@ export class ProgramComponent implements OnInit {
   }
 
   goToProgram(prog: any) {
-    // Redirection fictive, à adapter selon la future page de détail
     this.router.navigate(['/dashboard/program', prog.slug]);
   }
 

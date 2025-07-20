@@ -12,6 +12,7 @@ import { YouComponent } from './views/dashboard/you/you.component';
 import { ProfilePageComponent } from './views/profile-page/profile-page.component';
 import { provideHttpClient } from '@angular/common/http';
 import { ProgramComponent } from './views/dashboard/program/program.component';
+import { CreateProgramComponent } from './views/dashboard/program/create-program/create-program.component';
 
 const authGuard = () => {
   const authService = inject(AuthService);
@@ -44,6 +45,10 @@ export const routes: Routes = [
       { path: 'you', component: YouComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
+  },
+  {
+    path: 'dashboard/program/creation',
+    component: CreateProgramComponent
   },
   {
     path: 'dashboard/program/category/:slug',
