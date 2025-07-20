@@ -1,4 +1,37 @@
 <!-- Graphique d'évolution des entraînements -->
 <div class="workout-chart-container">
-  <canvas #workoutChart></canvas>
+  <canvas *ngIf="!loading" #workoutChart></canvas>
+</div>
+
+<!-- Liste des programmes de l'utilisateur groupés par catégorie -->
+<div class="user-programs-section">
+  <div class="user-programs-header">
+    <h2>Mes programmes</h2>
+    <button class="add-program-btn" (click)="goToCreateProgram()" title="Créer un programme">
+      <span style="font-size: 1.3rem; line-height: 1;">+</span>
+    </button>
+  </div>
+  <div *ngIf="loading" class="loading">
+    <p>Chargement de vos programmes...</p>
+  </div>
+  <div *ngIf="!loading && categoryGroups.length === 0">
+    <p>Aucun programme associé à votre profil.</p>
+  </div>
+  <div *ngIf="!loading && categoryGroups.length > 0">
+    <div *ngFor="let categoryGroup of categoryGroups" class="program-category-block">
+      <div class="category-header">
+        <h3>{{ categoryGroup.name }}</h3>
+        <a class="see-all-link" [routerLink]="['/dashboard/program/category', categoryGroup.slug]">
+          Voir tout
+        </a>
+      </div>
+      <div class="program-scroll-list">
+        <app-program-card 
+          *ngFor="let program of categoryGroup.workouts" 
+          [program]="program"
+          [isAssigned]="true">
+        </app-program-card>
+      </div>
+    </div>
+  </div>
 </div> 

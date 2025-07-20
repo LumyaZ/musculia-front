@@ -61,7 +61,9 @@ export class ProgramComponent implements OnInit {
       this.workoutService.getAllWorkouts()
     ]).subscribe({
       next: ([profile, workouts]: any[]) => {
-        // Les deux sont chargés
+        if (profile) {
+          this.userProfileService.currentProfileSubject.next(profile);
+        }
         this.workouts = workouts.map((workout: any) => ({
           id: workout.id,
           name: workout.notes || `Workout ${workout.id}`,
@@ -78,7 +80,7 @@ export class ProgramComponent implements OnInit {
         this.cdr.markForCheck();
         this.cdr.detectChanges();
       },
-      error: (err: any) => {
+      error: (err: any) => {        
         this.loading = false;
         if (err.status === 401 || err.status === 403) {
           console.log('Token expiré ou invalide, redirection vers login');

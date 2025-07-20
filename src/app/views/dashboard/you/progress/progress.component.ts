@@ -1,11 +1,18 @@
-import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, ViewChild, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
+import { ProgramCardComponent } from '../../../../components/program-card/program-card.component';
+import { Router, RouterModule } from '@angular/router';
+import { UserProfileService } from '../../../../services/user-profile.service';
+import { CategoryStyleService } from '../../../../services/category-style.service';
+import { catchError } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { UserProfile } from '../../../../_models/user-profile.model';
 
 @Component({
   selector: 'app-progress',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProgramCardComponent, RouterModule],
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
@@ -44,89 +51,183 @@ export class ProgressComponent implements OnInit {
     return this.circumference * (1 - this.current / this.goal);
   }
 
-  ngOnInit() {}
+  userPrograms: any[] = [];
+  loading = true;
+  categoryGroups: { name: string, slug: string, workouts: any[], categoryStyle: any }[] = [];
+
+  private userProfileService = inject(UserProfileService);
+  private router = inject(Router);
+  private categoryStyleService = inject(CategoryStyleService);
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() {}
+
+  ngOnInit() {
+    this.loadAllData();
+  }
+
+  loadAllData() {
+    this.loading = true;
+    const userDataString = localStorage.getItem('user');
+    let userProfile$: import('rxjs').Observable<UserProfile|null> = of(null);
+    if (userDataString) {
+      try {
+        const userData = JSON.parse(userDataString);
+        const userId = userData.id;
+        if (userId) {
+          userProfile$ = this.userProfileService.getProfileByUserId(userId);
+        }
+      } catch (e) {}
+    }
+    // Simuler un chargement de workoutData (remplace par un vrai appel si besoin)
+    const workoutData$ = of(this.workoutData);
+    forkJoin([userProfile$, workoutData$]).subscribe({
+      next: ([profile, workoutData]: any[]) => {
+        // Programmes utilisateur
+        const workouts = (profile && profile.workouts) ? profile.workouts : [];
+        this.userPrograms = Array.isArray(workouts) ? workouts.map((workout: any) => ({
+          id: workout.id,
+          name: workout.notes || `Workout ${workout.id}`,
+          description: `Séance de ${workout.categorie || 'musculation'} - ${workout.duration} minutes`,
+          level: this.categoryStyleService.getCategoryLevel(workout.categorie),
+          duration: `${workout.duration} min`,
+          slug: `workout-${workout.id}`,
+          sessionDate: workout.sessionDate,
+          categorie: workout.categorie,
+          categoryStyle: this.categoryStyleService.getCategoryStyle(workout.categorie)
+        })) : [];
+        // Grouper par catégorie (tous les non-reconnus dans 'AUTRE')
+        const grouped: { [key: string]: any[] } = {};
+        this.userPrograms.forEach(workout => {
+          let category = (workout.categorie || '').toUpperCase();
+          if (!category || category === 'AUTRE' || category === 'OTHER' || category === 'NONE') {
+            category = 'AUTRE';
+          }
+          if (!grouped[category]) {
+            grouped[category] = [];
+          }
+          grouped[category].push(workout);
+        });
+        this.categoryGroups = Object.keys(grouped).map(category => {
+          const categoryStyle = this.categoryStyleService.getCategoryStyle(category);
+          return {
+            name: categoryStyle.name,
+            slug: category.toLowerCase(),
+            workouts: grouped[category],
+            categoryStyle: categoryStyle
+          };
+        });
+        // Données du chart
+        this.workoutData = workoutData;
+        this.loading = false;
+        this.createChart();
+      },
+      error: () => {
+        this.userPrograms = [];
+        this.categoryGroups = [];
+        this.loading = false;
+        this.createChart();
+      }
+    });
+  }
+
+  goToCreateProgram() {
+    this.router.navigate(['/dashboard/program/create']);
+  }
 
   ngAfterViewInit() {
-    this.createChart();
+    console.log('ngAfterViewInit, chartCanvas:', this.chartCanvas);
   }
 
   private createChart() {
-    const ctx = this.chartCanvas.nativeElement.getContext('2d');
-    const weekLabels = this.getLast8WeeksLabels();
-    const labels = weekLabels.map(w => w.label);
-    if (this.chart) this.chart.destroy();
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [{
-          label: "Nombre d'entraînements",
-          data: this.workoutData,
-          borderColor: '#DC2626',
-          backgroundColor: 'rgba(220, 38, 38, 0.1)',
-          tension: 0.4,
-          fill: false,
-          pointBackgroundColor: '#DC2626',
-          pointBorderColor: '#DC2626',
-          pointRadius: 4,
-          pointHoverRadius: 6,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            enabled: true,
-            backgroundColor: '#222',
-            titleColor: '#fff',
-            bodyColor: '#fff',
-            padding: 8,
-            displayColors: false
-          }
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      if (!this.chartCanvas || !this.chartCanvas.nativeElement) {
+        console.error('Canvas non disponible pour le chart', this.chartCanvas);
+        return;
+      }
+      const ctx = this.chartCanvas.nativeElement.getContext('2d');
+      if (!ctx) {
+        console.error('Impossible de récupérer le contexte 2D du canvas', this.chartCanvas.nativeElement);
+        return;
+      }
+      const weekLabels = this.getLast8WeeksLabels();
+      const labels = weekLabels.map(w => w.label);
+      if (this.chart) this.chart.destroy();
+      this.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: "Nombre d'entraînements",
+            data: this.workoutData,
+            borderColor: '#DC2626',
+            backgroundColor: 'rgba(220, 38, 38, 0.1)',
+            tension: 0.4,
+            fill: false,
+            pointBackgroundColor: '#DC2626',
+            pointBorderColor: '#DC2626',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+          }]
         },
-        scales: {
-          x: {
-            ticks: {
-              color: '#fff',
-              font: {
-                size: 11
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              enabled: true,
+              backgroundColor: '#222',
+              titleColor: '#fff',
+              bodyColor: '#fff',
+              padding: 8,
+              displayColors: false
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#fff',
+                font: {
+                  size: 11
+                }
+              },
+              grid: {
+                color: 'rgba(255,255,255,0.1)',
               }
             },
-            grid: {
-              color: 'rgba(255,255,255,0.1)',
+            y: {
+              position: 'right',
+              beginAtZero: true,
+              ticks: {
+                color: '#fff',
+                stepSize: 1,
+                font: {
+                  size: 11
+                },
+                padding: 8
+              },
+              grid: {
+                color: 'rgba(255,255,255,0.1)',
+              }
             }
           },
-          y: {
-            position: 'right',
-            beginAtZero: true,
-            ticks: {
-              color: '#fff',
-              stepSize: 1,
-              font: {
-                size: 11
-              },
-              padding: 8
-            },
-            grid: {
-              color: 'rgba(255,255,255,0.1)',
+          layout: {
+            padding: {
+              left: 5,
+              right: 15,
+              top: 10,
+              bottom: 20 // plus de place pour le mois
             }
           }
         },
-        layout: {
-          padding: {
-            left: 5,
-            right: 15,
-            top: 10,
-            bottom: 20 // plus de place pour le mois
-          }
-        }
-      },
-      plugins: [this.dataLabelPlugin(), this.monthLabelPlugin(weekLabels)]
-    });
+        plugins: [this.dataLabelPlugin(), this.monthLabelPlugin(weekLabels)]
+      });
+      console.log('Chart créé:', this.chart);
+    }, 0);
   }
 
   // Plugin pour afficher la valeur à droite de chaque point

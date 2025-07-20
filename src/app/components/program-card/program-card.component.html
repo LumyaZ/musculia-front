@@ -20,11 +20,13 @@
   <div class="program-description">{{ program.description }}</div>
   <div class="program-footer">
     <span class="program-duration">{{ program.duration }}</span>
-    <ng-container *ngIf="!isAssigned; else assignedText">
-      <button (click)="$event.stopPropagation(); assignWorkout.emit(program.id)">Affecter à mon profil</button>
-    </ng-container>
-    <ng-template #assignedText>
-      <span class="assigned-label">Déjà ajouté à votre profil</span>
-    </ng-template>
+    <div class="footer-action">
+      <ng-container *ngIf="!isAssigned; else assignedText">
+        <button (click)="$event.stopPropagation(); assignWorkout.emit(program.id)">Affecter à mon profil</button>
+      </ng-container>
+      <ng-template #assignedText>
+        <span class="assigned-label">Déjà ajouté à votre profil</span>
+      </ng-template>
+    </div>
   </div>
 </div> 
